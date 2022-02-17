@@ -138,7 +138,7 @@ const Header = () => {
 
         {/* menu content */}
         {showOptions && (
-          <div className="transition-all max-h-0 z-10">
+          <div className="max-h-0 z-10">
             <div className="flex flex-col justify-center items-center font-bold text-[#636363] text-[20px] pt-2 shadow-sm bg-white">
               <div className="w-screen py-3 flex justify-center hover:bg-gray-50 shadow-sm">
                 <a href="#">Home</a>
