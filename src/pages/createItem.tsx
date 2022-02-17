@@ -17,7 +17,7 @@ const createItem = () => {
         </div>
         <div className="text-[14px] mt-[30px] 2xl:text-[18px] text-[#727A81] 2xl:mt-[17px]">
           File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG,
-          GLB, GLTF. Max size:100 MB
+          GLB, GLTF. Max size: 100 MB
         </div>
 
         {/* image upload */}

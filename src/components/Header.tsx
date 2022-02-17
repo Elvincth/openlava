@@ -97,11 +97,12 @@ const Header = () => {
         {/* Logo */}
         <div className="flex justify-center items-center">
           <svg
-            width="45"
-            height="45"
+            // width="45"
+            // height="45"
             viewBox="0 0 45 45"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className="w-[4rem] h-[4rem]"
           >
             <path
               d="M45 22.5C45 34.9264 34.9264 45 22.5 45C10.0736 45 0 34.9264 0 22.5C0 10.0736 10.0736 0 22.5 0C34.9264 0 45 10.0736 45 22.5Z"
@@ -112,7 +113,7 @@ const Header = () => {
               fill="white"
             />
           </svg>
-          <div className="px-2 logotext font-bold text-[24px] text-black">OpenLava</div>
+          <div className="text-[35px] px-2 logotext font-bold 2xl::text-[24px] text-black">OpenLava</div>
         </div>
 
         {/* burger */}
