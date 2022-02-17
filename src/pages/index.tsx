@@ -40,7 +40,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex w-full h-screen flex-col overflow-y-auto">
       <Header />
-      <section className="flex flex-col px-40 w-full max-h-[628px] bg-cover bg-[url('https://res.cloudinary.com/dasq4goqg/image/upload/v1645082161/Rectangle_461_lgptjz.png')]" >
+      <section className="flex flex-col px-40 w-full max-h-[628px] bg-cover bg-[url('https://res.cloudinary.com/dasq4goqg/image/upload/v1645114580/Rectangle_461_amalkp.png')]" >
         <div className="flex flex-row h-full justify-between">
           <div className="flex flex-col justify-center">
             <h1 className="text-5xl font-bold">Create Your Own Art</h1> <br></br>
