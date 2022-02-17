@@ -14,11 +14,6 @@ const Header = () => {
       <div className="header hidden 2xl:py-[13px] 2xl:pl-[40px] 2xl:pr-[40px] 2xl:shadow-md 2xl:flex 2xl:items-center">
         {/* Logo */}
         <div className="pr-[40px] flex justify-center items-center">
-          {/* <img
-            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645081723/OpenlavaIcon/Group_261_d5vzwq.png"
-            alt=""
-            className="w-max"
-          /> */}
           <svg
             width="45"
             height="45"
@@ -61,7 +56,7 @@ const Header = () => {
         </form>
 
         {/* menu bar */}
-        <div className="ml-auto font-bold text-[#636363] text-[17px] flex">
+        <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
           <div className="nav">
             <a
               href="#"
@@ -100,12 +95,7 @@ const Header = () => {
       {/* Smaller than 1600px */}
       <div className="2xl:hidden visible mobileHeader shadow-md flex flex-col justify-center items-center py-4">
         {/* Logo */}
-        <div className="pr-[40px] flex justify-center items-center">
-          {/* <img
-            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645081723/OpenlavaIcon/Group_261_d5vzwq.png"
-            alt=""
-            className="w-max"
-          /> */}
+        <div className="flex justify-center items-center">
           <svg
             width="45"
             height="45"
@@ -132,14 +122,14 @@ const Header = () => {
               <img
                 src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645106214/OpenlavaIcon/Vector_ppxppt.png"
                 alt=""
-                className="w-[25px] bg-transparent"
+                className="w-[20px] bg-transparent"
               />
             )}
             {bugerOpen == false && (
               <img
                 src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645109313/OpenlavaIcon/Group_mup83d.png"
                 alt=""
-                className="w-[25px] bg-transparent"
+                className="w-[20px] bg-transparent"
               />
             )}
           </button>
