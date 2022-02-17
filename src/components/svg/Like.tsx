@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const Like = () => {
-    const [like, setLike] = useState("none")
+    const [like, setLike] = useState("none");
 
     const Switch = () => {
         if (like === "none") {
@@ -19,6 +19,6 @@ const Like = () => {
             </svg>
         </button>
     )
-}
+};
 
-export default Like
+export default Like;

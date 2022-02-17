@@ -9,9 +9,9 @@ const Header = () => {
     setBugerOpen(!bugerOpen);
   };
   return (
-    <div>
+    <header>
       {/* Desktop */}
-      <div className="header hidden 2xl:py-[15px] 2xl:pl-[100px] 2xl:pr-[100px] 2xl:shadow-md 2xl:flex 2xl:items-center">
+      <div className="header hidden 2xl:py-[17px] 2xl:pl-[100px] 2xl:pr-[100px] 2xl:shadow-md 2xl:flex 2xl:items-center">
         {/* Logo */}
         <div className="pr-[40px]">
           <img
@@ -22,25 +22,26 @@ const Header = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="relative bg-white mt-[12px] border-[1px] border-[#C5C5C5] rounded-[9px]">
-          {/* search logo */}
-          <div className="absolute left-0 mt-[11px] ml-[11px] mr-[11px] bg-white bg-transparent">
-            <img
-              src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645082197/OpenlavaIcon/Vector_lahfkt.png"
-              alt=""
-              className="w-full"
+        <form className="group relative mt-[17px]">
+          <svg
+            width="20"
+            height="20"
+            fill="currentColor"
+            className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-[#FF6B00]"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
             />
-          </div>
-
-          {/* search form */}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Search OpenLava"
-              className="w-[30rem] h-10 ml-[40px] bg-transparent outline-none"
-            />
-          </div>
-        </div>
+          </svg>
+          <input
+            type="text"
+            placeholder="Search OpenLava"
+            className="w-[22rem] sm:w-[35rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+          />
+        </form>
 
         {/* menu bar */}
         <div className="ml-auto font-bold text-[#636363] text-[20px] flex">
@@ -112,8 +113,8 @@ const Header = () => {
 
         {/* menu content */}
         {showOptions && (
-          <div className="menu transition duration-200">
-            <div className="flex flex-col justify-center items-center font-bold text-[#636363] text-[20px] pt-2">
+          <div className="transition-all max-h-0 z-10">
+            <div className="flex flex-col justify-center items-center font-bold text-[#636363] text-[20px] pt-2 shadow-sm bg-white">
               <div className="w-screen py-3 flex justify-center hover:bg-gray-50 shadow-sm">
                 <a href="#">Home</a>
               </div>
@@ -130,32 +131,28 @@ const Header = () => {
           </div>
         )}
 
-        {/* Search Bar */}
-        {bugerOpen == true && (
-          <div className="mt-[10px]">
-            <div className="relative bg-white mt-[12px] border-[1px] border-[#C5C5C5] rounded-[9px]">
-              {/* search logo */}
-              <div className="absolute left-0 mt-[11px] ml-[11px] mr-[11px] bg-white bg-transparent">
-                <img
-                  src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645082197/OpenlavaIcon/Vector_lahfkt.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-
-              {/* search form */}
-              <div className="">
-                <input
-                  type="text"
-                  placeholder="Search OpenLava"
-                  className="w-[20rem] sm:w-[30rem] h-10 ml-[40px] bg-transparent outline-none"
-                />
-              </div>
-            </div>
-          </div>
-        )}
+        <form className="group relative mt-[17px]">
+          <svg
+            width="20"
+            height="20"
+            fill="currentColor"
+            className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-[#FF6B00]"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+            />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search OpenLava"
+            className="w-[22rem] sm:w-[35rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+          />
+        </form>
       </div>
-    </div>
+    </header>
   );
 };
 
