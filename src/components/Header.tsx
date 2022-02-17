@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <div>
       {/* Desktop */}
-      <div className="header hidden 2xl:py-[20px] 2xl:pl-[100px] 2xl:pr-[100px] 2xl:shadow-md 2xl:flex 2xl:items-center">
+      <div className="header hidden 2xl:py-[17px] 2xl:pl-[100px] 2xl:pr-[100px] 2xl:shadow-md 2xl:flex 2xl:items-center">
         {/* Logo */}
         <div className="pr-[40px]">
           <img
@@ -22,7 +22,7 @@ const Header = () => {
         </div>
 
         {/* Search Bar */}
-        <form className="group relative mt-[10px]">
+        <form className="group relative mt-[17px]">
           <svg
             width="20"
             height="20"
@@ -130,6 +130,27 @@ const Header = () => {
             </div>
           </div>
         )}
+
+        <form className="group relative mt-[17px]">
+          <svg
+            width="20"
+            height="20"
+            fill="currentColor"
+            className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-[#FF6B00]"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+            />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search OpenLava"
+            className="w-[22rem] sm:w-[35rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+          />
+        </form>
       </div>
     </div>
   );
