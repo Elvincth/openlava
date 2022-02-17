@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="p-6 shadow-md flex items-center">
+    <header className="p-6 shadow-md flex items-center">
       {/* Logo */}
       <div className="pl-[74px] pr-[40px]">
         <img
@@ -35,7 +35,7 @@ const Header = () => {
 
       {/* menu bar */}
       <div className="ml-auto">Menu Bar</div>
-    </div>
+    </header>
   );
 };
 
