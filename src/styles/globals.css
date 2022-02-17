@@ -2,8 +2,9 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;
+  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue; */
+    font-family: Poppins;
 }
 
 a {
@@ -15,7 +16,7 @@ a {
   box-sizing: border-box;
 }
 
-.nav{
+.nav {
   margin-left: 100px;
 }
 
@@ -27,15 +28,19 @@ a {
   background-position: 0 100%;
   background-repeat: no-repeat;
   transition: background-size 0.3s ease-in-out;
-  padding-bottom: 2rem;
+  padding-bottom: 26px;
 }
 
 .link-underline-black {
   background-image: linear-gradient(transparent, transparent),
-    linear-gradient(#FF6B00, #FF6B00);
+    linear-gradient(#ff6b00, #ff6b00);
 }
 
 .link-underline:hover {
   background-size: 100% 5px;
   background-position: 0 100%;
+}
+
+.logotext {
+  font-family: Poppins;
 }
