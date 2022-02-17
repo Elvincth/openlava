@@ -9,7 +9,7 @@ const Header = () => {
     setBugerOpen(!bugerOpen);
   };
   return (
-    <div>
+    <header>
       {/* Desktop */}
       <div className="header hidden 2xl:py-[17px] 2xl:pl-[100px] 2xl:pr-[100px] 2xl:shadow-md 2xl:flex 2xl:items-center">
         {/* Logo */}
@@ -152,7 +152,7 @@ const Header = () => {
           />
         </form>
       </div>
-    </div>
+    </header>
   );
 };
 
