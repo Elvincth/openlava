@@ -5,7 +5,7 @@ const createItem = () => {
   return (
     <div>
       <Header />
-      <div>This is createItem</div>
+      This is createItem
     </div>
   );
 };
