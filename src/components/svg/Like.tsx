@@ -6,6 +6,7 @@ const Like = () => {
     const Switch = () => {
         if (like === "none") {
             setLike("red")
+            // set delay
         }
         else {
             setLike("none")

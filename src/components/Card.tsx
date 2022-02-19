@@ -16,7 +16,7 @@ const Card = ({
     Position: string;
 }) => {
     return (
-        <div className='flex flex-col bg-white rounded-3xl p-3 max-w-[350px] max-h-[526px] shadow-xl'>
+        <div className='flex flex-col bg-white rounded-3xl p-3 max-w-[350px] lg:max-h-[526px] shadow-xl'>
             <img src={imageSrc} alt='' />
             <h1 className='font-bold text-2xl pt-1 pl-1'>
                 {title}
