@@ -6,16 +6,16 @@ const createItem = () => {
     <div>
       <Header />
       {/* top */}
-      <div className="mx-[20px] my-[50px] 2xl:mx-[10rem] 2xl:my-[5rem]">
-        <div className="text-[35px] 2xl:text-[60px] text-black font-bold">Create Item</div>
-        <div className="mt-[30px] text-[14px] 2xl:text-[18px] text-[#727A81] 2xl:mt-[49px]">
+      <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[5rem]">
+        <div className="text-[35px] lg:text-[60px] text-black font-bold">Create Item</div>
+        <div className="mt-[30px] text-[14px] lg:text-[18px] text-[#727A81] lg:mt-[49px]">
           <span className="text-[#F93A3A]">* </span>Requested fields
         </div>
-        <div className="mt-[30px] text-[18px] 2xl:text-[30px] text-black 2xl:mt-[16px] font-bold">
+        <div className="mt-[30px] text-[18px] lg:text-[30px] text-black lg:mt-[16px] font-bold">
           Image, Video, Audio or 3D Model
           <span className="text-[#F93A3A]"> *</span>
         </div>
-        <div className="text-[14px] mt-[30px] 2xl:text-[18px] text-[#727A81] 2xl:mt-[17px]">
+        <div className="text-[14px] mt-[30px] lg:text-[18px] text-[#727A81] lg:mt-[17px]">
           File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG,
           GLB, GLTF. Max size: 100 MB
         </div>
@@ -25,7 +25,7 @@ const createItem = () => {
           <div className="">
             <div className="">
               <div className="w-full">
-                <label className="flex flex-col h-[300px] 2xl:w-[600px] 2xl:h-[475px] border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                <label className="flex flex-col h-[300px] lg:w-[600px] lg:h-[475px] border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div className="m-auto">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -52,30 +52,30 @@ const createItem = () => {
 
         {/* field */}
         <div>
-          <div className="text-[18px] 2xl:text-[28px] text-black font-bold">
+          <div className="text-[18px] lg:text-[28px] text-black font-bold">
             Name <span className="text-[#F93A3A]"> *</span>
           </div>
           <input
             type="text"
             placeholder="Item name"
-            className="mt-[22px] w-full 2xl:h-[50px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm 2xl:text-[23px]"
+            className="mt-[22px] w-full lg:h-[50px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm lg:text-[23px]"
           />
         </div>
 
         <div className="mt-[60px]">
-          <div className="text-[18px] 2xl:text-[28px] text-black font-bold">External link</div>
+          <div className="text-[18px] lg:text-[28px] text-black font-bold">External link</div>
           <input
             type="text"
             placeholder="Item external link"
-            className="mt-[22px] w-full 2xl:h-[50px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm 2xl:text-[23px]"
+            className="mt-[22px] w-full lg:h-[50px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm lg:text-[23px]"
           />
         </div>
 
         <div className="mt-[60px]">
-          <div className="text-[18px] 2xl:text-[28px] text-black font-bold">Description</div>
+          <div className="text-[18px] lg:text-[28px] text-black font-bold">Description</div>
           <textarea
             placeholder="Item description"
-            className="mt-[22px] w-full h-[300px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm 2xl:text-[23px] overflow-hidden"
+            className="mt-[22px] w-full h-[300px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm lg:text-[23px] overflow-hidden"
           />
         </div>
       </div>

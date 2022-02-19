@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         <div className="flex flex-row h-full justify-between">
           <div className="flex flex-col justify-center">
             <h1 className="text-5xl font-bold">Create Your Own Art</h1> <br></br>
-            <h1 className="text-2xl font-normal max-w-[300px]">OpenLava is the best NFT marketplace</h1>
+            <h1 className="text-lg font-normal max-w-[300px]">OpenLava is the best NFT marketplace</h1>
             <div className="flex flex-row mt-8">
               <button className=" mr-6 inline-flex items-center justify-center w-full px-12 text-base font-bold leading-6 text-white bg-[#FF6B00] border rounded-xl md:w-auto hover:bg-white hover:text-[#FF6B00] duration-300 hover:border-[#FF6B00]">
                 Create
