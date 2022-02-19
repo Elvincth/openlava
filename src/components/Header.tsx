@@ -1,17 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
+import Hamburger from "hamburger-react";
 
 const Header = () => {
+  const [isOpen, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [bugerOpen, setBugerOpen] = useState(true);
   const handleClick = () => {
     setShowOptions(!showOptions);
     setBugerOpen(!bugerOpen);
   };
+
   return (
     <header>
       {/* Desktop */}
-      <div className="header hidden 2xl:py-[13px] 2xl:pl-[40px] 2xl:pr-[40px] 2xl:shadow-md 2xl:flex 2xl:items-center">
+      <div className="header hidden lg:py-[13px] lg:pl-[40px] lg:pr-[40px] lg:shadow-md lg:flex lg:items-center">
         {/* Logo */}
         <div className="pr-[40px] flex justify-center items-center">
           <svg
@@ -30,7 +33,9 @@ const Header = () => {
               fill="white"
             />
           </svg>
-          <div className="px-2 logotext font-bold text-[24px] text-black">OpenLava</div>
+          <div className="px-2 logotext font-bold text-[24px] text-black">
+            OpenLava
+          </div>
         </div>
 
         {/* Search Bar */}
@@ -51,7 +56,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search OpenLava"
-            className="w-[22rem] sm:w-[50rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+            className="xl:w-[50rem] lg:w-[20rem] md:w-[5rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
           />
         </form>
 
@@ -93,7 +98,7 @@ const Header = () => {
       </div>
 
       {/* Smaller than 1600px */}
-      <div className="2xl:hidden visible mobileHeader shadow-md flex flex-col justify-center items-center py-4">
+      <div className="lg:hidden visible mobileHeader shadow-md flex flex-col justify-center items-center py-4">
         {/* Logo */}
         <div className="flex justify-center items-center">
           <svg
@@ -113,26 +118,20 @@ const Header = () => {
               fill="white"
             />
           </svg>
-          <div className="text-[35px] px-2 logotext font-bold 2xl::text-[24px] text-black">OpenLava</div>
+          <div className="text-[35px] px-2 logotext font-bold lg::text-[24px] text-black">
+            OpenLava
+          </div>
         </div>
 
         {/* burger */}
-        <div className="mt-[25px]">
+        <div className="mt-[15px]">
           <button onClick={handleClick}>
-            {bugerOpen == true && (
-              <img
-                src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645106214/OpenlavaIcon/Vector_ppxppt.png"
-                alt=""
-                className="w-[20px] bg-transparent"
-              />
-            )}
-            {bugerOpen == false && (
-              <img
-                src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1645109313/OpenlavaIcon/Group_mup83d.png"
-                alt=""
-                className="w-[20px] bg-transparent"
-              />
-            )}
+            <Hamburger
+              size={22}
+              color="#9A9A9A"
+              toggle={setOpen}
+              toggled={isOpen}
+            />
           </button>
         </div>
 
