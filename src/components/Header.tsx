@@ -5,10 +5,10 @@ import Hamburger from "hamburger-react";
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
-  const [bugerOpen, setBugerOpen] = useState(true);
+  const [burgerOpen, setBurgerOpen] = useState(true);
   const handleClick = () => {
     setShowOptions(!showOptions);
-    setBugerOpen(!bugerOpen);
+    setBurgerOpen(!burgerOpen);
   };
 
   return (
@@ -39,7 +39,7 @@ const Header = () => {
         </div>
 
         {/* Search Bar */}
-        <form className="group relative">
+        <form className="relative group">
           <svg
             width="20"
             height="20"
@@ -98,9 +98,9 @@ const Header = () => {
       </div>
 
       {/* Smaller than 1600px */}
-      <div className="lg:hidden visible mobileHeader shadow-md flex flex-col justify-center items-center py-4">
+      <div className="flex flex-col items-center justify-center visible py-4 shadow-md lg:hidden mobileHeader">
         {/* Logo */}
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <svg
             // width="45"
             // height="45"
@@ -137,18 +137,18 @@ const Header = () => {
 
         {/* menu content */}
         {showOptions && (
-          <div className="max-h-0 z-10">
+          <div className="z-10 max-h-0">
             <div className="flex flex-col justify-center items-center font-bold text-[#636363] text-[20px] pt-2 shadow-sm bg-white">
-              <div className="w-screen py-3 flex justify-center hover:bg-gray-50 shadow-sm">
+              <div className="flex justify-center w-screen py-3 shadow-sm hover:bg-gray-50">
                 <a href="#">Home</a>
               </div>
-              <div className="w-screen py-3 flex justify-center hover:bg-gray-50 shadow-sm">
+              <div className="flex justify-center w-screen py-3 shadow-sm hover:bg-gray-50">
                 <a href="#">Create</a>
               </div>
-              <div className="w-screen py-3 flex justify-center hover:bg-gray-50 shadow-sm">
+              <div className="flex justify-center w-screen py-3 shadow-sm hover:bg-gray-50">
                 <a href="#">Profile</a>
               </div>
-              <div className="w-screen py-3 flex justify-center hover:bg-gray-50 shadow-sm">
+              <div className="flex justify-center w-screen py-3 shadow-sm hover:bg-gray-50">
                 <a href="#">Wallet</a>
               </div>
             </div>
