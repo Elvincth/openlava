@@ -1,21 +1,22 @@
 require("@nomiclabs/hardhat-waffle");
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
-
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
+  networks: {
+    hardhat: {
+      chainId: 1337,
+    },
+    mumbai: {
+      //The projectId shd be hidden and store in .env, but for demo use only
+      url: "https://zmldxs5p79bt.usemoralis.com:2053/server",
+      accounts: [process.env.WALLET_PRIVATE_KEY],
+    },
+    mainnet: {
+      url: "https://axrmw0ees7iz.usemoralis.com:2053/server",
+      accounts: [process.env.WALLET_PRIVATE_KEY],
+    },
+  },
   solidity: "0.8.4",
 };

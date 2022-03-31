@@ -89,9 +89,9 @@ const Home: NextPage = () => {
       </div>
       {/* map the data2 */}
       <section className="grid self-center grid-cols-1 gap-20 pb-20 lg:grid-cols-3 md:grid-cols-2">
-        {data2.map((item) => (
+        {data2.map((item, i) => (
           <Card
-            key={item.imageSrc}
+            key={i}
             imageSrc={item.imageSrc}
             title={item.title}
             iconSrc={item.iconSrc}

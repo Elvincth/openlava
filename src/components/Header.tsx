@@ -98,6 +98,17 @@ const Header = () => {
 
       {/* Smaller than 1600px */}
       <div className="flex flex-wrap items-center justify-center py-4 shadow-md lg:hidden">
+        {/* burger */}
+
+        <button onClick={handleClick}>
+          <Hamburger
+            size={18}
+            color="#9A9A9A"
+            toggle={setOpen}
+            toggled={isOpen}
+          />
+        </button>
+
         {/* Logo */}
         <div className="flex items-center justify-center">
           <svg
@@ -120,17 +131,6 @@ const Header = () => {
           <h1 className="px-2 font-bold text-[19px] text-black">OpenLava</h1>
         </div>
 
-        {/* burger */}
-
-        <button onClick={handleClick}>
-          <Hamburger
-            size={18}
-            color="#9A9A9A"
-            toggle={setOpen}
-            toggled={isOpen}
-          />
-        </button>
-
         {/* menu content */}
         {showOptions && (
           <div className="z-10 max-h-0">
@@ -151,7 +151,7 @@ const Header = () => {
           </div>
         )}
 
-        <form className="group relative mt-[17px]">
+        <form className="relative group">
           <svg
             width="20"
             height="20"
