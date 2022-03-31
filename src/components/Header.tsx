@@ -6,6 +6,7 @@ const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [burgerOpen, setBurgerOpen] = useState(true);
+
   const handleClick = () => {
     setShowOptions(!showOptions);
     setBurgerOpen(!burgerOpen);
@@ -33,9 +34,7 @@ const Header = () => {
               fill="white"
             />
           </svg>
-          <div className="px-2 logotext font-bold text-[24px] text-black">
-            OpenLava
-          </div>
+          <div className="px-2 font-bold text-[24px] text-black">OpenLava</div>
         </div>
 
         {/* Search Bar */}
@@ -98,7 +97,7 @@ const Header = () => {
       </div>
 
       {/* Smaller than 1600px */}
-      <div className="flex flex-col items-center justify-center visible py-4 shadow-md lg:hidden mobileHeader">
+      <div className="flex flex-wrap items-center justify-center py-4 shadow-md lg:hidden">
         {/* Logo */}
         <div className="flex items-center justify-center">
           <svg
@@ -107,7 +106,7 @@ const Header = () => {
             viewBox="0 0 45 45"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-[4rem] h-[4rem]"
+            className="w-[2.5rem] h-[2.5rem]"
           >
             <path
               d="M45 22.5C45 34.9264 34.9264 45 22.5 45C10.0736 45 0 34.9264 0 22.5C0 10.0736 10.0736 0 22.5 0C34.9264 0 45 10.0736 45 22.5Z"
@@ -118,22 +117,19 @@ const Header = () => {
               fill="white"
             />
           </svg>
-          <div className="text-[35px] px-2 logotext font-bold lg::text-[24px] text-black">
-            OpenLava
-          </div>
+          <h1 className="px-2 font-bold text-[19px] text-black">OpenLava</h1>
         </div>
 
         {/* burger */}
-        <div className="mt-[15px]">
-          <button onClick={handleClick}>
-            <Hamburger
-              size={22}
-              color="#9A9A9A"
-              toggle={setOpen}
-              toggled={isOpen}
-            />
-          </button>
-        </div>
+
+        <button onClick={handleClick}>
+          <Hamburger
+            size={18}
+            color="#9A9A9A"
+            toggle={setOpen}
+            toggled={isOpen}
+          />
+        </button>
 
         {/* menu content */}
         {showOptions && (

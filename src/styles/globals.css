@@ -4,7 +4,7 @@ body {
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue; */
-    font-family: Poppins;
+  font-family: Poppins;
 }
 
 a {
@@ -14,6 +14,7 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: Poppins;
 }
 
 .nav {
@@ -39,8 +40,4 @@ a {
 .link-underline:hover {
   background-size: 100% 5px;
   background-position: 0 100%;
-}
-
-.logotext {
-  font-family: Poppins;
 }
