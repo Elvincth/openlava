@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 // Refrence: https://github.com/darkMatterChimpanzee/nftMarketplace/blob/main/contracts/NFTMarket.sol
+// Refrence: https://docs.openzeppelin.com/contracts/4.x/erc721
 
 pragma solidity ^0.8.4;
 
@@ -22,7 +23,10 @@ contract NFT is ERC721URIStorage {
 
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
+
+        //Sets the approval of a given operator An operator is allowed to transfer all tokens of the sender on their behalf.
         setApprovalForAll(contractAddress, true);
+
         return newItemId;
     }
 }

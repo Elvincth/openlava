@@ -149,7 +149,7 @@ const Header = () => {
               </div>
             </div>
           </div>
-        )}
+        )} 
 
         <form className="relative group">
           <svg
