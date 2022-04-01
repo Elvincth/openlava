@@ -11,6 +11,7 @@ describe("NFTMarket", function () {
     await nftMarketplace.deployed();
 
     let listingPrice = await nftMarketplace.getListingPrice();
+    //@ts-ignore
     listingPrice = listingPrice.toString();
 
     const auctionPrice = ethers.utils.parseUnits("1", "ether");
@@ -41,6 +42,7 @@ describe("NFTMarket", function () {
 
     /* query for and return the unsold items */
     let items = await nftMarketplace.fetchMarketItems();
+    //@ts-ignore
     items = await Promise.all(
       items.map(async (i: any) => {
         const tokenUri = await nftMarketplace.tokenURI(i.tokenId);
