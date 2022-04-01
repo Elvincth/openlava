@@ -21,10 +21,11 @@ contract NFT is ERC721URIStorage {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 
+        //Metadata msg.sender (the address that the person called the fucntion), the creator of the token
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
-        //Sets the approval of a given operator An operator is allowed to transfer all tokens of the sender on their behalf.
+        //Sets the approval of a given operator An operator is allowed to transfer all tokens of the sender on their behalf
         setApprovalForAll(contractAddress, true);
 
         return newItemId;
