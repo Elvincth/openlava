@@ -1,4 +1,6 @@
 import "@nomiclabs/hardhat-waffle";
+import "dotenv/config";
+
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
