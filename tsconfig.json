@@ -22,6 +22,14 @@
       "public/*": ["./public/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "./scripts",
+    "./test",
+    "./typechain-types"
+  ],
+  "files": ["./hardhat.config.ts"],
   "exclude": ["node_modules"]
 }
