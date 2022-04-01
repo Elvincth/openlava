@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: MIT
+//Refrence: https://github.com/dabit3/polygon-ethereum-nextjs-marketplace/blob/main/contracts/NFTMarketplace.sol
+//Refrences: https://www.youtube.com/watch?v=4Pm1Furz5HM
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -7,15 +9,16 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import "hardhat/console.sol";
 
-contract NFTMarketplace is ERC721URIStorage {
+contract OpenLava is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
-
     uint256 listingPrice = 0.025 ether;
     address payable owner;
 
-    mapping(uint256 => MarketItem) private idToMarketItem;
+    constructor() ERC721("OpenLava Tokens", "LAVA") {
+        owner = payable(msg.sender);
+    }
 
     struct MarketItem {
         uint256 tokenId;
@@ -25,6 +28,9 @@ contract NFTMarketplace is ERC721URIStorage {
         bool sold;
     }
 
+    //pass in the id of the market item and return the market item
+    mapping(uint256 => MarketItem) private idToMarketItem;
+
     event MarketItemCreated(
         uint256 indexed tokenId,
         address seller,
@@ -33,8 +39,22 @@ contract NFTMarketplace is ERC721URIStorage {
         bool sold
     );
 
-    constructor() ERC721("Metaverse Tokens", "METT") {
-        owner = payable(msg.sender);
+    //Metadata msg.sender (the address that the person called the fucntion), the creator of the token
+    function createToken(string memory tokenURI, uint256 price)
+        public
+        payable
+        returns (uint256)
+    {
+        _tokenIds.increment();
+        uint256 tokenId = _tokenIds.current();
+
+        _safeMint(msg.sender, tokenId);
+
+        //Where we set the unquite address for the NFT
+        _setTokenURI(tokenId, tokenURI);
+
+        createMarketItem(tokenId, price);
+        return tokenId;
     }
 
     /* Updates the listing price of the contract */
@@ -49,21 +69,6 @@ contract NFTMarketplace is ERC721URIStorage {
     /* Returns the listing price of the contract */
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
-    }
-
-    /* Mints a token and lists it in the marketplace */
-    function createToken(string memory tokenURI, uint256 price)
-        public
-        payable
-        returns (uint256)
-    {
-        _tokenIds.increment();
-        uint256 newTokenId = _tokenIds.current();
-
-        _mint(msg.sender, newTokenId);
-        _setTokenURI(newTokenId, tokenURI);
-        createMarketItem(newTokenId, price);
-        return newTokenId;
     }
 
     function createMarketItem(uint256 tokenId, uint256 price) private {
@@ -82,6 +87,7 @@ contract NFTMarketplace is ERC721URIStorage {
         );
 
         _transfer(msg.sender, address(this), tokenId);
+
         emit MarketItemCreated(
             tokenId,
             msg.sender,
