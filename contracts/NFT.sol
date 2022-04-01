@@ -26,6 +26,8 @@ contract NFT is ERC721URIStorage {
         _setTokenURI(newItemId, tokenURI);
 
         //Sets the approval of a given operator An operator is allowed to transfer all tokens of the sender on their behalf
+        //Where we authorize the marketplace
+        //To transfer sold items from your address to the buyer's address
         setApprovalForAll(contractAddress, true);
 
         return newItemId;
