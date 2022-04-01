@@ -45,7 +45,7 @@ const data2 = [
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col w-full h-screen overflow-y-auto">
+    <div className="flex flex-col w-full h-screen">
       <section className="flex flex-col lg:px-40 w-full max-h-[580px] bg-cover lg:mb-8 mb-80 bg-[url('https://res.cloudinary.com/dasq4goqg/image/upload/v1645114580/Rectangle_461_amalkp.png')]">
         <div className="flex flex-col justify-between h-full lg:flex-row">
           <div className="flex flex-col items-center justify-center pt-20 pb-12 pl-4 text-center lg:items-start lg:px-0 lg:text-left ">
