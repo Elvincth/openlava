@@ -1,6 +1,8 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
+//typescript https://yuichiroaoki.medium.com/testing-erc20-smart-contracts-in-typescript-hardhat-9ad20eb40502
+
 describe("NFTMarket", function () {
   it("Should create and execute market sales", async () => {
     const Market = await ethers.getContractFactory("NFTMarket");
@@ -30,5 +32,7 @@ describe("NFTMarket", function () {
     });
 
     const [_, buyerAddress] = await ethers.getSigners();
+
+    await market.connect(buyerAddress).create;
   });
 });

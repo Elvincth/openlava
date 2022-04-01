@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "~/components/Header";
 
 const createItem = () => {
   return (
     <div>
-      <Header />
       {/* top */}
       <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[5rem]">
-        <div className="text-[35px] lg:text-[60px] text-black font-bold">Create Item</div>
+        <div className="text-[35px] lg:text-[60px] text-black font-bold">
+          Create Item
+        </div>
         <div className="mt-[30px] text-[14px] lg:text-[18px] text-[#727A81] lg:mt-[49px]">
           <span className="text-[#F93A3A]">* </span>Requested fields
         </div>
@@ -63,7 +63,9 @@ const createItem = () => {
         </div>
 
         <div className="mt-[60px]">
-          <div className="text-[18px] lg:text-[28px] text-black font-bold">External link</div>
+          <div className="text-[18px] lg:text-[28px] text-black font-bold">
+            External link
+          </div>
           <input
             type="text"
             placeholder="Item external link"
@@ -72,7 +74,9 @@ const createItem = () => {
         </div>
 
         <div className="mt-[60px]">
-          <div className="text-[18px] lg:text-[28px] text-black font-bold">Description</div>
+          <div className="text-[18px] lg:text-[28px] text-black font-bold">
+            Description
+          </div>
           <textarea
             placeholder="Item description"
             className="mt-[22px] w-full h-[300px] bg-transparent outline-none rounded-[9px] py-2 pl-5 ring-1 ring-[#EDEFF1] shadow-sm lg:text-[23px] overflow-hidden"
