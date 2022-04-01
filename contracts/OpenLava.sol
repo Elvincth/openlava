@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
-//Refrence: https://github.com/dabit3/polygon-ethereum-nextjs-marketplace/blob/main/contracts/NFTMarketplace.sol
-//Refrences: https://www.youtube.com/watch?v=4Pm1Furz5HM
+//Reference: https://github.com/dabit3/polygon-ethereum-nextjs-marketplace/blob/main/contracts/NFTMarketplace.sol
+//Reference: https://www.youtube.com/watch?v=4Pm1Furz5HM
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "hardhat/console.sol";
 
@@ -13,9 +14,9 @@ contract OpenLava is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
-    uint256 listingPrice = 0.025 ether;
     address payable owner;
 
+    //Create
     constructor() ERC721("OpenLava Tokens", "LAVA") {
         owner = payable(msg.sender);
     }
@@ -25,7 +26,7 @@ contract OpenLava is ERC721URIStorage {
         address payable seller;
         address payable owner;
         uint256 price;
-        bool sold;
+        bool available;
     }
 
     //pass in the id of the market item and return the market item
@@ -36,10 +37,10 @@ contract OpenLava is ERC721URIStorage {
         address seller,
         address owner,
         uint256 price,
-        bool sold
+        bool available
     );
 
-    //Metadata msg.sender (the address that the person called the fucntion), the creator of the token
+    //Metadata msg.sender (the address that the person called the function), the creator of the token
     function createToken(string memory tokenURI, uint256 price)
         public
         payable
@@ -50,33 +51,11 @@ contract OpenLava is ERC721URIStorage {
 
         _safeMint(msg.sender, tokenId);
 
-        //Where we set the unquite address for the NFT
+        //Where we set the unique address for the NFT
         _setTokenURI(tokenId, tokenURI);
 
-        createMarketItem(tokenId, price);
-        return tokenId;
-    }
-
-    /* Updates the listing price of the contract */
-    function updateListingPrice(uint256 _listingPrice) public payable {
-        require(
-            owner == msg.sender,
-            "Only marketplace owner can update listing price."
-        );
-        listingPrice = _listingPrice;
-    }
-
-    /* Returns the listing price of the contract */
-    function getListingPrice() public view returns (uint256) {
-        return listingPrice;
-    }
-
-    function createMarketItem(uint256 tokenId, uint256 price) private {
-        require(price > 0, "Price must be at least 1 wei");
-        require(
-            msg.value == listingPrice,
-            "Price must be equal to listing price"
-        );
+        //Now we create the market item
+        require(price > 0, "Price must be greater than 0");
 
         idToMarketItem[tokenId] = MarketItem(
             tokenId,
@@ -95,6 +74,8 @@ contract OpenLava is ERC721URIStorage {
             price,
             false
         );
+
+        return tokenId;
     }
 
     /* allows someone to resell a token they have purchased */
@@ -103,11 +84,8 @@ contract OpenLava is ERC721URIStorage {
             idToMarketItem[tokenId].owner == msg.sender,
             "Only item owner can perform this operation"
         );
-        require(
-            msg.value == listingPrice,
-            "Price must be equal to listing price"
-        );
-        idToMarketItem[tokenId].sold = false;
+
+        idToMarketItem[tokenId].available = false;
         idToMarketItem[tokenId].price = price;
         idToMarketItem[tokenId].seller = payable(msg.sender);
         idToMarketItem[tokenId].owner = payable(address(this));
@@ -126,11 +104,10 @@ contract OpenLava is ERC721URIStorage {
             "Please submit the asking price in order to complete the purchase"
         );
         idToMarketItem[tokenId].owner = payable(msg.sender);
-        idToMarketItem[tokenId].sold = true;
+        idToMarketItem[tokenId].available = false;
         idToMarketItem[tokenId].seller = payable(address(0));
         _itemsSold.increment();
         _transfer(address(this), msg.sender, tokenId);
-        payable(owner).transfer(listingPrice);
         payable(seller).transfer(msg.value);
     }
 
