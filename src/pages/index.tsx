@@ -4,8 +4,9 @@ import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import axios from "axios"; // data fatch library
 import Web3Provider from "web3modal"; // connect to the wallet
-
-import { nftaddress, nftmarketaddress } from '.config.js';
+import { nftaddress, nftmarketaddress } from ".config.js";
+import NFT from "artifacts/contracts/NFT.sol/NFT.json";
+import Market from "artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 
 // create data for Card component
 const data1 = [
@@ -50,6 +51,24 @@ const data2 = [
 ];
 
 const Home: NextPage = () => {
+  const [nft, setNFT] = useState([]);
+  const [loadingState, setLoadingState] = useState("not-loaded"); // for loading the upload
+
+  useEffect(() => {
+    loadNFTs();
+  }, []);
+
+  async function loadNFTs() {
+    const provider = new ethers.providers.JsonRpcProvider();
+    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider); // getting the token uri
+    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider);
+    const data = await marketContract.fetchMarketItems();
+
+    const items = await Promise.all(data.map(async (item : any) => {
+      const tokenUri = await tokenContract.tokenURI(item.tokenId);
+    }))
+  }
+
   return (
     <div className="flex flex-col w-full h-screen">
       <section className="flex flex-col lg:px-40 w-full max-h-[580px] bg-cover lg:mb-8 mb-80 bg-[url('https://res.cloudinary.com/dasq4goqg/image/upload/v1645114580/Rectangle_461_amalkp.png')]">
