@@ -3,8 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
-
-import { nftmarketaddress } from ".config.js";
+import { openLavaAddress } from "../../blockchain.config";
 
 import NFTMarketplace from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 
@@ -60,7 +59,7 @@ const Home = () => {
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider();
     const contract = new ethers.Contract(
-      nftmarketaddress,
+      openLavaAddress,
       NFTMarketplace.abi,
       provider
     );
@@ -95,7 +94,7 @@ const Home = () => {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      nftmarketaddress,
+      openLavaAddress,
       NFTMarketplace.abi,
       signer
     );
