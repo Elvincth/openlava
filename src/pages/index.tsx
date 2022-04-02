@@ -1,12 +1,13 @@
-import type { NextPage } from "next";
 import Card from "~/components/Card";
 import { ethers } from "ethers";
-import { useState, useEffect } from "react";
-import axios from "axios"; // data fatch library
-import Web3Provider from "web3modal"; // connect to the wallet
-import { nftaddress, nftmarketaddress } from ".config.js";
-import NFT from "artifacts/contracts/NFT.sol/NFT.json";
-import Market from "artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Web3Modal from "web3modal";
+
+import { nftmarketaddress } from ".config.js";
+
+import NFTMarketplace from "artifacts/contracts/OpenLava.sol/OpenLava.json";
+
 
 // create data for Card component
 const data1 = [
@@ -50,24 +51,65 @@ const data2 = [
   },
 ];
 
-const Home: NextPage = () => {
-  const [nft, setNFT] = useState([]);
-  const [loadingState, setLoadingState] = useState("not-loaded"); // for loading the upload
-
+const Home = () => {
+  const [nfts, setNfts] = useState<any[]>([]);
+  const [loadingState, setLoadingState] = useState("not-loaded");
   useEffect(() => {
     loadNFTs();
   }, []);
-
   async function loadNFTs() {
+    /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider();
-    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider); // getting the token uri
-    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider);
-    const data = await marketContract.fetchMarketItems();
+    const contract = new ethers.Contract(
+      nftmarketaddress,
+      NFTMarketplace.abi,
+      provider
+    );
+    const data = await contract.getMarketItems();
 
-    const items = await Promise.all(data.map(async (item : any) => {
-      const tokenUri = await tokenContract.tokenURI(item.tokenId);
-    }))
+    const items = await Promise.all(
+      data.map(async (i: any) => {
+        const tokenUri = await contract.tokenURI(i.tokenId);
+        const meta = await axios.get(tokenUri);
+        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.data.image,
+          name: meta.data.name,
+          description: meta.data.description,
+        };
+        return item;
+      })
+    );
+    setNfts(items);
+    setLoadingState("loaded");
   }
+  
+  async function buyNft(nft: any) {
+    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      nftmarketaddress,
+      NFTMarketplace.abi,
+      signer
+    );
+
+    /* user will be prompted to pay the asking proces to complete the transaction */
+    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+    const transaction = await contract.createMarketSale(nft.tokenId, {
+      value: price,
+    });
+    await transaction.wait();
+    loadNFTs();
+  }
+  if (loadingState === "loaded" && !nfts.length)
+    return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
 
   return (
     <div className="flex flex-col w-full h-screen">
