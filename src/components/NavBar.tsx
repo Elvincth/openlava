@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import Hamburger from "hamburger-react";
+import Link from "next/link";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -62,28 +63,34 @@ const Header = () => {
         {/* menu bar */}
         <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
           <div className="nav">
-            <a
-              href="#"
-              className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-            >
-              Home
-            </a>
+            <Link href="/">
+              <a
+                href="#"
+                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+              >
+                Home
+              </a>
+            </Link>
           </div>
           <div className="nav">
-            <a
-              href="#"
-              className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-            >
-              Create
-            </a>
+            <Link href="/createItem">
+              <a
+                href="#"
+                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+              >
+                Create
+              </a>
+            </Link>
           </div>
           <div className="nav">
-            <a
-              href="#"
-              className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-            >
-              Profile
-            </a>
+            <Link href="#">
+              <a
+                href="#"
+                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+              >
+                Profile
+              </a>
+            </Link>
           </div>
           <div className="nav">
             <a
