@@ -21,3 +21,17 @@ To start the project you will have to first start a local blockchain
 Then you will have to deploy the smart contract of openLava
 
 `yarn deploy`
+
+Metamask network setup:
+
+Network Name:
+`Test`
+
+New RPC URL:
+`http://127.0.0.1:8545/`
+
+Chain ID:
+`1337`
+
+Currency Symbol:
+`ETH`
