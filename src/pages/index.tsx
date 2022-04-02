@@ -63,28 +63,35 @@ const Home = () => {
       NFTMarketplace.abi,
       provider
     );
+    
+    // test 
+    const auctionPrice = ethers.utils.parseUnits("1", "ether");
+    await openLavaAddress.createToken(
+      "https://www.mytokenlocation2.com",
+      auctionPrice
+    );
 
     const data = await contract.getMarketItems();
 
-    // const items = await Promise.all(
-    //   data.map(async (i: any) => {
-    //     const tokenUri = await contract.tokenURI(i.tokenId);
-    //     const meta = await axios.get(tokenUri);
-    //     let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-    //     let item = {
-    //       price,
-    //       tokenId: i.tokenId.toNumber(),
-    //       seller: i.seller,
-    //       owner: i.owner,
-    //       image: meta.data.image,
-    //       name: meta.data.name,
-    //       description: meta.data.description,
-    //     };
-    //     return item;
-    //   })
-    // );
-    // setNfts(items);
-    // setLoadingState("loaded");
+    const items = await Promise.all(
+      data.map(async (i: any) => {
+        const tokenUri = await contract.tokenURI(i.tokenId);
+        const meta = await axios.get(tokenUri);
+        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.data.image,
+          name: meta.data.name,
+          description: meta.data.description,
+        };
+        return item;
+      })
+    );
+    setNfts(items);
+    setLoadingState("loaded");
   }
 
   async function buyNft(nft: any) {
