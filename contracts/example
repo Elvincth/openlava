@@ -109,7 +109,6 @@ contract OpenLava is ERC721URIStorage {
         getNft[id].price = sellPrice;
         getNft[id].seller = payable(msg.sender);
         getNft[id].owner = payable(address(this));
-        _itemsSold.decrement();
 
         _itemsSold.decrement(); //Decrement the number of items sold, as it is now available for sale
 
