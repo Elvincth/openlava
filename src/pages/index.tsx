@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
-import { openLavaAddress } from "../../blockchain.config";
+import { openLavaAddress } from "blockchain.config";
 
 import NFTMarketplace from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 
@@ -62,13 +62,6 @@ const Home = () => {
       openLavaAddress,
       NFTMarketplace.abi,
       provider
-    );
-    
-    // test 
-    const auctionPrice = ethers.utils.parseUnits("1", "ether");
-    await openLavaAddress.createToken(
-      "https://www.mytokenlocation2.com",
-      auctionPrice
     );
 
     const data = await contract.getMarketItems();

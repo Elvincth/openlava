@@ -13,3 +13,11 @@ npx hardhat node
 node scripts/sample-script.js
 npx hardhat help
 ```
+
+To start the project you will have to first start a local blockchain
+
+`yarn hardhat node`
+
+Then you will have to deploy the smart contract of openLava
+
+`yarn deploy`
