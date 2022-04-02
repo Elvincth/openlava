@@ -50,6 +50,7 @@ contract OpenLava is ERC721URIStorage {
         _tokenIds.increment();
         uint256 id = _tokenIds.current();
 
+        //Create the token
         _safeMint(msg.sender, id);
 
         //Where we set the unique address for the NFT
@@ -100,6 +101,7 @@ contract OpenLava is ERC721URIStorage {
     function createMarketSale(uint256 id) public payable {
         uint256 price = getNft[id].price;
         address seller = getNft[id].seller;
+        console.log(Strings.toString(price), msg.value);
         require(
             msg.value == price,
             "Please submit the asking price in order to complete the purchase"

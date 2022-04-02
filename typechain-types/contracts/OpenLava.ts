@@ -28,26 +28,26 @@ import type {
 } from "../common";
 
 export declare namespace OpenLava {
-  export type MarketItemStruct = {
-    tokenId: BigNumberish;
-    seller: string;
+  export type NftStruct = {
+    id: BigNumberish;
     owner: string;
+    seller: string;
     price: BigNumberish;
-    sold: boolean;
+    available: boolean;
   };
 
-  export type MarketItemStructOutput = [
+  export type NftStructOutput = [
     BigNumber,
     string,
     string,
     BigNumber,
     boolean
   ] & {
-    tokenId: BigNumber;
-    seller: string;
+    id: BigNumber;
     owner: string;
+    seller: string;
     price: BigNumber;
-    sold: boolean;
+    available: boolean;
   };
 }
 
@@ -61,11 +61,10 @@ export interface OpenLavaInterface extends utils.Interface {
     "fetchMarketItems()": FunctionFragment;
     "fetchMyNFTs()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getListingPrice()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "resellToken(uint256,uint256)": FunctionFragment;
+    "resell(uint256,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -73,7 +72,6 @@ export interface OpenLavaInterface extends utils.Interface {
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "updateListingPrice(uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -86,11 +84,10 @@ export interface OpenLavaInterface extends utils.Interface {
       | "fetchMarketItems"
       | "fetchMyNFTs"
       | "getApproved"
-      | "getListingPrice"
       | "isApprovedForAll"
       | "name"
       | "ownerOf"
-      | "resellToken"
+      | "resell"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
@@ -98,7 +95,6 @@ export interface OpenLavaInterface extends utils.Interface {
       | "symbol"
       | "tokenURI"
       | "transferFrom"
-      | "updateListingPrice"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -131,10 +127,6 @@ export interface OpenLavaInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getListingPrice",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
@@ -144,7 +136,7 @@ export interface OpenLavaInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "resellToken",
+    functionFragment: "resell",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
@@ -171,10 +163,6 @@ export interface OpenLavaInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateListingPrice",
-    values: [BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -204,19 +192,12 @@ export interface OpenLavaInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getListingPrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "resellToken",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "resell", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
     data: BytesLike
@@ -239,21 +220,17 @@ export interface OpenLavaInterface extends utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateListingPrice",
-    data: BytesLike
-  ): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "MarketItemCreated(uint256,address,address,uint256,bool)": EventFragment;
+    "NftCreated(uint256,address,address,uint256,bool)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "MarketItemCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NftCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -281,20 +258,19 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
-export interface MarketItemCreatedEventObject {
-  tokenId: BigNumber;
-  seller: string;
+export interface NftCreatedEventObject {
+  id: BigNumber;
   owner: string;
+  seller: string;
   price: BigNumber;
-  sold: boolean;
+  available: boolean;
 }
-export type MarketItemCreatedEvent = TypedEvent<
+export type NftCreatedEvent = TypedEvent<
   [BigNumber, string, string, BigNumber, boolean],
-  MarketItemCreatedEventObject
+  NftCreatedEventObject
 >;
 
-export type MarketItemCreatedEventFilter =
-  TypedEventFilter<MarketItemCreatedEvent>;
+export type NftCreatedEventFilter = TypedEventFilter<NftCreatedEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -344,7 +320,7 @@ export interface OpenLava extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     createMarketSale(
-      tokenId: BigNumberish,
+      id: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -356,22 +332,20 @@ export interface OpenLava extends BaseContract {
 
     fetchItemsListed(
       overrides?: CallOverrides
-    ): Promise<[OpenLava.MarketItemStructOutput[]]>;
+    ): Promise<[OpenLava.NftStructOutput[]]>;
 
     fetchMarketItems(
       overrides?: CallOverrides
-    ): Promise<[OpenLava.MarketItemStructOutput[]]>;
+    ): Promise<[OpenLava.NftStructOutput[]]>;
 
     fetchMyNFTs(
       overrides?: CallOverrides
-    ): Promise<[OpenLava.MarketItemStructOutput[]]>;
+    ): Promise<[OpenLava.NftStructOutput[]]>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    getListingPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     isApprovedForAll(
       owner: string,
@@ -386,9 +360,9 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    resellToken(
-      tokenId: BigNumberish,
-      price: BigNumberish,
+    resell(
+      id: BigNumberish,
+      sellPrice: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -431,11 +405,6 @@ export interface OpenLava extends BaseContract {
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    updateListingPrice(
-      _listingPrice: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
   approve(
@@ -447,7 +416,7 @@ export interface OpenLava extends BaseContract {
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   createMarketSale(
-    tokenId: BigNumberish,
+    id: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -459,22 +428,18 @@ export interface OpenLava extends BaseContract {
 
   fetchItemsListed(
     overrides?: CallOverrides
-  ): Promise<OpenLava.MarketItemStructOutput[]>;
+  ): Promise<OpenLava.NftStructOutput[]>;
 
   fetchMarketItems(
     overrides?: CallOverrides
-  ): Promise<OpenLava.MarketItemStructOutput[]>;
+  ): Promise<OpenLava.NftStructOutput[]>;
 
-  fetchMyNFTs(
-    overrides?: CallOverrides
-  ): Promise<OpenLava.MarketItemStructOutput[]>;
+  fetchMyNFTs(overrides?: CallOverrides): Promise<OpenLava.NftStructOutput[]>;
 
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  getListingPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: string,
@@ -486,9 +451,9 @@ export interface OpenLava extends BaseContract {
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  resellToken(
-    tokenId: BigNumberish,
-    price: BigNumberish,
+  resell(
+    id: BigNumberish,
+    sellPrice: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -529,11 +494,6 @@ export interface OpenLava extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  updateListingPrice(
-    _listingPrice: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
     approve(
       to: string,
@@ -544,7 +504,7 @@ export interface OpenLava extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     createMarketSale(
-      tokenId: BigNumberish,
+      id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -556,22 +516,18 @@ export interface OpenLava extends BaseContract {
 
     fetchItemsListed(
       overrides?: CallOverrides
-    ): Promise<OpenLava.MarketItemStructOutput[]>;
+    ): Promise<OpenLava.NftStructOutput[]>;
 
     fetchMarketItems(
       overrides?: CallOverrides
-    ): Promise<OpenLava.MarketItemStructOutput[]>;
+    ): Promise<OpenLava.NftStructOutput[]>;
 
-    fetchMyNFTs(
-      overrides?: CallOverrides
-    ): Promise<OpenLava.MarketItemStructOutput[]>;
+    fetchMyNFTs(overrides?: CallOverrides): Promise<OpenLava.NftStructOutput[]>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    getListingPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -583,9 +539,9 @@ export interface OpenLava extends BaseContract {
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    resellToken(
-      tokenId: BigNumberish,
-      price: BigNumberish,
+    resell(
+      id: BigNumberish,
+      sellPrice: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -625,11 +581,6 @@ export interface OpenLava extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    updateListingPrice(
-      _listingPrice: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {
@@ -655,20 +606,20 @@ export interface OpenLava extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
-    "MarketItemCreated(uint256,address,address,uint256,bool)"(
-      tokenId?: BigNumberish | null,
-      seller?: null,
+    "NftCreated(uint256,address,address,uint256,bool)"(
+      id?: BigNumberish | null,
       owner?: null,
-      price?: null,
-      sold?: null
-    ): MarketItemCreatedEventFilter;
-    MarketItemCreated(
-      tokenId?: BigNumberish | null,
       seller?: null,
-      owner?: null,
       price?: null,
-      sold?: null
-    ): MarketItemCreatedEventFilter;
+      available?: null
+    ): NftCreatedEventFilter;
+    NftCreated(
+      id?: BigNumberish | null,
+      owner?: null,
+      seller?: null,
+      price?: null,
+      available?: null
+    ): NftCreatedEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
@@ -692,7 +643,7 @@ export interface OpenLava extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     createMarketSale(
-      tokenId: BigNumberish,
+      id: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -713,8 +664,6 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getListingPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -728,9 +677,9 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    resellToken(
-      tokenId: BigNumberish,
-      price: BigNumberish,
+    resell(
+      id: BigNumberish,
+      sellPrice: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -773,11 +722,6 @@ export interface OpenLava extends BaseContract {
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    updateListingPrice(
-      _listingPrice: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -793,7 +737,7 @@ export interface OpenLava extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     createMarketSale(
-      tokenId: BigNumberish,
+      id: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -814,8 +758,6 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getListingPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -829,9 +771,9 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    resellToken(
-      tokenId: BigNumberish,
-      price: BigNumberish,
+    resell(
+      id: BigNumberish,
+      sellPrice: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -873,11 +815,6 @@ export interface OpenLava extends BaseContract {
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateListingPrice(
-      _listingPrice: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
