@@ -57,10 +57,10 @@ export interface OpenLavaInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "createMarketSale(uint256)": FunctionFragment;
     "createToken(string,uint256)": FunctionFragment;
-    "fetchItemsListed()": FunctionFragment;
-    "fetchMarketItems()": FunctionFragment;
-    "fetchMyNFTs()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getListedNfts()": FunctionFragment;
+    "getMarketItems()": FunctionFragment;
+    "getOwnedNfts()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -80,10 +80,10 @@ export interface OpenLavaInterface extends utils.Interface {
       | "balanceOf"
       | "createMarketSale"
       | "createToken"
-      | "fetchItemsListed"
-      | "fetchMarketItems"
-      | "fetchMyNFTs"
       | "getApproved"
+      | "getListedNfts"
+      | "getMarketItems"
+      | "getOwnedNfts"
       | "isApprovedForAll"
       | "name"
       | "ownerOf"
@@ -111,20 +111,20 @@ export interface OpenLavaInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "fetchItemsListed",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "fetchMarketItems",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "fetchMyNFTs",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getListedNfts",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getMarketItems",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getOwnedNfts",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -176,19 +176,19 @@ export interface OpenLavaInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "fetchItemsListed",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "fetchMarketItems",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "fetchMyNFTs",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getListedNfts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getMarketItems",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getOwnedNfts",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -333,22 +333,22 @@ export interface OpenLava extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    fetchItemsListed(
-      overrides?: CallOverrides
-    ): Promise<[OpenLava.NftStructOutput[]]>;
-
-    fetchMarketItems(
-      overrides?: CallOverrides
-    ): Promise<[OpenLava.NftStructOutput[]]>;
-
-    fetchMyNFTs(
-      overrides?: CallOverrides
-    ): Promise<[OpenLava.NftStructOutput[]]>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getListedNfts(
+      overrides?: CallOverrides
+    ): Promise<[OpenLava.NftStructOutput[]]>;
+
+    getMarketItems(
+      overrides?: CallOverrides
+    ): Promise<[OpenLava.NftStructOutput[]]>;
+
+    getOwnedNfts(
+      overrides?: CallOverrides
+    ): Promise<[OpenLava.NftStructOutput[]]>;
 
     isApprovedForAll(
       owner: string,
@@ -429,20 +429,18 @@ export interface OpenLava extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  fetchItemsListed(
-    overrides?: CallOverrides
-  ): Promise<OpenLava.NftStructOutput[]>;
-
-  fetchMarketItems(
-    overrides?: CallOverrides
-  ): Promise<OpenLava.NftStructOutput[]>;
-
-  fetchMyNFTs(overrides?: CallOverrides): Promise<OpenLava.NftStructOutput[]>;
-
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getListedNfts(overrides?: CallOverrides): Promise<OpenLava.NftStructOutput[]>;
+
+  getMarketItems(
+    overrides?: CallOverrides
+  ): Promise<OpenLava.NftStructOutput[]>;
+
+  getOwnedNfts(overrides?: CallOverrides): Promise<OpenLava.NftStructOutput[]>;
 
   isApprovedForAll(
     owner: string,
@@ -517,20 +515,22 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    fetchItemsListed(
-      overrides?: CallOverrides
-    ): Promise<OpenLava.NftStructOutput[]>;
-
-    fetchMarketItems(
-      overrides?: CallOverrides
-    ): Promise<OpenLava.NftStructOutput[]>;
-
-    fetchMyNFTs(overrides?: CallOverrides): Promise<OpenLava.NftStructOutput[]>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getListedNfts(
+      overrides?: CallOverrides
+    ): Promise<OpenLava.NftStructOutput[]>;
+
+    getMarketItems(
+      overrides?: CallOverrides
+    ): Promise<OpenLava.NftStructOutput[]>;
+
+    getOwnedNfts(
+      overrides?: CallOverrides
+    ): Promise<OpenLava.NftStructOutput[]>;
 
     isApprovedForAll(
       owner: string,
@@ -656,16 +656,16 @@ export interface OpenLava extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    fetchItemsListed(overrides?: CallOverrides): Promise<BigNumber>;
-
-    fetchMarketItems(overrides?: CallOverrides): Promise<BigNumber>;
-
-    fetchMyNFTs(overrides?: CallOverrides): Promise<BigNumber>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getListedNfts(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getMarketItems(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getOwnedNfts(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -750,16 +750,16 @@ export interface OpenLava extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    fetchItemsListed(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    fetchMarketItems(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    fetchMyNFTs(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getListedNfts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getMarketItems(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getOwnedNfts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: string,

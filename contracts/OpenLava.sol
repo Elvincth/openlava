@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: MIT
+//Reference: https://github.com/dabit3/polygon-ethereum-nextjs-marketplace/blob/main/contracts/NFTMarketplace.sol
+//Reference: https://www.youtube.com/watch?v=4Pm1Furz5HM
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -102,62 +104,66 @@ contract OpenLava is ERC721URIStorage {
         payable(getNft[itemId].seller).transfer(msg.value);
     }
 
-    /* Returns all unsold market items */
-    function fetchMarketItems() public view returns (Nft[] memory) {
-        uint256 itemCount = _tokenIds.current();
-        uint256 unsoldItemCount = _tokenIds.current() - _itemsSold.current();
-        uint256 currentIndex = 0;
+    //FF, fetchMarketItems, Returns all unsold market items
+    function getMarketItems() public view returns (Nft[] memory) {
+        uint256 j = 0;
 
-        Nft[] memory items = new Nft[](unsoldItemCount);
-        for (uint256 i = 0; i < itemCount; i++) {
+        Nft[] memory nfts = new Nft[](
+            _tokenIds.current() - _itemsSold.current()
+        );
+
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].owner == address(this)) {
                 uint256 currentId = i + 1;
                 Nft storage currentItem = getNft[currentId];
-                items[currentIndex] = currentItem;
-                currentIndex++;
+                nfts[j] = currentItem;
+                j++;
             }
         }
-        return items;
+        return nfts;
     }
 
-    /* Returns only items that a user has purchased */
-    function fetchMyNFTs() public view returns (Nft[] memory) {
-        uint256 totalItemCount = _tokenIds.current();
-        uint256 itemCount = 0;
-        uint256 currentIndex = 0;
+    //Get the user owned nfts
+    //FF, fetchMyNFTs
+    function getOwnedNfts() public view returns (Nft[] memory) {
+        uint256 j = 0;
+        uint256 numOfNfts = 0;
 
-        for (uint256 i = 0; i < totalItemCount; i++) {
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].owner == msg.sender) {
-                itemCount++;
+                numOfNfts++;
             }
         }
 
-        Nft[] memory items = new Nft[](itemCount);
-        for (uint256 i = 0; i < totalItemCount; i++) {
+        Nft[] memory nfts = new Nft[](numOfNfts); //Store all the nfts the user bought
+
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].owner == msg.sender) {
-                uint256 currentId = i + 1;
-                Nft storage currentItem = getNft[currentId];
-                items[currentIndex] = currentItem;
-                currentIndex++;
+                Nft storage nft = getNft[i + 1];
+                nfts[j] = nft;
+                j++;
             }
         }
-        return items;
+        return nfts;
     }
 
     //Get all the nft the user owned
     //FF, fetchMyMarketItems
-    function getMyNfts() public view returns (Nft[] memory) {
-        uint256 owned = 0; //Used to store how many items the user owned
+    function getListedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;
-        Nft[] memory nfts = new Nft[](owned); //Store all the nfts the user owned
+        uint256 numOfNfts = 0; //Used to store how many items the user owned
 
         //loop through the owned items, also count the ones that are owned by the user
+        //Used to find the array length
         for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].seller == msg.sender) {
-                owned++;
+                numOfNfts++;
             }
         }
 
+        Nft[] memory nfts = new Nft[](numOfNfts); //Store all the nfts the user owned
+
+        //Store the nft to the array
         for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].seller == msg.sender) {
                 Nft storage nft = getNft[i + 1];
