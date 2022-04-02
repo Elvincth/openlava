@@ -5,13 +5,13 @@ const createItem = () => {
     <div>
       {/* top */}
       <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[5rem]">
-        <div className="text-[35px] lg:text-[60px] text-black font-bold">
+        <div className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
         </div>
         <div className="mt-[30px] text-[14px] lg:text-[18px] text-[#727A81] lg:mt-[49px]">
           <span className="text-[#F93A3A]">* </span>Requested fields
         </div>
-        <div className="mt-[30px] text-[18px] lg:text-[30px] text-black lg:mt-[16px] font-bold">
+        <div className="mt-[30px] text-[18px] lg:text-xl text-black lg:mt-[16px] font-bold">
           Image, Video, Audio or 3D Model
           <span className="text-[#F93A3A]"> *</span>
         </div>
