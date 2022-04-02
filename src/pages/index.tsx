@@ -51,7 +51,7 @@ const data2 = [
 ];
 
 const Home: NextPage = () => {
-  const [nft, setNFT] = useState([]);
+  const [nfts, setNFTs] = useState<any[]>([]);
   const [loadingState, setLoadingState] = useState("not-loaded"); // for loading the upload
 
   useEffect(() => {
@@ -61,13 +61,37 @@ const Home: NextPage = () => {
   async function loadNFTs() {
     const provider = new ethers.providers.JsonRpcProvider();
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider); // getting the token uri
-    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider);
+    const marketContract = new ethers.Contract(
+      nftmarketaddress,
+      Market.abi,
+      provider
+    );
     const data = await marketContract.fetchMarketItems();
 
-    const items = await Promise.all(data.map(async (item : any) => {
-      const tokenUri = await tokenContract.tokenURI(item.tokenId);
-    }))
+    const items = await Promise.all(
+      data.map(async (i: any) => {
+        const tokenUri = await tokenContract.tokenURI(i.tokenId);
+        const meta = await axios.get(tokenUri); // get the token uri
+        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.data.image,
+          name: meta.data.name,
+          description: meta.data.description,
+        };
+        return item;
+      })
+    );
+    setNFTs(items);
+    setLoadingState("loaded");
   }
+
+  // check is there any items in the market place
+  if (loadingState === "loaded" && !nfts.length)
+    return <h1 className="px-20 py-10 text-3x1">No items in marketplace</h1>;
 
   return (
     <div className="flex flex-col w-full h-screen">
