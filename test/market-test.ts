@@ -10,7 +10,7 @@ describe("NFTMarket", function () {
     const nftMarketplace = await NFTMarketplace.deploy();
     await nftMarketplace.deployed();
 
-    let listingPrice = ethers.utils.parseUnits("1", "ether");
+    let listingPrice = await nftMarketplace.getListingPrice();
     //@ts-ignore
     listingPrice = listingPrice.toString();
 
@@ -31,6 +31,7 @@ describe("NFTMarket", function () {
     const [_, buyerAddress] = await ethers.getSigners();
 
     /* execute sale of token to another user */
+    // console.log(listingPrice);
     await nftMarketplace
       .connect(buyerAddress)
       .createMarketSale(1, { value: auctionPrice });
@@ -38,7 +39,7 @@ describe("NFTMarket", function () {
     /* resell a token */
     await nftMarketplace
       .connect(buyerAddress)
-      .resell(1, auctionPrice, { value: listingPrice });
+      .resellToken(1, auctionPrice, { value: listingPrice });
 
     /* query for and return the unsold items */
     let items = await nftMarketplace.fetchMarketItems();
