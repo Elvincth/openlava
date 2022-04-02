@@ -8,7 +8,6 @@
     "lint": "next lint",
     "gen": "hardhat typechain",
     "test": "hardhat test",
-    "node": "hardhat node",
     "deploy": "hardhat run scripts/deploy.ts --network localhost"
   },
   "dependencies": {

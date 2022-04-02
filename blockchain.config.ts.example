@@ -1,1 +1,1 @@
-export const openLavaAddress = ""; //Enter your local deployed openLava address here, run yarn deploy 
+export const openLavaAddress = ""; //Enter your local deployed openLava address here, run yarn hardhat node then run yarn deploy 
