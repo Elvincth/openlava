@@ -31,6 +31,7 @@ describe("NFTMarket", function () {
     const [_, buyerAddress] = await ethers.getSigners();
 
     /* execute sale of token to another user */
+    // console.log(listingPrice);
     await nftMarketplace
       .connect(buyerAddress)
       .createMarketSale(1, { value: auctionPrice });
