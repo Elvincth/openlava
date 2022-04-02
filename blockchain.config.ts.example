@@ -1,0 +1,1 @@
+export const openLavaAddress = ""; //Enter your local deployed openLava address here, run yarn deploy 

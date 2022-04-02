@@ -8,7 +8,6 @@ import { nftmarketaddress } from ".config.js";
 
 import NFTMarketplace from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 
-
 // create data for Card component
 const data1 = [
   {
@@ -65,29 +64,30 @@ const Home = () => {
       NFTMarketplace.abi,
       provider
     );
+
     const data = await contract.getMarketItems();
 
-    const items = await Promise.all(
-      data.map(async (i: any) => {
-        const tokenUri = await contract.tokenURI(i.tokenId);
-        const meta = await axios.get(tokenUri);
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-        let item = {
-          price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          image: meta.data.image,
-          name: meta.data.name,
-          description: meta.data.description,
-        };
-        return item;
-      })
-    );
-    setNfts(items);
-    setLoadingState("loaded");
+    // const items = await Promise.all(
+    //   data.map(async (i: any) => {
+    //     const tokenUri = await contract.tokenURI(i.tokenId);
+    //     const meta = await axios.get(tokenUri);
+    //     let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+    //     let item = {
+    //       price,
+    //       tokenId: i.tokenId.toNumber(),
+    //       seller: i.seller,
+    //       owner: i.owner,
+    //       image: meta.data.image,
+    //       name: meta.data.name,
+    //       description: meta.data.description,
+    //     };
+    //     return item;
+    //   })
+    // );
+    // setNfts(items);
+    // setLoadingState("loaded");
   }
-  
+
   async function buyNft(nft: any) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
     const web3Modal = new Web3Modal();

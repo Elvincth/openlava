@@ -7,7 +7,9 @@
     "start": "next start",
     "lint": "next lint",
     "gen": "hardhat typechain",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy": "hardhat run scripts/deploy.ts --network localhost"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0",
