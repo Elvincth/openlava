@@ -1,5 +1,11 @@
 import type { NextPage } from "next";
 import Card from "~/components/Card";
+import { ethers } from "ethers";
+import { useState, useEffect } from "react";
+import axios from "axios"; // data fatch library
+import Web3Provider from "web3modal"; // connect to the wallet
+
+import { nftaddress, nftmarketaddress } from '.config.js';
 
 // create data for Card component
 const data1 = [
