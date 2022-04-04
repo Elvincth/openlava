@@ -1,7 +1,7 @@
 import React from "react";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
-import NFTMarketplace from "artifacts/contracts/OpenLava.sol/OpenLava.json";
+import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import { openLavaAddress } from "blockchain.config";
 
 const createItem = () => {
@@ -13,11 +13,7 @@ const createItem = () => {
 
     /* next, create the item */
     const price = ethers.utils.parseUnits("1", "ether");
-    let contract = new ethers.Contract(
-      openLavaAddress,
-      NFTMarketplace.abi,
-      signer
-    );
+    let contract = new ethers.Contract(openLavaAddress, OpenLava.abi, signer);
 
     let transaction = await contract.createToken("https://poly.com", price);
 
