@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Card from "~/components/Card";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -100,24 +101,22 @@ const Home = () => {
       </div>
       {/* map the data2 */}
       <section className="grid self-center grid-cols-1 gap-20 pb-20 lg:grid-cols-3 md:grid-cols-2">
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=859&q=80"
-              alt=""
-            />
-            <div className="p-5">
-              <h1 className="text-2xl font-bold">El poder de la lampara</h1>
-              <p className="mt-2 text-lg font-semibold text-gray-600">
-                by John Smith
-              </p>
-              <p className="mt-1 text-gray-500 font-">
-                Lorem ipsum carrots, enhanced undergraduate developer, but they
-                do occaecat time and vitality, Lorem ipsum carrots, enhanced
-                undergraduate developer, but they do occaecat time and vitality
-              </p>
-            </div>
+        <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
+          <img
+            src="https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=859&q=80"
+            alt=""
+          />
+          <div className="p-5">
+            <h1 className="text-2xl font-bold">El poder de la lampara</h1>
+            <p className="mt-2 text-lg font-semibold text-gray-600">
+              by John Smith
+            </p>
+            <p className="mt-1 text-gray-500">
+              Lorem ipsum carrots, enhanced undergraduate developer, but they do
+              occaecat time and vitality, Lorem ipsum carrots, enhanced
+              undergraduate developer, but they do occaecat time and vitality
+            </p>
+            <img className="w-4" src="eth.svg" alt="" />
           </div>
         </div>
       </section>
