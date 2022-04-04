@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import { openLavaAddress } from "blockchain.config";
+import { OpenLava as contract } from "typechain-types";
 
 const createItem = () => {
   const init = async () => {
@@ -13,7 +14,12 @@ const createItem = () => {
 
     /* next, create the item */
     const price = ethers.utils.parseUnits("1", "ether");
-    let contract = new ethers.Contract(openLavaAddress, OpenLava.abi, signer);
+
+    let contract = new ethers.Contract(
+      openLavaAddress,
+      OpenLava.abi,
+      signer
+    ) as contract;
 
     let transaction = await contract.createToken("https://poly.com", price);
 
