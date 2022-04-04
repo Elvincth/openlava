@@ -45,7 +45,7 @@ const Header = () => {
         </Link>
 
         {/* Search Bar */}
-        <form className="relative group">
+        <form className="relative max-w-full w-[650px]">
           <svg
             width="20"
             height="20"
@@ -62,7 +62,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search OpenLava"
-            className="xl:w-[50rem] lg:w-[20rem] md:w-[5rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+            className="w-full focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
           />
         </form>
 

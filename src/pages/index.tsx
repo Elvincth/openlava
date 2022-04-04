@@ -100,7 +100,7 @@ const Home = () => {
         Art
       </div>
       {/* map the data2 */}
-      <section className="grid self-center grid-cols-1 gap-20 pb-20 lg:grid-cols-3 md:grid-cols-2">
+      <section className="grid self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2">
         <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
           <img
             src="https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=859&q=80"
@@ -116,7 +116,11 @@ const Home = () => {
               occaecat time and vitality, Lorem ipsum carrots, enhanced
               undergraduate developer, but they do occaecat time and vitality
             </p>
-            <img className="w-4" src="eth.svg" alt="" />
+
+            <div className="flex items-center mt-2">
+              <img className="w-3" src="eth.svg" alt="" />
+              <span className="ml-1">0.05</span>
+            </div>
           </div>
         </div>
       </section>
