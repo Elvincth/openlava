@@ -12,6 +12,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import LoadingOverlay from "~/components/LoadingOverlay";
+import { useRouter } from "next/router";
 
 registerPlugin(
   FilePondPluginImagePreview,
@@ -20,6 +21,7 @@ registerPlugin(
 );
 
 const Create = () => {
+  const router = useRouter();
   const filePondEl = createRef<any>();
   const [metaData, setMetaData] = useState({
     name: "",
@@ -27,6 +29,7 @@ const Create = () => {
     dataUrl: "",
   });
   const [isCreating, setIsCreating] = useState(false);
+  const [message, setMessage] = useState("");
 
   const base64ToBlob = async (dataUrl: string) => {
     let res = await fetch(dataUrl);
@@ -54,6 +57,8 @@ const Create = () => {
 
     console.log(blob);
 
+    setMessage("Uploading to IPFS...");
+
     //Upload the NFT to IPFS
     let token = await nftStorage.store({
       name: metaData.name,
@@ -65,6 +70,8 @@ const Create = () => {
   };
 
   const onSubmit = async (e: any) => {
+    setMessage("This may take a few seconds");
+
     setIsCreating(true);
 
     e.preventDefault();
@@ -78,6 +85,8 @@ const Create = () => {
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
+
+    setMessage("Please confirm the transaction");
 
     /* next, create the item */
     const price = ethers.utils.parseUnits("1", "ether");
@@ -96,11 +105,13 @@ const Create = () => {
     setIsCreating(false);
 
     alert("Created");
+
+    router.push("/");
   };
 
   return (
     <div>
-      {isCreating && <LoadingOverlay />}
+      {isCreating && <LoadingOverlay message={message} />}
       <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
@@ -125,11 +136,11 @@ const Create = () => {
             <FilePond
               /*
              // @ts-ignore */
+              required
               ref={filePondEl}
               className="mt-4"
               maxFileSize="100MB"
               allowMultiple={false}
-              required
               name="files"
               labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
             />
