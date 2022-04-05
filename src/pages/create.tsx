@@ -11,14 +11,13 @@ import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import LoadingOverlay from "~/components/LoadingOverlay";
 
 registerPlugin(
   FilePondPluginImagePreview,
   FilePondPluginFileEncode,
   FilePondPluginFileValidateSize
 );
-
-type Token = {};
 
 const Create = () => {
   const filePondEl = createRef<any>();
@@ -27,6 +26,7 @@ const Create = () => {
     description: "",
     dataUrl: "",
   });
+  const [isCreating, setIsCreating] = useState(false);
 
   const base64ToBlob = async (dataUrl: string) => {
     let res = await fetch(dataUrl);
@@ -65,6 +65,8 @@ const Create = () => {
   };
 
   const onSubmit = async (e: any) => {
+    setIsCreating(true);
+
     e.preventDefault();
 
     //First upload the image to IPFS
@@ -91,12 +93,14 @@ const Create = () => {
 
     await transaction.wait();
 
+    setIsCreating(false);
+
     alert("Created");
   };
 
   return (
     <div>
-      {/* top */}
+      {!isCreating && <LoadingOverlay />}
       <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
