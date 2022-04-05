@@ -15,7 +15,7 @@ const Home = () => {
     loadNFTs();
   }, []);
 
-  async function loadNFTs() {
+  const loadNFTs = async () => {
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider();
     const contract = new ethers.Contract(
@@ -48,7 +48,7 @@ const Home = () => {
 
     setNfts(items);
     setLoadingState("loaded");
-  }
+  };
 
   async function buyNft(nft: any) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
