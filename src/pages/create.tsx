@@ -100,7 +100,7 @@ const Create = () => {
 
   return (
     <div>
-      {!isCreating && <LoadingOverlay />}
+      {isCreating && <LoadingOverlay />}
       <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
