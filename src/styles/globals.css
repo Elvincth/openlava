@@ -41,3 +41,7 @@ a {
   background-size: 100% 5px;
   background-position: 0 100%;
 }
+
+.filepond--credits {
+  display: none;
+}

@@ -28,26 +28,38 @@ const Home = () => {
 
     console.log(data);
 
-    const items = await Promise.all(
-      data.map(async (i: any) => {
-        //    const tokenUri = await contract.tokenURI(i.tokenId);
-        // const meta = await axios.get(tokenUri);
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-        let item = {
-          price,
-          itemId: i.itemId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          // image: meta.data.image,
-          // name: meta.data.name,
-          // description: meta.data.description,
-        };
-        return item;
-      })
-    );
+    try {
+      const items = await Promise.all(
+        data.map(async (i: any) => {
+          const tokenUri = await contract.tokenURI(i.itemId); //Where the cid is stored
 
-    setNfts(items);
-    setLoadingState("loaded");
+          console.log(tokenUri);
+
+          let metaData = await axios.get(
+            `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+          );
+
+          let { description, image, name } = metaData.data;
+
+          console.log(metaData);
+
+          let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+          let item = {
+            price,
+            itemId: i.itemId.toNumber(),
+            seller: i.seller,
+            owner: i.owner,
+            image,
+            name,
+            description,
+          };
+          return item;
+        })
+      );
+
+      setNfts(items);
+      setLoadingState("loaded");
+    } catch (error) {}
   };
 
   async function buyNft(nft: any) {
