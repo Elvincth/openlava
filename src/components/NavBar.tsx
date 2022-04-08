@@ -67,7 +67,7 @@ const Header = () => {
         </form>
 
         {/* menu bar */}
-        <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
+        <div className="ml-auto font-semibold text-[#636363] text-[17px] flex pr-20">
           <div className="nav">
             <Link href="/">
               <a
@@ -106,6 +106,14 @@ const Header = () => {
               Wallet
             </a>
           </div>
+        </div>
+        <div className="flex w-full max-w-[220px] bg-orange-600 bg-transparent border border-gray-200 rounded-3xl h-10 items-center pl-4 text-sm justify-between">
+          <div className="flex">
+            <p className="flex pr-2 text-black text-sm">0 ETH</p>
+          </div>
+          <div className="flex h-6 border items-center rounded-3xl text-orange-600 text-1xl pl-4 mr-4">0xB0Ce...7539
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <div className="w-6 h-[21px]"><img src="https://res.cloudinary.com/dasq4goqg/image/upload/v1649442479/AVSTAR_zavwt7.png" /></div></div>
         </div>
       </div>
 

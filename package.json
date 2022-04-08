@@ -21,6 +21,7 @@
     "b64-to-blob": "^1.2.19",
     "base64-blob": "^1.4.1",
     "chai": "^4.3.6",
+    "clsx": "^1.1.1",
     "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
     "ethereum-waffle": "^3.4.4",
