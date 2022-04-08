@@ -118,6 +118,21 @@ const Header = () => {
             ))}
           </div>
         )}
+
+        <div className="nav flex w-full max-w-[220px] bg-orange-600 bg-transparent border border-gray-200 rounded-3xl h-10 items-center pl-4 text-sm justify-between">
+          <div className="flex justify-center h-10 pr-2 text-xs border-r">
+            <p className="flex items-center overflow-hidden text-sm text-black truncate">
+              2 ETH
+            </p>
+          </div>
+          <div className="flex items-center h-6 mr-4 text-black truncate rounded-3xl text-1xl">
+            0521111xB...2239
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <div className="w-6 h-[21px]">
+              <img src="https://res.cloudinary.com/dasq4goqg/image/upload/v1649442479/AVSTAR_zavwt7.png" />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Smaller than 1600px */}
