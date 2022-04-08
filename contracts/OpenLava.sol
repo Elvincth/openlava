@@ -140,8 +140,6 @@ contract OpenLava is ERC721URIStorage {
         uint256 j = 0;
         uint256 numOfNfts = 0;
 
-        console.log(msg.sender);
-
         for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].owner == msg.sender) {
                 numOfNfts++;

@@ -99,12 +99,14 @@ const Header = () => {
             </Link>
           </div>
           <div className="nav">
-            <a
-              href="#"
-              className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-            >
-              Wallet
-            </a>
+            <Link href="/login">
+              <a
+                href="/profile"
+                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+              >
+                Wallet
+              </a>
+            </Link>
           </div>
         </div>
       </div>

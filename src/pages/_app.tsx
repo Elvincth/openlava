@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "../styles/tailwind.css";
+
 import NavBar from "~/components/NavBar";
 
 import type { AppProps } from "next/app";
