@@ -125,15 +125,14 @@ const Profile = () => {
       const signer = provider.getSigner();
       const address = await signer.getAddress();
       setAddress(address);
-      
     } catch (e) {
       alert(e);
     }
   };
 
-  if (isLoaded && nfts.length < 0) {
-    return <h1 className="px-20 py-10 text-3xl">No owned item</h1>;
-  }
+  // if (isLoaded && nfts.length < 0) {
+  //   return <h1 className="px-20 py-10 text-3xl">No owned item</h1>;
+  // }
 
   return (
     <div className="mb-[5rem]">
@@ -141,7 +140,7 @@ const Profile = () => {
         <div>
           <img
             className="w-screen"
-            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649433352/CjuT_NysA-SR5KFYX6wGE6LQDxrG_oZ0W9QSUlb8LRM_1_wnachn.png"
+            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649441255/CjuT_NysA-SR5KFYX6wGE6LQDxrG_oZ0W9QSUlb8LRM_1_vylch6.png"
             alt="user image"
           />
         </div>
@@ -154,9 +153,7 @@ const Profile = () => {
           />
         </div>
 
-        <div
-          className="flex items-center h-[58px] border rounded-[50px] my-5"
-        >
+        <div className="flex items-center h-[58px] border rounded-[50px] my-5">
           <span className="px-[15px] text-gray-400">{address}</span>
         </div>
       </div>
@@ -165,21 +162,28 @@ const Profile = () => {
         <div className="items-center col-span-3 pt-8 pb-[2rem] text-2xl font-bold text-center lg:text-4xl lg:pt-6">
           Collected
         </div>
-        <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px] shadow-md">
-          {nfts.map((nft, i) => (
-            <NFTCard
-              key={i}
-              src={nft.image.replace(
-                "ipfs://",
-                "https://nftstorage.link/ipfs/"
-              )}
-              name={nft.name}
-              description={nft.description}
-              // price={nft.price}
-              owner={nft.owner}
-            />
-          ))}
-        </section>
+
+        {isLoaded && nfts.length <= 0 && (
+          <h1 className="px-20 py-10 text-xl text-center">Currently no items </h1>
+        )}
+
+        {isLoaded && nfts.length > 0 && (
+          <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px] shadow-md">
+            {nfts.map((nft, i) => (
+              <NFTCard
+                key={i}
+                src={nft.image.replace(
+                  "ipfs://",
+                  "https://nftstorage.link/ipfs/"
+                )}
+                name={nft.name}
+                description={nft.description}
+                // price={nft.price}
+                owner={nft.owner}
+              />
+            ))}
+          </section>
+        )}
       </div>
     </div>
   );
