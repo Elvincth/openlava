@@ -38,16 +38,26 @@ const NFTCard = ({
   </div>
 );
 
+type Nft = {
+  price: string;
+  itemId: number;
+  seller: string;
+  owner: string;
+  image: string;
+  name: string;
+  description: string;
+};
+
 const Home = () => {
-  const [nfts, setNfts] = useState<any[]>([]);
-  const [loadingState, setLoadingState] = useState("not-loaded");
+  const [nfts, setNfts] = useState<Array<Nft>>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     loadNFTs();
   }, []);
 
   const loadNFTs = async () => {
-    /* create a generic provider and query for unsold market items */
+    //List all unsold items
     const provider = new ethers.providers.JsonRpcProvider();
     const contract = new ethers.Contract(
       openLavaAddress,
@@ -74,21 +84,20 @@ const Home = () => {
 
         let price = ethers.utils.formatUnits(item.price.toString(), "ether");
 
-        setNfts((prev) => [
-          ...prev,
-          {
-            price,
-            itemId: item.itemId.toNumber(),
-            seller: item.seller,
-            owner: item.owner,
-            image,
-            name,
-            description,
-          },
-        ]);
+        let nft: Nft = {
+          itemId: item.itemId.toNumber(),
+          seller: item.seller,
+          owner: item.owner,
+          image,
+          name,
+          description,
+          price,
+        };
+
+        setNfts((prev) => [...prev, nft]);
       }
 
-      setLoadingState("loaded");
+      setIsLoaded(true);
     } catch (e) {
       alert("Error getting nft!");
       console.log(e);
@@ -111,8 +120,10 @@ const Home = () => {
     await transaction.wait();
     loadNFTs();
   }
-  if (loadingState === "loaded" && !nfts.length)
+
+  if (isLoaded && nfts.length > 0) {
     return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
+  }
 
   return (
     <div className="flex flex-col w-full h-screen">

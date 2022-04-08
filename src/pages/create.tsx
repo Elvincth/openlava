@@ -108,9 +108,9 @@ const Create = () => {
     setMessage("Please confirm the transaction");
 
     /* next, create the item */
-    const myPrice = ethers.utils.parseUnits(price.toString(), "ether");
+    const askingPrice = ethers.utils.parseUnits(price.toString(), "ether");
 
-    console.log(price.toString(), myPrice);
+    console.log(price.toString(), askingPrice);
 
     let contract = new ethers.Contract(
       openLavaAddress,
@@ -119,7 +119,7 @@ const Create = () => {
     ) as contract;
 
     //@ts-ignore
-    let transaction = await contract.createToken(data.ipnft, myPrice);
+    let transaction = await contract.createToken(data.ipnft, askingPrice);
 
     await transaction.wait();
 
