@@ -46,3 +46,4 @@ typechain
 cache
 artifacts
 blockchain.config.ts
+/typechain-types
