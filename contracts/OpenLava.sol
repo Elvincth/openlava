@@ -148,7 +148,7 @@ contract OpenLava is ERC721URIStorage {
     }
 
     //Get all the nft the user owned
-    //FF, fetchMyMarketItems
+    //FF, fetchItemsListed
     function getListedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;
         uint256 numOfNfts = 0; //Used to store how many items the user owned
