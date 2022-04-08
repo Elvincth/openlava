@@ -90,4 +90,5 @@ a {
 
 .paper {
   border-radius: 100% !important;
+  border: 5px solid #fff !important;
 }

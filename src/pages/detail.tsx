@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Eth from "~/components/svg/Eth";
 
-const detail = () => {
+const Detail = () => {
   return (
-    <section className="flex flex-col w-full h-screen">
+    <section className="container flex flex-col w-full h-screen">
       <div className="flex flex-row justify-center w-full h-screen pt-10">
         <div className="flex flex-col max-w-[700px]">
           <div className="border border-gray-100 rounded-2xl">
@@ -11,6 +12,7 @@ const detail = () => {
               <Eth />
             </div>
             <img
+              alt=""
               className="rounded-b-2xl"
               src="https://static.boredpanda.com/blog/wp-content/uploads/2020/05/Illustrators-create-artwork-in-aid-of-health-workers-5eb48aea538d2__880.jpg"
             />
@@ -48,4 +50,4 @@ const detail = () => {
   );
 };
 
-export default detail;
+export default Detail;
