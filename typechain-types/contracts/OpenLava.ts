@@ -55,7 +55,7 @@ export interface OpenLavaInterface extends utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "createMarketSale(uint256)": FunctionFragment;
+    "buyToken(uint256)": FunctionFragment;
     "createToken(string,uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getListedNfts()": FunctionFragment;
@@ -78,7 +78,7 @@ export interface OpenLavaInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "approve"
       | "balanceOf"
-      | "createMarketSale"
+      | "buyToken"
       | "createToken"
       | "getApproved"
       | "getListedNfts"
@@ -103,7 +103,7 @@ export interface OpenLavaInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "createMarketSale",
+    functionFragment: "buyToken",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -167,10 +167,7 @@ export interface OpenLavaInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "createMarketSale",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "buyToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "createToken",
     data: BytesLike
@@ -322,7 +319,7 @@ export interface OpenLava extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    createMarketSale(
+    buyToken(
       itemId: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -418,7 +415,7 @@ export interface OpenLava extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  createMarketSale(
+  buyToken(
     itemId: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -504,10 +501,7 @@ export interface OpenLava extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    createMarketSale(
-      itemId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    buyToken(itemId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     createToken(
       tokenURI: string,
@@ -645,7 +639,7 @@ export interface OpenLava extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    createMarketSale(
+    buyToken(
       itemId: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -739,7 +733,7 @@ export interface OpenLava extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    createMarketSale(
+    buyToken(
       itemId: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
