@@ -149,7 +149,7 @@ const Profile = () => {
         <div>
           <img
             className="w-screen"
-            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649441255/CjuT_NysA-SR5KFYX6wGE6LQDxrG_oZ0W9QSUlb8LRM_1_vylch6.png"
+            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649446908/Rectangle_461_amalkp_1_u2vxf9.png"
             alt="User image"
           />
         </div>
