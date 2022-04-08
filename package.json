@@ -8,6 +8,7 @@
     "lint": "next lint",
     "gen": "hardhat typechain",
     "test": "hardhat test",
+    "dev:nft": "concurrently \"yarn dev:hardhat\" \"yarn deploy\"",
     "dev:hardhat": "hardhat node",
     "deploy": "hardhat run scripts/deploy.ts --network localhost"
   },
@@ -20,6 +21,7 @@
     "b64-to-blob": "^1.2.19",
     "base64-blob": "^1.4.1",
     "chai": "^4.3.6",
+    "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.2",
