@@ -123,6 +123,12 @@ contract OpenLava is ERC721URIStorage {
         return nfts;
     }
 
+    //Get the NFT by id
+    function getNftById(uint256 itemId) public view returns (Nft memory) {
+        //require(getNft[itemId].available == false, "Item is not available");
+        return getNft[itemId];
+    }
+
     // function getAll() public view returns (Nft[] memory) {
     //     Nft[] memory nfts = new Nft[](_tokenIds.current());
 

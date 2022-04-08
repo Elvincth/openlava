@@ -171,7 +171,7 @@ const Profile = () => {
         )}
 
         {isLoaded && nfts.length > 0 && (
-          <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px] shadow-md">
+          <section className="">
             {nfts.map((nft, i) => (
               <NFTCard
                 key={i}
