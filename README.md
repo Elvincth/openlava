@@ -14,9 +14,9 @@ Then start the Next.js project:
 
 # Add the test network to MetaMask
 
-Follow: https://autofarm.gitbook.io/autofarm-network/how-tos/defi-beginners-guide/switching-networks-on-metamask
+Please follow: https://autofarm.gitbook.io/autofarm-network/how-tos/defi-beginners-guide/switching-networks-on-metamask
 
-Metamask network setup:
+And input the following details for setting up the network:
 
 Network Name:
 `Test`
