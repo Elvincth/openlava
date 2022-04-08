@@ -91,7 +91,7 @@ contract OpenLava is ERC721URIStorage {
 
     /* Creates the sale of a marketplace item */
     /* Transfers ownership of the item, as well as funds between parties */
-    function createMarketSale(uint256 itemId) public payable {
+    function buyToken(uint256 itemId) public payable {
         require(
             msg.value == getNft[itemId].price,
             "Please submit the asking price in order to complete the purchase"

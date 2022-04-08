@@ -1,28 +1,22 @@
-# Basic Sample Hardhat Project
+# OpenLava
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+First you will have MetaMask and create an account in meta mask, then copy the account private key to the .env file
+you could follow the .env.example for the format (You can follow this tutorial for exporting your private key: https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key)
 
-Try running some of the following tasks:
+# Start the project
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+To start the project you will have to first start a local blockchain and deploy the smart contract of openLava, by running:
 
-To start the project you will have to first start a local blockchain
+`yarn dev:nft`
 
-`yarn hardhat node`
+Then start the Next.js project:
+`yarn dev`
 
-Then you will have to deploy the smart contract of openLava
+# Add the test network to MetaMask
 
-`yarn deploy`
+Please follow: https://autofarm.gitbook.io/autofarm-network/how-tos/defi-beginners-guide/switching-networks-on-metamask
 
-Metamask network setup:
+And input the following details for setting up the network:
 
 Network Name:
 `Test`
