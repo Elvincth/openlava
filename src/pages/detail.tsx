@@ -63,7 +63,7 @@ const detail = () => {
           />
         </div>
         <div className="pb-20 ">
-          <div className="flex flex-col mt-8 border rounded-xl">
+          <div className="flex flex-col mt-8 border rounded-xl overflow-hidden !important">
             {items.map((item, i) => {
               return (
                 <DetailCard
