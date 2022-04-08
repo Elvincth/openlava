@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <header>
       {/* Desktop */}
-      <div className="header hidden lg:py-[13px] lg:pl-[40px] lg:pr-[40px] lg:shadow-md lg:flex lg:items-center">
+      <div className="header hidden lg:py-[13px] lg:pl-[40px] lg:pr-[40px] lg:shadow-md lg:flex lg:items-center mb-[1.5px]">
         {/* Logo */}
         <Link href="/" passHref>
           <a>
@@ -72,7 +72,7 @@ const Header = () => {
             <Link href="/">
               <a
                 href="#"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+                className="link link-underline link-underline-black focus:underline underline-offset-[24px] decoration-[5px] decoration-[#FF6B00]"
               >
                 Home
               </a>
@@ -82,7 +82,7 @@ const Header = () => {
             <Link href="/create">
               <a
                 href="#"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+                className="link link-underline link-underline-black focus:underline underline-offset-[24px] decoration-[5px] decoration-[#FF6B00]"
               >
                 Create
               </a>
@@ -92,7 +92,7 @@ const Header = () => {
             <Link href="/profile">
               <a
                 href="#"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+                className="link link-underline link-underline-black focus:underline underline-offset-[24px] decoration-[5px] decoration-[#FF6B00]"
               >
                 Profile
               </a>
@@ -101,8 +101,8 @@ const Header = () => {
           <div className="nav">
             <Link href="/login">
               <a
-                href="/profile"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
+                href=""
+                className="link link-underline link-underline-black focus:underline underline-offset-[24px] decoration-[5px] decoration-[#FF6B00]"
               >
                 Wallet
               </a>
