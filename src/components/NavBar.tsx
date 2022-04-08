@@ -16,7 +16,7 @@ const Header = () => {
   ];
 
   useEffect(() => {
-    const getAddress = () => {
+    const handleStorageEvt = () => {
       let address = localStorage.getItem("address") ?? "";
 
       console.log("accountAddress", address);
@@ -24,11 +24,12 @@ const Header = () => {
       setAccountAddress(address);
     };
 
-    getAddress();
-    window.addEventListener("storage", getAddress);
+    handleStorageEvt();
+
+    window.addEventListener("storage", handleStorageEvt);
 
     return () => {
-      window.removeEventListener("storage", getAddress);
+      window.removeEventListener("storage", handleStorageEvt);
     };
   }, []);
 
