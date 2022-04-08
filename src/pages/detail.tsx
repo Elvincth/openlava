@@ -16,7 +16,7 @@ const detail = () => {
                     <h1 className='text-3xl font-semibold pt-12'>Name</h1>
                     <div className='flex flex-row pt-10'>
                         <div>
-                            owned by <span className='text-blue-500'>owner</span>
+                            owned by <span className='text-orange-500'>owner</span>
                         </div>
                     </div>
                     <div className='p-8 w-full bg-gray-50 pr-80 border-2 rounded-2xl pb-12'>
@@ -29,7 +29,7 @@ const detail = () => {
                             <h1 className='text-xl font-normal'>($1,646.45)</h1>
                         </div>
 
-                        <a href="#_" className="relative rounded-2xl px-40 py-5 overflow-hidden group bg-blue-500 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-300">
+                        <a href="#_" className="relative rounded-2xl px-40 py-5 overflow-hidden group bg-orange-500 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-orange-400 transition-all ease-out duration-300">
                             <button className='pt-8'>
                                 <span className="relative text-xl">Make offer</span>
                             </button>
