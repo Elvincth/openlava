@@ -58,6 +58,13 @@ const Create = () => {
 
   const uploadToIPFS = async () => {
     //Get the image
+
+    // if (!image[0]) {
+    //   await new Promise((resolve) => setTimeout(resolve, 1000));
+    // }
+
+    console.log(image[0]);
+
     //@ts-ignore
     let dataUrl = await image[0].getFileEncodeDataURL();
 

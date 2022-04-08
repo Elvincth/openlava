@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Card from "~/components/Card";
 import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
 import { MouseEventHandler, useEffect, useState } from "react";
@@ -75,7 +74,7 @@ const Home = () => {
       openLavaAddress,
       OpenLava.abi,
       provider
-    );
+    ) as contract;
 
     const data = await contract.getMarketItems();
 
@@ -141,10 +140,6 @@ const Home = () => {
     fetchItems();
   };
 
-  if (isLoaded && nfts.length < 0) {
-    return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
-  }
-
   return (
     <div className="flex flex-col w-full h-screen">
       <section className="flex flex-col lg:px-40 w-full lg:min-h-[580px] bg-cover lg:mb-10 bg-[url('https://res.cloudinary.com/dasq4goqg/image/upload/v1645114580/Rectangle_461_amalkp.png')]">
@@ -175,8 +170,12 @@ const Home = () => {
       </section>
 
       <div className="items-center col-span-3 pt-8 pb-8 text-2xl font-bold text-center lg:text-4xl lg:pt-6">
-        Art
+        For Sale
       </div>
+
+      {isLoaded && nfts.length <= 0 && (
+        <h1 className="px-20 py-10 text-xl text-center">Currently no items</h1>
+      )}
 
       <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
         {nfts.map((nft, i) => (
