@@ -6,20 +6,23 @@ import axios from "axios";
 import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
+import Link from "next/link";
 
 const NFTCard = ({
   src,
   name,
   description,
+  price,
 }: {
   src: string;
   name: string;
   description: string;
+  price: string;
 }) => (
   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
     <img
       src={src}
-      className="object-cover h-[280px] w-[280px] mx-auto"
+      className="object-cover h-[280px] w-80  mx-auto rounded-t-xl"
       alt={name}
     />
     <div className="p-5">
@@ -28,8 +31,8 @@ const NFTCard = ({
       <p className="mt-1 text-gray-500">{description}</p>
 
       <div className="flex items-center mt-2">
-        <img className="w-3" src="eth.svg" alt="" />
-        <span className="ml-1">0.05</span>
+        ETH
+        <span className="ml-1">{price}</span>
       </div>
     </div>
   </div>
@@ -72,6 +75,7 @@ const Home = () => {
           console.log(metaData);
 
           let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+
           let item = {
             price,
             itemId: i.itemId.toNumber(),
@@ -122,9 +126,11 @@ const Home = () => {
               OpenLava is the best NFT marketplace
             </h1>
             <div className="flex flex-row mt-8">
-              <button className=" mr-6 inline-flex items-center justify-center w-full px-12 text-base font-bold leading-6 text-white bg-[#FF6B00] border rounded-xl md:w-auto hover:bg-white hover:text-[#FF6B00] duration-300 hover:border-[#FF6B00]">
-                Create
-              </button>
+              <Link href="/create" passHref>
+                <button className=" mr-6 inline-flex items-center justify-center w-full px-12 text-base font-bold leading-6 text-white bg-[#FF6B00] border rounded-xl md:w-auto hover:bg-white hover:text-[#FF6B00] duration-300 hover:border-[#FF6B00]">
+                  Create
+                </button>
+              </Link>
               <button className="inline-flex items-center justify-center w-full px-12 py-1.5 text-base font-bold leading-6 text-[#FF6B00] bg-white border border-[#FF6B00] rounded-xl md:w-auto hover:bg-[#FF6B00] hover:text-white duration-300">
                 Search
               </button>
@@ -140,13 +146,14 @@ const Home = () => {
         Art
       </div>
 
-      <section className="grid self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2">
+      <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
         {nfts.map((nft: any, i) => (
           <NFTCard
             key={i}
             src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
             name={nft.name}
             description={nft.description}
+            price={nft.price}
           />
         ))}
       </section>

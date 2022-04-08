@@ -30,6 +30,7 @@ const Create = () => {
     description: "",
     dataUrl: "",
   });
+  const [price, setPrice] = useState(0);
   const [image, setImage] = useState<Array<Object>>([]);
   const [disabled, setDisabled] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
@@ -40,13 +41,14 @@ const Create = () => {
     if (
       metaData.name.length > 0 &&
       metaData.description.length > 0 &&
-      image.length > 0
+      image.length > 0 &&
+      price > 0
     ) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [image, metaData]);
+  }, [image, metaData, price]);
 
   const base64ToBlob = async (dataUrl: string) => {
     let res = await fetch(dataUrl);
@@ -56,8 +58,8 @@ const Create = () => {
 
   const uploadToIPFS = async () => {
     //Get the image
-    let image = filePondEl.current.getFiles()[0];
-    let dataUrl = await image.getFileEncodeDataURL();
+    //@ts-ignore
+    let dataUrl = await image[0].getFileEncodeDataURL();
 
     //If dataUrl haven't generated yet, wait for it
     if (!dataUrl) {
@@ -106,7 +108,9 @@ const Create = () => {
     setMessage("Please confirm the transaction");
 
     /* next, create the item */
-    const price = ethers.utils.parseUnits("1", "ether");
+    const myPrice = ethers.utils.parseUnits(price.toString(), "ether");
+
+    console.log(price.toString(), myPrice);
 
     let contract = new ethers.Contract(
       openLavaAddress,
@@ -115,7 +119,7 @@ const Create = () => {
     ) as contract;
 
     //@ts-ignore
-    let transaction = await contract.createToken(data.ipnft, price);
+    let transaction = await contract.createToken(data.ipnft, myPrice);
 
     await transaction.wait();
 
@@ -129,7 +133,7 @@ const Create = () => {
   return (
     <div>
       {isCreating && <LoadingOverlay message={message} />}
-      <div className="mx-[20px] my-[50px] lg:mx-[10rem] lg:my-[4.5rem]">
+      <div className="container mt-8 lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
         </h1>
@@ -194,6 +198,9 @@ const Create = () => {
                 name="price"
                 className="block w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-orange-500 focus:ring-orange-500 sm:text-sm focus:ring-1 invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500 disabled:shadow-none"
                 placeholder="Price"
+                onChange={(e) => {
+                  setPrice(Number(e.target.value));
+                }}
               />
             </div>
           </div>
