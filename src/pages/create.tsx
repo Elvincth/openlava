@@ -99,7 +99,7 @@ const Create = () => {
 
   const onSubmit = async (e: any) => {
     setMessage("This may take a few seconds");
-    setTitle("Minting NFT...");
+    setTitle("Creating NFT...");
 
     setIsCreating(true);
 
