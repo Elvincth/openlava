@@ -1,5 +1,8 @@
 # OpenLava
 
+First you will have MetaMask and create an account in meta mask, then copy the account private key to the .env file
+you could follow the .env.example for the format
+
 To start the project you will have to first start a local blockchain and deploy the smart contract of openLava, by running:
 
 `yarn dev:nft`
