@@ -97,7 +97,7 @@ const Header = () => {
           <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
             <div className="nav">
               <Link href="/connect" passHref>
-                <a className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]">
+                <a className="link link-underline link-underline-black focus:underline underline-offset-[24px] decoration-[5px] decoration-[#FF6B00]">
                   Login
                 </a>
               </Link>
@@ -110,7 +110,7 @@ const Header = () => {
             {items.map((item, i) => (
               <div key={i} className="nav">
                 <Link href={item.href} passHref>
-                  <a className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]">
+                  <a className="link link-underline link-underline-black focus:underline underline-offset-[24px] decoration-[5px] decoration-[#FF6B00]">
                     {item.name}
                   </a>
                 </Link>
