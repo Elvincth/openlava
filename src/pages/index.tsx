@@ -75,7 +75,7 @@ const Home = () => {
       openLavaAddress,
       OpenLava.abi,
       provider
-    );
+    ) as contract;
 
     const data = await contract.getMarketItems();
 

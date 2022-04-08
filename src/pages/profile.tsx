@@ -71,6 +71,8 @@ const Profile = () => {
 
     //List all unsold items
     const provider = new ethers.providers.JsonRpcProvider();
+    const signer = provider.getSigner();
+
     const contract = new ethers.Contract(
       openLavaAddress,
       OpenLava.abi,
@@ -125,6 +127,7 @@ const Profile = () => {
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
+
     const contract = new ethers.Contract(
       openLavaAddress,
       OpenLava.abi,
@@ -146,19 +149,19 @@ const Profile = () => {
   }
 
   return (
-      <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
-        {nfts.map((nft, i) => (
-          <NFTCard
-            key={i}
-            onClick={() => buy(nft)}
-            src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
-            name={nft.name}
-            description={nft.description}
-            price={nft.price}
-            owner={nft.owner}
-          />
-        ))}
-      </section>
+    <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
+      {nfts.map((nft, i) => (
+        <NFTCard
+          key={i}
+          onClick={() => buy(nft)}
+          src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+          name={nft.name}
+          description={nft.description}
+          price={nft.price}
+          owner={nft.owner}
+        />
+      ))}
+    </section>
   );
 };
 
