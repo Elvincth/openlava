@@ -87,3 +87,7 @@ a {
     transform: rotate(360deg);
   }
 }
+
+.paper {
+  border-radius: 100% !important;
+}

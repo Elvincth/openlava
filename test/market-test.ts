@@ -26,9 +26,7 @@ describe("NFTMarket", function () {
     const [_, buyerAddress] = await ethers.getSigners();
 
     /* execute sale of token to another user */
-    await openLava
-      .connect(buyerAddress)
-      .createMarketSale(1, { value: auctionPrice });
+    await openLava.connect(buyerAddress).buyToken(1, { value: auctionPrice });
 
     /* resell a token */
     await openLava.connect(buyerAddress).resellToken(1, auctionPrice);

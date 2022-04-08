@@ -123,6 +123,17 @@ contract OpenLava is ERC721URIStorage {
         return nfts;
     }
 
+    // function getAll() public view returns (Nft[] memory) {
+    //     Nft[] memory nfts = new Nft[](_tokenIds.current());
+
+    //     for (uint256 i = 0; i < _tokenIds.current(); i++) {
+    //         nfts[i] = getNft[i];
+    //         i++;
+    //     }
+
+    //     return nfts;
+    // }
+
     //Get the user owned nfts
     //FF, fetchMyNFTs
     function getOwnedNfts() public view returns (Nft[] memory) {
@@ -147,7 +158,7 @@ contract OpenLava is ERC721URIStorage {
         return nfts;
     }
 
-    //Get all the nft the user owned
+    //Get all the nft the user listed
     //FF, fetchItemsListed
     function getListedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;

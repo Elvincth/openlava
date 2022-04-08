@@ -58,6 +58,13 @@ const Create = () => {
 
   const uploadToIPFS = async () => {
     //Get the image
+
+    // if (!image[0]) {
+    //   await new Promise((resolve) => setTimeout(resolve, 1000));
+    // }
+
+    console.log(image[0]);
+
     //@ts-ignore
     let dataUrl = await image[0].getFileEncodeDataURL();
 
@@ -100,39 +107,48 @@ const Create = () => {
 
     console.log("uploaded to ipfs", data);
 
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
+    try {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
 
-    setMessage("Please confirm the transaction");
+      setMessage("Please confirm the transaction");
 
-    /* next, create the item */
-    const askingPrice = ethers.utils.parseUnits(price.toString(), "ether");
+      /* next, create the item */
+      const askingPrice = ethers.utils.parseUnits(price.toString(), "ether");
 
-    console.log(price.toString(), askingPrice);
+      console.log(price.toString(), askingPrice);
 
-    let contract = new ethers.Contract(
-      openLavaAddress,
-      OpenLava.abi,
-      signer
-    ) as contract;
+      let contract = new ethers.Contract(
+        openLavaAddress,
+        OpenLava.abi,
+        signer
+      ) as contract;
 
-    //@ts-ignore
-    let transaction = await contract.createToken(data.ipnft, askingPrice);
+      //@ts-ignore
+      let transaction = await contract.createToken(data.ipnft, askingPrice);
 
-    await transaction.wait();
+      await transaction.wait();
 
-    setIsCreating(false);
+      setIsCreating(false);
 
-    alert("Created");
+      alert("Created");
 
-    router.push("/");
+      router.push("/");
+    } catch (e) {
+      alert(
+        //@ts-ignore
+        "Error while creating the NFT" + e.message
+      );
+
+      setIsCreating(false);
+    }
   };
 
   return (
     <div>
-      {isCreating && <LoadingOverlay message={message} />}
+      {isCreating && <LoadingOverlay title="Creating..." message={message} />}
       <div className="container mt-8 lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
@@ -195,6 +211,7 @@ const Create = () => {
                 required
                 step="any"
                 type="number"
+                min={0.0e1}
                 name="price"
                 className="block w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-orange-500 focus:ring-orange-500 sm:text-sm focus:ring-1 invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500 disabled:shadow-none"
                 placeholder="Price"
