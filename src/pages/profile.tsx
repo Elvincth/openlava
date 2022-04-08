@@ -7,7 +7,7 @@ import axios from "axios";
 import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
-import Link from "next/link";
+import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
 const NFTCard = ({
   src,
@@ -24,7 +24,7 @@ const NFTCard = ({
   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
     <img
       src={src}
-      className="object-cover h-[280px] w-80  mx-auto rounded-t-xl"
+      className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
       alt={name}
     />
     <div className="p-5 ">
@@ -124,8 +124,8 @@ const Profile = () => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const address = await signer.getAddress();
+
       setAddress(address);
-      
     } catch (e) {
       alert(e);
     }
@@ -142,21 +142,19 @@ const Profile = () => {
           <img
             className="w-screen"
             src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649433352/CjuT_NysA-SR5KFYX6wGE6LQDxrG_oZ0W9QSUlb8LRM_1_wnachn.png"
-            alt="user image"
+            alt="user banner"
           />
         </div>
 
-        <div className="w-[11rem] h-[11rem] mt-[-6rem] mb-[5px]">
-          <img
-            className="rounded-full border-[3px] border-gray-100 shadow-sm"
-            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649434291/metamask_1_j366dx.png"
-            alt="user image"
+        <div className="overflow-hidden mt-[-6rem] mb-[5px]">
+          <Jazzicon
+            svgStyles={{ borderRadius: "100" }}
+            diameter={150}
+            seed={jsNumberForAddress(address)}
           />
         </div>
 
-        <div
-          className="flex items-center h-[58px] border rounded-[50px] my-5"
-        >
+        <div className="flex items-center h-[58px] border rounded-[50px] my-5">
           <span className="px-[15px] text-gray-400">{address}</span>
         </div>
       </div>
