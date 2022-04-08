@@ -14,13 +14,12 @@ node scripts/sample-script.js
 npx hardhat help
 ```
 
-To start the project you will have to first start a local blockchain
+To start the project you will have to first start a local blockchain and deploy the smart contract of openLava, by running:
 
-`yarn hardhat node`
+`yarn dev:nft`
 
-Then you will have to deploy the smart contract of openLava
-
-`yarn deploy`
+Then start the Next.js project:
+`yarn dev`
 
 Metamask network setup:
 
@@ -35,3 +34,5 @@ Chain ID:
 
 Currency Symbol:
 `ETH`
+
+Then you

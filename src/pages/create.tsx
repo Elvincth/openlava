@@ -10,6 +10,7 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import LoadingOverlay from "~/components/LoadingOverlay";
 import { useRouter } from "next/router";
@@ -17,7 +18,8 @@ import { useRouter } from "next/router";
 registerPlugin(
   FilePondPluginImagePreview,
   FilePondPluginFileEncode,
-  FilePondPluginFileValidateSize
+  FilePondPluginFileValidateSize,
+  FilePondPluginFileValidateType
 );
 
 const Create = () => {
@@ -129,8 +131,7 @@ const Create = () => {
             </div>
 
             <div className="text-[14px] mt-[30px] lg:text-base text-[#727A81] lg:mt-[17px]">
-              File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV,
-              OGG, GLB, GLTF. Max size: 100 MB
+              File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB
             </div>
 
             <FilePond
@@ -141,6 +142,7 @@ const Create = () => {
               className="mt-4"
               maxFileSize="100MB"
               allowMultiple={false}
+              acceptedFileTypes={["image/*"]}
               name="files"
               labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
             />
