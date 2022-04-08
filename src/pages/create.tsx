@@ -148,7 +148,7 @@ const Create = () => {
 
   return (
     <div>
-      {isCreating && <LoadingOverlay message={message} />}
+      {isCreating && <LoadingOverlay title="Creating..." message={message} />}
       <div className="container mt-8 lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item

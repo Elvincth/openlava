@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Hamburger from "hamburger-react";
 import Link from "next/link";
 
@@ -7,6 +7,30 @@ const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [burgerOpen, setBurgerOpen] = useState(true);
+  const [accountAddress, setAccountAddress] = useState("");
+  const items = [
+    { name: "Home", href: "/" },
+    { name: "Create", href: "/create" },
+    { name: "Profile", href: "/profile" },
+    { name: "Logout", href: "/logout" },
+  ];
+
+  useEffect(() => {
+    const getAddress = () => {
+      let address = localStorage.getItem("address") ?? "";
+
+      console.log("accountAddress", address);
+
+      setAccountAddress(address);
+    };
+
+    getAddress();
+    window.addEventListener("storage", getAddress);
+
+    return () => {
+      window.removeEventListener("storage", getAddress);
+    };
+  }, []);
 
   const handleClick = () => {
     setShowOptions(!showOptions);
@@ -67,48 +91,32 @@ const Header = () => {
         </form>
 
         {/* menu bar */}
-        <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
-          <div className="nav">
-            <Link href="/">
-              <a
-                href="#"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-              >
-                Home
-              </a>
-            </Link>
+
+        {!accountAddress && (
+          <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
+            <div className="nav">
+              <Link href="/connect" passHref>
+                <a className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]">
+                  Login
+                </a>
+              </Link>
+            </div>
           </div>
-          <div className="nav">
-            <Link href="/create">
-              <a
-                href="#"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-              >
-                Create
-              </a>
-            </Link>
+        )}
+
+        {accountAddress && (
+          <div className="ml-auto font-semibold text-[#636363] text-[17px] flex">
+            {items.map((item, i) => (
+              <div key={i} className="nav">
+                <Link href={item.href} passHref>
+                  <a className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]">
+                    {item.name}
+                  </a>
+                </Link>
+              </div>
+            ))}
           </div>
-          <div className="nav">
-            <Link href="/profile">
-              <a
-                href="#"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-              >
-                Profile
-              </a>
-            </Link>
-          </div>
-          <div className="nav">
-            <Link href="/login">
-              <a
-                href="/profile"
-                className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
-              >
-                Wallet
-              </a>
-            </Link>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Smaller than 1600px */}
@@ -151,42 +159,16 @@ const Header = () => {
         {showOptions && (
           <div className="z-10 w-full">
             <div className="text-center flex flex-col justify-center items-center font-bold text-[#636363] text-[20px] pt-2 shadow-sm bg-white">
-              <div className="w-full py-3 shadow-sm hover:bg-gray-50">
-                <a href="#">Home</a>
-              </div>
-              <div className="w-full py-3 shadow-sm hover:bg-gray-50">
-                <a href="#">Create</a>
-              </div>
-              <div className="w-full py-3 shadow-sm hover:bg-gray-50">
-                <a href="#">Profile</a>
-              </div>
-              <div className="w-full py-3 shadow-sm hover:bg-gray-50">
-                <a href="#">Wallet</a>
-              </div>
+              {items.map((item, i) => (
+                <Link href={item.href} key={i} passHref>
+                  <a key={i} className="w-full py-3 shadow-sm hover:bg-gray-50">
+                    {item.name}
+                  </a>
+                </Link>
+              ))}
             </div>
           </div>
         )}
-        {/* 
-        <form className="relative group">
-          <svg
-            width="20"
-            height="20"
-            fill="currentColor"
-            className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-[#FF6B00]"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-            />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search OpenLava"
-            className="w-[22rem] sm:w-[35rem] focus:ring-2 focus:ring-[#FF6B00] focus:outline-none appearance-none text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
-          />
-        </form> */}
       </div>
     </header>
   );
