@@ -40,7 +40,7 @@ const Header = () => {
   return (
     <header>
       {/* Desktop */}
-      <div className="header hidden lg:py-[13px] lg:pl-[40px] lg:pr-[40px] lg:shadow-md lg:flex lg:items-center">
+      <div className="header hidden lg:py-[13px] lg:pl-[40px] lg:pr-[40px] lg:shadow-md lg:flex lg:items-center mb-[1.5px]">
         {/* Logo */}
         <Link href="/" passHref>
           <a>

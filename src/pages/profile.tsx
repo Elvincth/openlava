@@ -13,21 +13,15 @@ const NFTCard = ({
   src,
   name,
   description,
-  price,
   owner,
-  onClick,
 }: {
   src: string;
   name: string;
   description: string;
-  price: string;
+  // price: string;
   owner: string;
-  onClick: MouseEventHandler<HTMLDivElement>;
 }) => (
-  <div
-    onClick={onClick}
-    className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105"
-  >
+  <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
     <img
       src={src}
       className="object-cover h-[280px] w-80  mx-auto rounded-t-xl"
@@ -40,16 +34,16 @@ const NFTCard = ({
       </p>
       <p className="mt-1 text-gray-500 truncate">{description}</p>
 
-      <div className="flex items-center mt-2">
+      {/* <div className="flex items-center mt-2">
         ETH
         <span className="ml-1">{price}</span>
-      </div>
+      </div> */}
     </div>
   </div>
 );
 
 type Nft = {
-  price: string;
+  // price: string;
   itemId: number;
   seller: string;
   owner: string;
@@ -61,23 +55,26 @@ type Nft = {
 const Profile = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [address, setAddress] = useState("");
 
   useEffect(() => {
     fetchItems();
+    userInfo();
   }, []);
 
   const fetchItems = async () => {
     setNfts([]);
 
-    //List all unsold items
-    const provider = new ethers.providers.JsonRpcProvider();
+    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
-
     const contract = new ethers.Contract(
       openLavaAddress,
       OpenLava.abi,
-      provider
-    );
+      signer
+    ) as contract;
 
     const data = await contract.getOwnedNfts();
 
@@ -105,7 +102,7 @@ const Profile = () => {
           image,
           name,
           description,
-          price,
+          // price,
         };
 
         setNfts((prev) => [...prev, nft]);
@@ -120,28 +117,18 @@ const Profile = () => {
     }
   };
 
-  const buy = async (nft: Nft) => {
-    console.log("buy", nft);
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-
-    const contract = new ethers.Contract(
-      openLavaAddress,
-      OpenLava.abi,
-      signer
-    ) as contract;
-
-    /* user will be prompted to pay the asking process to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
-    const transaction = await contract.buyToken(nft.itemId, {
-      value: price,
-    });
-
-    await transaction.wait();
-    fetchItems();
+  const userInfo = async () => {
+    try {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      setAddress(address);
+      
+    } catch (e) {
+      alert(e);
+    }
   };
 
   if (isLoaded && nfts.length < 0) {
@@ -149,19 +136,52 @@ const Profile = () => {
   }
 
   return (
-    <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
-      {nfts.map((nft, i) => (
-        <NFTCard
-          key={i}
-          onClick={() => buy(nft)}
-          src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
-          name={nft.name}
-          description={nft.description}
-          price={nft.price}
-          owner={nft.owner}
-        />
-      ))}
-    </section>
+    <div className="mb-[5rem]">
+      <div className="flex flex-col justify-center items-center mb-[12px]">
+        <div>
+          <img
+            className="w-screen"
+            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649433352/CjuT_NysA-SR5KFYX6wGE6LQDxrG_oZ0W9QSUlb8LRM_1_wnachn.png"
+            alt="user image"
+          />
+        </div>
+
+        <div className="w-[11rem] h-[11rem] mt-[-6rem] mb-[5px]">
+          <img
+            className="rounded-full border-[3px] border-gray-100 shadow-sm"
+            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649434291/metamask_1_j366dx.png"
+            alt="user image"
+          />
+        </div>
+
+        <div
+          className="flex items-center h-[58px] border rounded-[50px] my-5"
+        >
+          <span className="px-[15px] text-gray-400">{address}</span>
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <div className="items-center col-span-3 pt-8 pb-[2rem] text-2xl font-bold text-center lg:text-4xl lg:pt-6">
+          Collected
+        </div>
+        <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px] shadow-md">
+          {nfts.map((nft, i) => (
+            <NFTCard
+              key={i}
+              src={nft.image.replace(
+                "ipfs://",
+                "https://nftstorage.link/ipfs/"
+              )}
+              name={nft.name}
+              description={nft.description}
+              // price={nft.price}
+              owner={nft.owner}
+            />
+          ))}
+        </section>
+      </div>
+    </div>
   );
 };
 
