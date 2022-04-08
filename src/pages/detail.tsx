@@ -92,7 +92,7 @@ const detail = () => {
                             owned by <span className="text-orange-500">owner</span>
                         </div>
                     </div>
-                    <div className="p-8 w-full bg-gray-50 pr-80 border-2 rounded-2xl pb-12">
+                    <div className="p-8 w-full bg-gray-50 pr-50 border-2 rounded-2xl pb-12">
                         <h1 className=" font-normal text-xl pb-2">Price</h1>
                         <div className="flex flex-row items-center">
                             <div className="pb-1">
