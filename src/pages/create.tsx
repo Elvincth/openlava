@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
@@ -30,8 +30,23 @@ const Create = () => {
     description: "",
     dataUrl: "",
   });
+  const [image, setImage] = useState<Array<Object>>([]);
+  const [disabled, setDisabled] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [message, setMessage] = useState("");
+
+  //Form validation
+  useEffect(() => {
+    if (
+      metaData.name.length > 0 &&
+      metaData.description.length > 0 &&
+      image.length > 0
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [image, metaData]);
 
   const base64ToBlob = async (dataUrl: string) => {
     let res = await fetch(dataUrl);
@@ -145,6 +160,7 @@ const Create = () => {
               acceptedFileTypes={["image/*"]}
               name="files"
               labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+              onupdatefiles={(image: Array<Object>) => setImage(image)}
             />
           </div>
 
@@ -188,6 +204,7 @@ const Create = () => {
             </label>
             <div className="mt-2">
               <textarea
+                required
                 placeholder="Item description"
                 className="min-h-[200px] block w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-orange-500 focus:ring-orange-500 sm:text-sm focus:ring-1 invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500 disabled:shadow-none"
                 onChange={(e) => {
@@ -199,9 +216,10 @@ const Create = () => {
 
           <div className="mt-5">
             <button
+              disabled={disabled}
               onClick={onSubmit}
               type="submit"
-              className="text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
+              className="disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
             >
               Create
             </button>
