@@ -96,12 +96,13 @@ contract OpenLava is ERC721URIStorage {
             msg.value == getNft[itemId].price,
             "Please submit the asking price in order to complete the purchase"
         );
+        address seller = getNft[itemId].seller;
         getNft[itemId].owner = payable(msg.sender);
         getNft[itemId].available = true;
         getNft[itemId].seller = payable(address(0));
         _itemsSold.increment();
-        _transfer(getNft[itemId].owner, msg.sender, itemId);
-        //payable(getNft[itemId].seller).transfer(msg.value);
+        _transfer(address(this), msg.sender, itemId);
+        payable(seller).transfer(msg.value);
     }
 
     //FF, fetchMarketItems, Returns all unsold market items
