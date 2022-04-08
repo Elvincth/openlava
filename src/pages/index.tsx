@@ -121,7 +121,7 @@ const Home = () => {
     loadNFTs();
   }
 
-  if (isLoaded && nfts.length) {
+  if (isLoaded && nfts.length < 0) {
     return <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>;
   }
 
