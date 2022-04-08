@@ -108,10 +108,10 @@ const Header = () => {
           </div>
         </div>
         <div className="flex w-full max-w-[220px] bg-orange-600 bg-transparent border border-gray-200 rounded-3xl h-10 items-center pl-4 text-sm justify-between">
-          <div className="flex border-r h-10 justify-center">
-            <p className="flex pr-2 text-black text-sm">0 ETH</p>
+          <div className="flex border-r h-10 justify-center pr-2 text-xs">
+            <p className="flex text-black text-sm items-center truncate overflow-hidden">2 ETH</p>
           </div>
-          <div className="flex h-6 border items-center rounded-3xl text-orange-600 text-1xl pl-4 mr-4">0xB0Ce...7539
+          <div className="flex h-6 items-center rounded-3xl text-black text-1xl mr-4 truncate">0521111xB...2239
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <div className="w-6 h-[21px]"><img src="https://res.cloudinary.com/dasq4goqg/image/upload/v1649442479/AVSTAR_zavwt7.png" /></div></div>
         </div>
