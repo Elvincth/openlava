@@ -8,7 +8,6 @@ import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
-import ListedNfts from "~/components/ListedNfts";
 
 const NFTCard = ({
   src,
@@ -53,7 +52,7 @@ type Nft = {
   description: string;
 };
 
-const Profile = () => {
+const ListedNfts = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [address, setAddress] = useState("");
@@ -77,7 +76,7 @@ const Profile = () => {
       signer
     ) as contract;
 
-    const data = await contract.getOwnedNfts();
+    const data = await contract.getListedNfts();
 
     console.log(data);
 
@@ -133,63 +132,34 @@ const Profile = () => {
   };
 
   return (
-    <div className="mb-[5rem]">
-      <div className="flex flex-col justify-center items-center mb-[12px]">
-        <div>
-          <img
-            className="w-screen"
-            src="https://res.cloudinary.com/dwhlxdb6r/image/upload/v1649441255/CjuT_NysA-SR5KFYX6wGE6LQDxrG_oZ0W9QSUlb8LRM_1_vylch6.png"
-            alt="User image"
-          />
-        </div>
-
-        <div className="overflow-hidden mt-[-6rem] mb-[5px] hidden md:block">
-          <Jazzicon diameter={150} seed={jsNumberForAddress(address)} />
-        </div>
-
-        <div className="overflow-hidden mt-[-3rem] mb-[5px] block md:hidden">
-          <Jazzicon diameter={100} seed={jsNumberForAddress(address)} />
-        </div>
-
-        <div className="flex items-center h-[45px] border rounded-[50px] my-5">
-          <span className="px-[15px] text-gray-400">{address}</span>
-        </div>
+    <div className="flex flex-col">
+      <div className="items-center col-span-3 pt-8 pb-[2rem] text-2xl font-bold text-center lg:text-4xl lg:pt-6">
+        Listed
       </div>
 
-      {/*  */}
-      
-      <div className="flex flex-col">
-        <div className="items-center col-span-3 pt-8 pb-[2rem] text-2xl font-bold text-center lg:text-4xl lg:pt-6">
-          Collected
-        </div>
+      {isLoaded && nfts.length <= 0 && (
+        <h1 className="px-20 py-10 text-xl text-center">Currently no items </h1>
+      )}
 
-        {isLoaded && nfts.length <= 0 && (
-          <h1 className="px-20 py-10 text-xl text-center">
-            Currently no items{" "}
-          </h1>
-        )}
-
-        {isLoaded && nfts.length > 0 && (
-          <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px]">
-            {nfts.map((nft, i) => (
-              <NFTCard
-                key={i}
-                src={nft.image.replace(
-                  "ipfs://",
-                  "https://nftstorage.link/ipfs/"
-                )}
-                name={nft.name}
-                description={nft.description}
-                // price={nft.price}
-                owner={nft.owner}
-              />
-            ))}
-          </section>
-        )}
-      </div>
-      <ListedNfts />
+      {isLoaded && nfts.length > 0 && (
+        <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px]">
+          {nfts.map((nft, i) => (
+            <NFTCard
+              key={i}
+              src={nft.image.replace(
+                "ipfs://",
+                "https://nftstorage.link/ipfs/"
+              )}
+              name={nft.name}
+              description={nft.description}
+              // price={nft.price}
+              owner={nft.owner}
+            />
+          ))}
+        </section>
+      )}
     </div>
   );
 };
 
-export default Profile;
+export default ListedNfts;
