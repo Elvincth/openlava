@@ -89,7 +89,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="nav">
-            <Link href="#">
+            <Link href="/profile">
               <a
                 href="#"
                 className="link link-underline link-underline-black focus:underline underline-offset-[22px] decoration-[5px] decoration-[#FF6B00]"
