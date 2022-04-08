@@ -8,6 +8,7 @@ import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
+import ListedNfts from "~/components/ListedNfts";
 
 const NFTCard = ({
   src,
@@ -52,7 +53,7 @@ type Nft = {
   description: string;
 };
 
-const ListedNfts = () => {
+const CollectedNfts = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [address, setAddress] = useState("");
@@ -76,7 +77,7 @@ const ListedNfts = () => {
       signer
     ) as contract;
 
-    const data = await contract.getListedNfts();
+    const data = await contract.getOwnedNfts();
 
     console.log(data);
 
@@ -132,30 +133,34 @@ const ListedNfts = () => {
   };
 
   return (
-    <div className="flex flex-col mt-[2rem]">
-      {isLoaded && nfts.length <= 0 && (
-        <h1 className="px-20 py-10 text-xl text-center">Currently no items </h1>
-      )}
+    <div className="mb-[5rem]">
+      <div className="flex flex-col mt-[2rem]">
+        {isLoaded && nfts.length <= 0 && (
+          <h1 className="px-20 py-10 text-xl text-center">
+            Currently no items{" "}
+          </h1>
+        )}
 
-      {isLoaded && nfts.length > 0 && (
-        <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px]">
-          {nfts.map((nft, i) => (
-            <NFTCard
-              key={i}
-              src={nft.image.replace(
-                "ipfs://",
-                "https://nftstorage.link/ipfs/"
-              )}
-              name={nft.name}
-              description={nft.description}
-              // price={nft.price}
-              owner={nft.owner}
-            />
-          ))}
-        </section>
-      )}
+        {isLoaded && nfts.length > 0 && (
+          <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px]">
+            {nfts.map((nft, i) => (
+              <NFTCard
+                key={i}
+                src={nft.image.replace(
+                  "ipfs://",
+                  "https://nftstorage.link/ipfs/"
+                )}
+                name={nft.name}
+                description={nft.description}
+                // price={nft.price}
+                owner={nft.owner}
+              />
+            ))}
+          </section>
+        )}
+      </div>
     </div>
   );
 };
 
-export default ListedNfts;
+export default CollectedNfts;

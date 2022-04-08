@@ -9,6 +9,7 @@ import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import ListedNfts from "~/components/ListedNfts";
+import CollectedNfts from "~/components/CollectedNfts";
 
 const NFTCard = ({
   src,
@@ -57,6 +58,16 @@ const Profile = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [address, setAddress] = useState("");
+  const [activeTab, setActiveTab] = useState("collectedNfts");
+
+  const collectedNftsHandle = () => {
+    // update the state to tab1
+    setActiveTab("collectedNfts");
+  };
+  const listedNftsHandle = () => {
+    // update the state to tab2
+    setActiveTab("listedNfts");
+  };
 
   useEffect(() => {
     fetchItems();
@@ -133,7 +144,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="mb-[5rem]">
+    <div className="mb-[5rem] flex flex-col justify-center items-center">
       <div className="flex flex-col justify-center items-center mb-[12px]">
         <div>
           <img
@@ -156,38 +167,44 @@ const Profile = () => {
         </div>
       </div>
 
-      {/*  */}
-      
-      <div className="flex flex-col">
-        <div className="items-center col-span-3 pt-8 pb-[2rem] text-2xl font-bold text-center lg:text-4xl lg:pt-6">
-          Collected
-        </div>
-
-        {isLoaded && nfts.length <= 0 && (
-          <h1 className="px-20 py-10 text-xl text-center">
-            Currently no items{" "}
-          </h1>
-        )}
-
-        {isLoaded && nfts.length > 0 && (
-          <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px]">
-            {nfts.map((nft, i) => (
-              <NFTCard
-                key={i}
-                src={nft.image.replace(
-                  "ipfs://",
-                  "https://nftstorage.link/ipfs/"
-                )}
-                name={nft.name}
-                description={nft.description}
-                // price={nft.price}
-                owner={nft.owner}
-              />
-            ))}
-          </section>
-        )}
+      <div className="mt-[3rem]">
+        {/* Tab nav */}
+        <ul className="flex text-center">
+          <li
+            className={activeTab === "collectedNfts" ? "active" : ""}
+            onClick={collectedNftsHandle}
+          >
+            <span
+              className={`px-[4rem] text-gray-500 items-center col-span-3 pt-8 pb-[2rem] text-2xl font-semibold text-center lg:text-1xl lg:pt-6 ${
+                activeTab === "collectedNfts"
+                  ? "text-[#FF6B00] underline underline-offset-[11px] decoration-[5px]"
+                  : "text-gray-500"
+              }`}
+            >
+              Collected
+            </span>
+          </li>
+          <li
+            className={activeTab === "listedNfts" ? "active" : ""}
+            onClick={listedNftsHandle}
+          >
+            <span
+              className={`px-[4rem] text-gray-500 items-center col-span-3 pt-8 pb-[2rem] text-2xl font-semibold text-center lg:text-1xl lg:pt-6 ${
+                activeTab === "listedNfts"
+                  ? "text-[#FF6B00] underline underline-offset-[11px] decoration-[5px]"
+                  : "text-gray-500"
+              }`}
+            >
+              Listed
+            </span>
+          </li>
+        </ul>
       </div>
-      <ListedNfts />
+
+      <div className="w-full">
+        <hr className="mt-[10px]"></hr>
+        {activeTab === "collectedNfts" ? <CollectedNfts /> : <ListedNfts />}
+      </div>
     </div>
   );
 };
