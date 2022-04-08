@@ -34,7 +34,9 @@ const Create = () => {
   const [image, setImage] = useState<Array<Object>>([]);
   const [disabled, setDisabled] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   //Form validation
   useEffect(() => {
@@ -63,7 +65,7 @@ const Create = () => {
     //   await new Promise((resolve) => setTimeout(resolve, 1000));
     // }
 
-    console.log(image[0]);
+    console.log("image[0]", image[0]);
 
     //@ts-ignore
     let dataUrl = await image[0].getFileEncodeDataURL();
@@ -83,7 +85,7 @@ const Create = () => {
 
     console.log(blob);
 
-    setMessage("Uploading to IPFS...");
+    setMessage("Uploading to IPFS");
 
     //Upload the NFT to IPFS
     let token = await nftStorage.store({
@@ -97,6 +99,7 @@ const Create = () => {
 
   const onSubmit = async (e: any) => {
     setMessage("This may take a few seconds");
+    setTitle("Minting NFT...");
 
     setIsCreating(true);
 
@@ -113,7 +116,8 @@ const Create = () => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
 
-      setMessage("Please confirm the transaction");
+      setTitle("Please confirm the transaction");
+      setMessage("");
 
       /* next, create the item */
       const askingPrice = ethers.utils.parseUnits(price.toString(), "ether");
@@ -148,7 +152,7 @@ const Create = () => {
 
   return (
     <div>
-      {isCreating && <LoadingOverlay title="Creating..." message={message} />}
+      {isCreating && <LoadingOverlay title={title} message={message} />}
       <div className="container mt-8 lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
@@ -161,7 +165,7 @@ const Create = () => {
 
           <div>
             <div className="mt-[30px] text-[18px] lg:text-xl text-black lg:mt-[16px] font-bold">
-              Image, Video, Audio or 3D Model
+              Image, Video or Audio Files
               <span className="text-[#F93A3A]"> *</span>
             </div>
 
@@ -180,6 +184,8 @@ const Create = () => {
               acceptedFileTypes={["image/*"]}
               name="files"
               labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+              onaddfilestart={() => setIsProcessing(true)}
+              onaddfile={() => setIsProcessing(false)}
               onupdatefiles={(image: Array<Object>) => setImage(image)}
             />
           </div>
@@ -240,7 +246,7 @@ const Create = () => {
 
           <div className="mt-5">
             <button
-              disabled={disabled}
+              disabled={disabled || isProcessing}
               onClick={onSubmit}
               type="submit"
               className="disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
