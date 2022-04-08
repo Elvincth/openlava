@@ -60,38 +60,39 @@ const Home = () => {
     console.log(data);
 
     try {
-      const items = await Promise.all(
-        data.map(async (i: any) => {
-          const tokenUri = await contract.tokenURI(i.itemId); //Where the cid is stored
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
 
-          console.log(tokenUri);
+        let metaData = await axios.get(
+          `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+        );
 
-          let metaData = await axios.get(
-            `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
-          );
+        let { description, image, name } = metaData.data;
 
-          let { description, image, name } = metaData.data;
+        console.log(metaData);
 
-          console.log(metaData);
+        let price = ethers.utils.formatUnits(item.price.toString(), "ether");
 
-          let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-
-          let item = {
+        setNfts((prev) => [
+          ...prev,
+          {
             price,
-            itemId: i.itemId.toNumber(),
-            seller: i.seller,
-            owner: i.owner,
+            itemId: item.itemId.toNumber(),
+            seller: item.seller,
+            owner: item.owner,
             image,
             name,
             description,
-          };
-          return item;
-        })
-      );
+          },
+        ]);
+      }
 
-      setNfts(items);
       setLoadingState("loaded");
-    } catch (error) {}
+    } catch (e) {
+      alert("Error getting nft!");
+      console.log(e);
+    }
   };
 
   async function buyNft(nft: any) {
