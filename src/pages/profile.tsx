@@ -171,6 +171,7 @@ const Profile = () => {
         {/* Tab nav */}
         <ul className="flex text-center">
           <li
+            role="button"
             className={activeTab === "collectedNfts" ? "active" : ""}
             onClick={collectedNftsHandle}
           >
@@ -185,6 +186,7 @@ const Profile = () => {
             </span>
           </li>
           <li
+            role="button"
             className={activeTab === "listedNfts" ? "active" : ""}
             onClick={listedNftsHandle}
           >
@@ -203,7 +205,12 @@ const Profile = () => {
 
       <div className="w-full">
         <hr className="mt-[10px]"></hr>
-        {activeTab === "collectedNfts" ? <CollectedNfts /> : <ListedNfts />}
+        <div className={activeTab === "collectedNfts" ? "" : "hidden"}>
+          <CollectedNfts />
+        </div>
+        <div className={activeTab === "collectedNfts" ? "hidden" : ""}>
+          <ListedNfts />
+        </div>
       </div>
     </div>
   );
