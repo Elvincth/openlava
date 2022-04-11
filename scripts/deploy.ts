@@ -14,8 +14,7 @@ async function main() {
 
   fs.writeFileSync(
     "./blockchain.config.ts",
-    `export const openLavaAddress = "${openLava.address}";
-     export const accountAddress = "${account.address}"`
+    `export const openLavaAddress = "${openLava.address}";\nexport const accountAddress = "${account.address}";`
   );
 }
 

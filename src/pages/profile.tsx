@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import Card from "~/components/Card";
 import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";

@@ -1,9 +1,30 @@
 import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import { accountAddress } from "blockchain.config";
+import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 
 const CreateAccount = () => {
   const [name, setName] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    init();
+  }, []);
+
+  const init = async () => {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider();
+      const contract = new ethers.Contract(
+        accountAddress,
+        OpenLava.abi,
+        provider
+      ) as contract;
+
+      const data = await contract.getMarketItems();
+    } catch (e) {
+      // alert("Error: " + e);
+    }
+  };
 
   return (
     <>
