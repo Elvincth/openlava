@@ -8,7 +8,6 @@ import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Link from "next/link";
 
-
 const NFTCard = ({
   src,
   name,

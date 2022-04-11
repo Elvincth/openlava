@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import Router, { useRouter } from "next/router";
 import LoadingOverlay from "~/components/LoadingOverlay";
+import CreateAccount from "~/components/CreateAccount";
 
 function Connect() {
   // const { activateBrowserWallet, account } = useEthers();
@@ -89,6 +90,8 @@ function Connect() {
         />
         <span className="ml-3 font-bold">MetaMask</span>
       </button>
+
+      <CreateAccount></CreateAccount>
     </div>
   );
 }

@@ -11,7 +11,7 @@ describe("Account", () => {
     await account.deployed();
 
     //Create a fake account for testing
-    const [_, myAccount] = await ethers.getSigners();
+    const [_, myAccount, account2] = await ethers.getSigners();
     await account.connect(myAccount).createUser("Fake User");
     // console.log(myAddress);
 
@@ -19,6 +19,12 @@ describe("Account", () => {
 
     let user = await account.connect(myAccount).getUserByWalletAddress(address);
 
-    console.log("user", user);
+    expect(user.username).to.equal("Fake User");
+
+    // console.log("user", user);
+
+    // const account2Addr = await account2.getAddress();
+
+    // await account.connect(account2).createUser("Fake User");
   });
 });

@@ -22,13 +22,10 @@ contract Account {
 
     function createUser(string memory _username) public {
         //Check Username should not be empty
-        require(bytes(_username).length == 0, "Username cannot be empty");
+        require(!isEmpty(_username), "Username cannot be empty");
 
         //Check if the user exists before creating a new one
-        require(
-            getUser[msg.sender].walletAddress == address(0),
-            "User already exists"
-        );
+        require(!isExists(), "User already exists");
 
         //Check if the username is already taken
         for (uint256 i = 0; i < _usersAddress.length; i++) {
@@ -53,6 +50,22 @@ contract Account {
         _userCount.increment();
 
         emit userCreated(msg.sender, _username);
+    }
+
+    //check if the user exists
+    function isExists() public view returns (bool) {
+        //   console.log(getUser[msg.sender].walletAddress);
+        if (getUser[msg.sender].walletAddress == address(0)) {
+            return false;
+        }
+        return true;
+    }
+
+    //Test if string is empty
+    function isEmpty(string memory _str) public pure returns (bool) {
+        return
+            keccak256(abi.encodePacked(_str)) ==
+            keccak256(abi.encodePacked(""));
     }
 
     // //Check if the user exists
