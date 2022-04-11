@@ -1,12 +1,41 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DetailCard from "~/components/DetailCard";
 import DetailsIcon from "~/components/svg/DetailsIcon";
 import Eth from "~/components/svg/Eth";
 import { MenuIcon } from "~/components/svg/MenuIcon";
-import Property from "~/components/svg/Property";
+import { useRouter } from "next/router";
+import { OpenLava as contract } from "typechain-types";
+import { ethers } from "ethers";
+import { openLavaAddress } from "blockchain.config";
+import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 
-const detail = () => {
+
+
+const Detail = () => {
+  const router = useRouter();
+  const [itemId, setItemId] = useState(router.query.id);
+  const [nft, setNft] = useState<contract>();
+
+  useEffect(() => { fetch() }, []);
+  useEffect(() => {
+    setItemId(router.query.id);
+    console.log(itemId);
+  }, []);
+  //get the nft by id
+
+  //create fetch function
+  const fetch = async () => {
+    const provider = new ethers.providers.JsonRpcProvider();
+    const contract = new ethers.Contract(
+      openLavaAddress,
+      OpenLava.abi,
+      provider
+    ) as contract;
+    const data = await contract.getNftById(1);
+    console.log(data);
+    console.log(data.itemId);
+  }
   const items = [
     {
       title: "Description",
@@ -49,6 +78,7 @@ const detail = () => {
       expand: false,
     },
   ];
+
   return (
     <section className="container flex flex-row justify-center pt-10">
       <div className="flex flex-col max-w-[530px]">
@@ -79,7 +109,7 @@ const detail = () => {
         </div>
       </div>
       <div className="flex flex-col ml-8">
-        <h1 className="pt-12 text-3xl font-semibold">Name</h1>
+        <h1 className="pt-12 text-3xl font-semibold">hi</h1>
 
         <div className="flex flex-row py-10">
           <span className="mr-1 text-gray-600">Owned by</span>{" "}
@@ -110,4 +140,4 @@ const detail = () => {
   );
 };
 
-export default detail;
+export default Detail;

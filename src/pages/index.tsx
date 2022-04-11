@@ -12,6 +12,7 @@ import Link from "next/link";
 const NFTCard = ({
   src,
   name,
+  itemId,
   description,
   price,
   owner,
@@ -22,30 +23,33 @@ const NFTCard = ({
   description: string;
   price: string;
   owner: string;
+  itemId: number;
   onClick: MouseEventHandler<HTMLDivElement>;
 }) => (
-  <div
-    onClick={onClick}
-    className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105"
-  >
-    <img
-      src={src}
-      className="object-cover h-[280px] w-80  mx-auto rounded-t-xl"
-      alt={name}
-    />
-    <div className="p-5 ">
-      <h2 className="text-2xl font-bold truncate">{name}</h2>
-      <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
-        by {owner}
-      </p>
-      <p className="mt-1 text-gray-500 truncate">{description}</p>
+  <Link href={"/detail?id=" + itemId} passHref>
+    <div
+      onClick={onClick}
+      className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105"
+    >
+      <img
+        src={src}
+        className="object-cover h-[280px] w-80  mx-auto rounded-t-xl"
+        alt={name}
+      />
+      <div className="p-5 ">
+        <h2 className="text-2xl font-bold truncate">{name}</h2>
+        <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
+          by {owner}
+        </p>
+        <p className="mt-1 text-gray-500 truncate">{description}</p>
 
-      <div className="flex items-center mt-2">
-        ETH
-        <span className="ml-1">{price}</span>
+        <div className="flex items-center mt-2">
+          ETH
+          <span className="ml-1">{price}</span>
+        </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 type Nft = {
@@ -57,7 +61,6 @@ type Nft = {
   name: string;
   description: string;
 };
-
 const Home = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -80,6 +83,7 @@ const Home = () => {
     const data = await contract.getMarketItems();
 
     console.log(data);
+
 
     try {
       for (let i = 0; i < data.length; i++) {
@@ -165,7 +169,7 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center justify-center h-full">
-            <div className=" max-w-[520px] lg:p-8">{}</div>
+            <div className=" max-w-[520px] lg:p-8">{ }</div>
           </div>
         </div>
       </section>
@@ -188,6 +192,7 @@ const Home = () => {
             description={nft.description}
             price={nft.price}
             owner={nft.owner}
+            itemId={nft.itemId}
           />
         ))}
       </section>
