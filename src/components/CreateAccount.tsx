@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { Account as contract } from "typechain-types";
 import Web3Modal from "web3modal";
 import { accountAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
@@ -20,7 +21,7 @@ const CreateAccount = () => {
         provider
       ) as contract;
 
-      const data = await contract.getMarketItems();
+      //const data = await contract.getMarketItems();
     } catch (e) {
       // alert("Error: " + e);
     }

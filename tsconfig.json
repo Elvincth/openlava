@@ -29,7 +29,7 @@
     "./scripts",
     "./test",
     "./typechain-types"
-, "blockchain.config.ts.example"  ],
+, "blockchain.config.ts.example", "src/pages/detail"  ],
   "files": ["./hardhat.config.ts"],
   "exclude": ["node_modules"]
 }

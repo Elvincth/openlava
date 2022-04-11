@@ -9,33 +9,94 @@ import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
+import Web3Modal from "web3modal";
+import axios from "axios";
 
-
+type Nft = {
+  price: string;
+  itemId: number;
+  seller: string;
+  owner: string;
+  image: string;
+  name: string;
+  description: string;
+};
 
 const Detail = () => {
   const router = useRouter();
-  const [itemId, setItemId] = useState(router.query.id);
-  const [nft, setNft] = useState<contract>();
+  const { id } = router.query;
+  const [nft, setNft] = useState<Nft>();
 
-  useEffect(() => { fetch() }, []);
   useEffect(() => {
-    setItemId(router.query.id);
-    console.log(itemId);
-  }, []);
+    if (router.isReady) {
+      console.log(Number(id));
+      init();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
   //get the nft by id
 
+  const buy = async () => {
+    if (nft) {
+      /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        openLavaAddress,
+        OpenLava.abi,
+        signer
+      ) as contract;
+
+      /* user will be prompted to pay the asking process to complete the transaction */
+      const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+      const transaction = await contract.buyToken(nft.itemId, {
+        value: price,
+      });
+
+      await transaction.wait();
+    }
+  };
+
   //create fetch function
-  const fetch = async () => {
+  const init = async () => {
     const provider = new ethers.providers.JsonRpcProvider();
     const contract = new ethers.Contract(
       openLavaAddress,
       OpenLava.abi,
       provider
     ) as contract;
-    const data = await contract.getNftById(1);
-    console.log(data);
-    console.log(data.itemId);
-  }
+
+    const item = await contract.getNftById(Number(id));
+
+    const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
+
+    let metaData = await axios.get(
+      `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+    );
+
+    let { description, image, name } = metaData.data;
+
+    console.log(metaData);
+
+    let price = ethers.utils.formatUnits(item.price.toString(), "ether");
+
+    let nft: Nft = {
+      itemId: item.itemId.toNumber(),
+      seller: item.seller,
+      owner: item.owner,
+      image,
+      name,
+      description,
+      price,
+    };
+
+    setNft(nft);
+  };
+
   const items = [
     {
       title: "Description",
@@ -81,15 +142,16 @@ const Detail = () => {
 
   return (
     <section className="container flex flex-row justify-center pt-10">
-      <div className="flex flex-col max-w-[530px]">
+      <div className="flex flex-col max-w-[370px]">
         <div className="border border-gray-100 rounded-2xl">
           <div className="w-full p-3">
             <Eth />
           </div>
+
           <img
+            className="object-cover w-full h-[420px]]"
+            src={nft?.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
             alt=""
-            className="rounded-b-2xl"
-            src="https://static.boredpanda.com/blog/wp-content/uploads/2020/05/Illustrators-create-artwork-in-aid-of-health-workers-5eb48aea538d2__880.jpg"
           />
         </div>
         <div className="pb-20 ">
@@ -108,12 +170,13 @@ const Detail = () => {
           </div>
         </div>
       </div>
+
       <div className="flex flex-col ml-8">
-        <h1 className="pt-12 text-3xl font-semibold">hi</h1>
+        <h1 className="pt-12 text-3xl font-semibold">{nft?.name}</h1>
 
         <div className="flex flex-row py-10">
           <span className="mr-1 text-gray-600">Owned by</span>{" "}
-          <span className="text-orange-500">owner</span>
+          <span className="text-orange-500">{nft?.owner}</span>
         </div>
 
         <div className="max-w-full px-6 py-5 w-[500px] border bg-gray-50 rounded-2xl">
@@ -122,16 +185,18 @@ const Detail = () => {
             <div className="pb-1">
               <Eth />
             </div>
-            <h1 className="px-2 text-3xl font-semibold">0.5</h1>
-            <h1 className="text-lg font-normal">($1,646.45)</h1>
+            <h1 className="px-2 text-3xl font-semibold">{nft?.price}</h1>
+            {/* <h1 className="text-lg font-normal">($1,646.45)</h1> */}
           </div>
 
           <div className="mt-5">
             <button
+              disabled={!nft}
+              onClick={buy}
               type="submit"
               className="w-full disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
             >
-              Create
+              Buy
             </button>
           </div>
         </div>

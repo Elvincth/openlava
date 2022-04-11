@@ -3,7 +3,6 @@ import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
 import { MouseEventHandler, useEffect, useState } from "react";
 import axios from "axios";
-import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Link from "next/link";
@@ -15,7 +14,6 @@ const NFTCard = ({
   description,
   price,
   owner,
-  onClick,
 }: {
   src: string;
   name: string;
@@ -23,13 +21,9 @@ const NFTCard = ({
   price: string;
   owner: string;
   itemId: number;
-  onClick: MouseEventHandler<HTMLDivElement>;
 }) => (
   <Link href={"/detail?id=" + itemId} passHref>
-    <div
-      onClick={onClick}
-      className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105"
-    >
+    <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
       <img
         src={src}
         className="object-cover h-[280px] w-80  mx-auto rounded-t-xl"
@@ -60,6 +54,7 @@ type Nft = {
   name: string;
   description: string;
 };
+
 const Home = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -82,7 +77,6 @@ const Home = () => {
     const data = await contract.getMarketItems();
 
     console.log(data);
-
 
     try {
       for (let i = 0; i < data.length; i++) {
@@ -121,29 +115,6 @@ const Home = () => {
     }
   };
 
-  const buy = async (nft: Nft) => {
-    console.log("buy", nft);
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      openLavaAddress,
-      OpenLava.abi,
-      signer
-    ) as contract;
-
-    /* user will be prompted to pay the asking process to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
-    const transaction = await contract.buyToken(nft.itemId, {
-      value: price,
-    });
-
-    await transaction.wait();
-    fetchItems();
-  };
-
   return (
     <div className="flex flex-col w-full h-screen">
       <section className="flex flex-col lg:px-40 w-full lg:min-h-[580px] bg-cover lg:mb-10 bg-[url('https://res.cloudinary.com/dasq4goqg/image/upload/v1645114580/Rectangle_461_amalkp.png')]">
@@ -168,7 +139,7 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center justify-center h-full">
-            <div className=" max-w-[520px] lg:p-8">{ }</div>
+            <div className=" max-w-[520px] lg:p-8">{}</div>
           </div>
         </div>
       </section>
@@ -183,16 +154,23 @@ const Home = () => {
 
       <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
         {nfts.map((nft, i) => (
-          <NFTCard
+          <Link
+            href={{ pathname: "/search", query: { id: nft.itemId } }}
             key={i}
-            onClick={() => buy(nft)}
-            src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
-            name={nft.name}
-            description={nft.description}
-            price={nft.price}
-            owner={nft.owner}
-            itemId={nft.itemId}
-          />
+            passHref
+          >
+            <NFTCard
+              src={nft.image.replace(
+                "ipfs://",
+                "https://nftstorage.link/ipfs/"
+              )}
+              name={nft.name}
+              description={nft.description}
+              price={nft.price}
+              owner={nft.owner}
+              itemId={nft.itemId}
+            />
+          </Link>
         ))}
       </section>
     </div>
