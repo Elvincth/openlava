@@ -10,6 +10,7 @@ import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Web3Modal from "web3modal";
 import axios from "axios";
+import clsx from "clsx";
 
 type Nft = {
   price: string;
@@ -25,6 +26,8 @@ const Detail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [nft, setNft] = useState<Nft>();
+  const expand = false;
+  const expand2 = false;
 
   useEffect(() => {
     if (router.isReady) {
@@ -70,6 +73,17 @@ const Detail = () => {
     }
   };
 
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  useEffect(() => {
+    setOpen(expand);
+  }, [expand]);
+
+  useEffect(() => {
+    setOpen2(expand2);
+  }, [expand2]);
+
+
   //create fetch function
   const init = async () => {
     const provider = new ethers.providers.JsonRpcProvider();
@@ -106,49 +120,6 @@ const Detail = () => {
     setNft(nft);
   };
 
-  const items = [
-    {
-      title: "Description",
-      svg: <MenuIcon />,
-      owner: "Ethereum",
-      description: (
-        <p>
-          Created by L4artiste The moon has always been symbolic and apparent in
-          Arab culture. From holidays to music, to literature, to superstitions,
-          the moon has manifested itself in many of the inner-workings of our
-          daily life.
-        </p>
-      ),
-      expand: false,
-    },
-    {
-      title: "Detail",
-      svg: <DetailsIcon />,
-      owner: "Property",
-      description: (
-        <div className="flex flex-col w-full ">
-          <div className="flex flex-row justify-between">
-            <div>Contract Address</div>
-            <div className="text-blue-500">0x6e4d...2b45</div>
-          </div>
-          <div className="flex flex-row justify-between">
-            <div>Token ID</div>
-            <div className="text-blue-500">1</div>
-          </div>
-          <div className="flex flex-row justify-between">
-            <div>Token Standard</div>
-            <div>ERC-1155</div>
-          </div>
-          <div className="flex flex-row justify-between">
-            <div>Blockchain</div>
-            <div>Ethereum</div>
-          </div>
-        </div>
-      ),
-      expand: false,
-    },
-  ];
-
   return (
     <section className="container flex flex-row justify-center pt-10">
       <div className="flex flex-col max-w-[370px]">
@@ -159,23 +130,107 @@ const Detail = () => {
 
           <img
             className="object-cover w-full h-[420px]]"
-            src={nft?.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+            // src={nft?.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Google_Translate_logo.svg/1200px-Google_Translate_logo.svg.png"
             alt=""
           />
         </div>
         <div className="pb-20 ">
           <div className="flex flex-col mt-8 border rounded-xl overflow-hidden !important">
-            {items.map((item, i) => {
-              return (
-                <DetailCard
-                  title={item.title}
-                  owner={item.owner}
-                  description={item.description}
-                  expand={item.expand}
-                  key={i}
-                />
-              );
-            })}
+            <section className={"flex flex-col"}>
+              <div
+                role="button"
+                onClick={() => setOpen(!open)}
+                className={"flex flex-row p-5 items-center justify-between"}
+              >
+                <div className="flex">
+                  {/* <div className="pr-4">{svg}</div> */}
+                  <p className="text-lg font-semibold text-black ">title</p>
+                </div>
+                <div className="flex">
+                  <button
+                    className={clsx("text-black rotate duration-200", {
+                      "rotate-180 duration-200": open,
+                    })}
+                  >
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 200 200"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_219_7357)">
+                        <path
+                          d="M199.404 63.993L188 53.5L99.702 138.5L11.5 53.5L0 63.993L99.702 163.695L199.404 63.993Z"
+                          fill="#04111d80"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                className={clsx(
+                  "flex flex-col border-t p-5 text-base font-medium bg-slate-50 h-full duration-200",
+                  { "h-0 !p-0 overflow-hidden duration-400": open }
+                )}
+              >
+                <div className={clsx({ "hidden duration-75": open })}>
+                  <p className="pb-2 text-gray-400">
+                    Created by <a className="text-blue-600">owner</a>
+                  </p>
+                  <p>description</p>
+                </div>
+              </div>
+            </section>
+            <section className={"flex flex-col"}>
+              <div
+                role="button"
+                onClick={() => setOpen2(!open2)}
+                className={"flex flex-row p-5 items-center justify-between"}
+              >
+                <div className="flex">
+                  {/* <div className="pr-4">{svg}</div> */}
+                  <p className="text-lg font-semibold text-black ">title</p>
+                </div>
+                <div className="flex">
+                  <button
+                    className={clsx("text-black rotate duration-200", {
+                      "rotate-180 duration-200": open2,
+                    })}
+                  >
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 200 200"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_219_7357)">
+                        <path
+                          d="M199.404 63.993L188 53.5L99.702 138.5L11.5 53.5L0 63.993L99.702 163.695L199.404 63.993Z"
+                          fill="#04111d80"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                className={clsx(
+                  "flex flex-col border-t p-5 text-base font-medium bg-slate-50 h-full duration-200",
+                  { "h-0 !p-0 overflow-hidden duration-400": open2 }
+                )}
+              >
+                <div className={clsx({ "hidden duration-75": open2 })}>
+                  <p className="pb-2 text-gray-400">
+                    Created by <a className="text-blue-600">owner</a>
+                  </p>
+                  <p>description</p>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </div>
