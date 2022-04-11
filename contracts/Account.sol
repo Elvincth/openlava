@@ -16,11 +16,30 @@ contract Account {
 
     mapping(address => User) public getUser;
 
-    //  User[] public allUsers;
+    User[] private _usersAddress;
 
     event userCreated(address indexed walletAddress, string username);
 
     function createUser(string memory _username) public {
+        //Check Username should not be empty
+        require(bytes(_username).length == 0, "Username cannot be empty");
+
+        //Check if the user exists before creating a new one
+        require(
+            getUser[msg.sender].walletAddress == address(0),
+            "User already exists"
+        );
+
+        //Check if the username is already taken
+        for (uint256 i = 0; i < _usersAddress.length; i++) {
+            if (
+                keccak256(abi.encodePacked(_usersAddress[i].username)) ==
+                keccak256(abi.encodePacked(_username))
+            ) {
+                revert("Username already taken");
+            }
+        }
+
         //Store the new user
         User memory newUser = User({
             walletAddress: msg.sender,
@@ -29,10 +48,31 @@ contract Account {
 
         getUser[msg.sender] = newUser;
 
-        //  allUsers.push(newUser);
+        _usersAddress.push(newUser);
+
         _userCount.increment();
+
         emit userCreated(msg.sender, _username);
     }
+
+    // //Check if the user exists
+    // function usernameExists(string memory _username)
+    //     public
+    //     view
+    //     returns (bool)
+    // {
+    //     for (uint256 i = 0; i < _userCount.current(); i++) {
+    //         //check if the username is the same
+    //         if (
+    //             keccak256(abi.encodePacked(_username)) ==
+    //             keccak256(abi.encodePacked(_usersAddress[i].username))
+    //         ) {
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
 
     //Get the user by the wallet address
     function getUserByWalletAddress(address _walletAddress)
@@ -42,20 +82,4 @@ contract Account {
     {
         return getUser[_walletAddress];
     }
-
-    // function getUser(address memory _walletAddress)
-    //     public
-    //     view
-    //     returns (User[] memory)
-    // {
-    //     require(_userAddress != address(0));
-
-    //     UserData storage user = getUser[_userAddress];
-
-    //     return (user.profilePicHash, user.profileHash, user.userAddress);
-    // }
-
-    // function getUsersCount() public view returns (uint256) {
-    //     return allUsers.length;
-    // }
 }

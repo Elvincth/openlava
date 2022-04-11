@@ -3,12 +3,22 @@ import { ethers } from "hardhat";
 
 //typescript https://yuichiroaoki.medium.com/testing-erc20-smart-contracts-in-typescript-hardhat-9ad20eb40502
 
-describe("Account", function () {
-  it("Should create user and list it username by it wallet address", async function () {
+describe("Account", () => {
+  it("Should create user and list it username by it wallet address", async () => {
     /* deploy the account contract */
     const Account = await ethers.getContractFactory("Account");
     const account = await Account.deploy();
     await account.deployed();
-    
+
+    //Create a fake account for testing
+    const [_, myAccount] = await ethers.getSigners();
+    await account.connect(myAccount).createUser("Fake User");
+    // console.log(myAddress);
+
+    const address = await myAccount.getAddress();
+
+    let user = await account.connect(myAccount).getUserByWalletAddress(address);
+
+    console.log("user", user);
   });
 });
