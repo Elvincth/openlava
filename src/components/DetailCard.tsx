@@ -1,10 +1,4 @@
-import React, {
-    DetailedHTMLProps,
-    ImgHTMLAttributes,
-    ReactElement,
-    useEffect,
-    useState,
-} from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import clsx from "clsx";
 
 const DetailCard = ({
@@ -39,8 +33,8 @@ const DetailCard = ({
                 </div>
                 <div className="flex">
                     <button
-                        className={clsx("text-black rotate duration-[200ms]", {
-                            "rotate-180 duration-[200ms]": open,
+                        className={clsx("text-black rotate duration-200", {
+                            "rotate-180 duration-200": open,
                         })}
                     >
                         <svg
@@ -62,12 +56,12 @@ const DetailCard = ({
             </div>
             <div
                 className={clsx(
-                    "flex flex-col border-t p-5 text-base font-medium bg-slate-50 h-full duration-[200ms]",
-                    { "h-0 !p-0 overflow-hidden duration-[200ms]": open }
+                    "flex flex-col border-t p-5 text-base font-medium bg-slate-50 h-full duration-200",
+                    { "h-0 !p-0 overflow-hidden duration-400": open }
                 )}
             >
-                <div className={clsx({ "hidden duration-[200ms]": open })}>
-                    <p className="pb-2 text-gray-[200ms]">
+                <div className={clsx({ "hidden duration-75": open })}>
+                    <p className="pb-2 text-gray-400">
                         Created by <a className="text-blue-600">{owner}</a>
                     </p>
                     <p>{description}</p>

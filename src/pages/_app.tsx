@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", handleAccountChangeEvt);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
