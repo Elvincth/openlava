@@ -89,7 +89,8 @@ contract OpenLava is ERC721URIStorage {
         _transfer(msg.sender, address(this), itemId);
     }
 
-    //Handle the user buy the token, also transfer the ownership to the buyer
+    /* Creates the sale of a marketplace item */
+    /* Transfers ownership of the item, as well as funds between parties */
     function buyToken(uint256 itemId) public payable {
         require(
             msg.value == getNft[itemId].price,
@@ -141,6 +142,7 @@ contract OpenLava is ERC721URIStorage {
     // }
 
     //Get the user owned nfts
+    //FF, fetchMyNFTs
     function getOwnedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;
         uint256 numOfNfts = 0;
@@ -164,6 +166,7 @@ contract OpenLava is ERC721URIStorage {
     }
 
     //Get all the nft the user listed
+    //FF, fetchItemsListed
     function getListedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;
         uint256 numOfNfts = 0; //Used to store how many items the user owned

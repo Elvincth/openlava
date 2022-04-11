@@ -20,7 +20,6 @@ const NFTCard = ({
   src: string;
   name: string;
   description: string;
-  // price: string;
   owner: string;
 }) => (
   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
@@ -35,11 +34,6 @@ const NFTCard = ({
         by {owner}
       </p>
       <p className="mt-1 text-gray-500 truncate">{description}</p>
-
-      {/* <div className="flex items-center mt-2">
-        ETH
-        <span className="ml-1">{price}</span>
-      </div> */}
     </div>
   </div>
 );
@@ -61,11 +55,9 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("collectedNfts");
 
   const collectedNftsHandle = () => {
-    // update the state to tab1
     setActiveTab("collectedNfts");
   };
   const listedNftsHandle = () => {
-    // update the state to tab2
     setActiveTab("listedNfts");
   };
 
@@ -77,7 +69,6 @@ const Profile = () => {
   const fetchItems = async () => {
     setNfts([]);
 
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
@@ -114,7 +105,6 @@ const Profile = () => {
           image,
           name,
           description,
-          // price,
         };
 
         setNfts((prev) => [...prev, nft]);
@@ -206,7 +196,7 @@ const Profile = () => {
       <div className="w-full">
         <hr className="mt-[10px]"></hr>
         <div className={activeTab === "collectedNfts" ? "" : "hidden"}>
-          <CollectedNfts />
+          <CollectedNfts handleClose={undefined} content={""} />
         </div>
         <div className={activeTab === "collectedNfts" ? "hidden" : ""}>
           <ListedNfts />
