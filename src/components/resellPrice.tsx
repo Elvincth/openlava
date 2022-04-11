@@ -6,7 +6,7 @@ const ResellPrice = (props: {
 }) => {
   return (
     <div className="popup-box flex justify-center items-center">
-      <div className="bg-white max-w-[300px] rounded-lg">
+      <div className="box-animate bg-white max-w-[300px] rounded-lg">
         <div onClick={props.handleClose} className="flex justify-end m-1">
           <svg
             data-v-441ca6f3
