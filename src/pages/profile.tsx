@@ -206,7 +206,7 @@ const Profile = () => {
       <div className="w-full">
         <hr className="mt-[10px]"></hr>
         <div className={activeTab === "collectedNfts" ? "" : "hidden"}>
-          <CollectedNfts />
+          <CollectedNfts handleClose={undefined} content={""} />
         </div>
         <div className={activeTab === "collectedNfts" ? "hidden" : ""}>
           <ListedNfts />
