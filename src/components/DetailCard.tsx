@@ -1,10 +1,4 @@
-import React, {
-    DetailedHTMLProps,
-    ImgHTMLAttributes,
-    ReactElement,
-    useEffect,
-    useState,
-} from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import clsx from "clsx";
 
 const DetailCard = ({

@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import Card from "~/components/Card";
 import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
@@ -166,11 +165,10 @@ const Profile = () => {
             onClick={collectedNftsHandle}
           >
             <span
-              className={`px-[4rem] text-gray-500 items-center col-span-3 pt-8 pb-[2rem] text-2xl font-semibold text-center lg:text-1xl lg:pt-6 ${
-                activeTab === "collectedNfts"
-                  ? "text-[#FF6B00] underline underline-offset-[11px] decoration-[5px]"
-                  : "text-gray-500"
-              }`}
+              className={`px-[4rem] text-gray-500 items-center col-span-3 pt-8 pb-[2rem] text-2xl font-semibold text-center lg:text-1xl lg:pt-6 ${activeTab === "collectedNfts"
+                ? "text-[#FF6B00] underline underline-offset-[11px] decoration-[5px]"
+                : "text-gray-500"
+                }`}
             >
               Collected
             </span>
@@ -181,11 +179,10 @@ const Profile = () => {
             onClick={listedNftsHandle}
           >
             <span
-              className={`px-[4rem] text-gray-500 items-center col-span-3 pt-8 pb-[2rem] text-2xl font-semibold text-center lg:text-1xl lg:pt-6 ${
-                activeTab === "listedNfts"
-                  ? "text-[#FF6B00] underline underline-offset-[11px] decoration-[5px]"
-                  : "text-gray-500"
-              }`}
+              className={`px-[4rem] text-gray-500 items-center col-span-3 pt-8 pb-[2rem] text-2xl font-semibold text-center lg:text-1xl lg:pt-6 ${activeTab === "listedNfts"
+                ? "text-[#FF6B00] underline underline-offset-[11px] decoration-[5px]"
+                : "text-gray-500"
+                }`}
             >
               Listed
             </span>

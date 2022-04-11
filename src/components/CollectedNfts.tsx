@@ -1,6 +1,5 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable @next/next/no-img-element */
-import Card from "~/components/Card";
 import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
 import { Children, MouseEventHandler, useEffect, useState } from "react";
@@ -194,8 +193,7 @@ const CollectedNfts = (props: {
                   <button className="w-full p-[50px]">
                     {/* renew price */}
                     <div>
-                      <div className="flex flex-col justfify-center items-center">
-                        
+                      <div className="flex flex-col items-center justfify-center">
                         <div>
                           <label
                             htmlFor=""
@@ -230,7 +228,6 @@ const CollectedNfts = (props: {
                             Confirm Resell
                           </button>
                         </div>
-
                       </div>
                     </div>
                   </button>

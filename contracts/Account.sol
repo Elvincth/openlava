@@ -16,11 +16,27 @@ contract Account {
 
     mapping(address => User) public getUser;
 
-    //  User[] public allUsers;
+    User[] private _usersAddress;
 
     event userCreated(address indexed walletAddress, string username);
 
     function createUser(string memory _username) public {
+        //Check Username should not be empty
+        require(!isEmpty(_username), "Username cannot be empty");
+
+        //Check if the user exists before creating a new one
+        require(!isExists(), "User already exists");
+
+        //Check if the username is already taken
+        for (uint256 i = 0; i < _usersAddress.length; i++) {
+            if (
+                keccak256(abi.encodePacked(_usersAddress[i].username)) ==
+                keccak256(abi.encodePacked(_username))
+            ) {
+                revert("Username already taken");
+            }
+        }
+
         //Store the new user
         User memory newUser = User({
             walletAddress: msg.sender,
@@ -29,10 +45,47 @@ contract Account {
 
         getUser[msg.sender] = newUser;
 
-        //  allUsers.push(newUser);
+        _usersAddress.push(newUser);
+
         _userCount.increment();
+
         emit userCreated(msg.sender, _username);
     }
+
+    //check if the user exists
+    function isExists() public view returns (bool) {
+        //   console.log(getUser[msg.sender].walletAddress);
+        if (getUser[msg.sender].walletAddress == address(0)) {
+            return false;
+        }
+        return true;
+    }
+
+    //Test if string is empty
+    function isEmpty(string memory _str) public pure returns (bool) {
+        return
+            keccak256(abi.encodePacked(_str)) ==
+            keccak256(abi.encodePacked(""));
+    }
+
+    // //Check if the user exists
+    // function usernameExists(string memory _username)
+    //     public
+    //     view
+    //     returns (bool)
+    // {
+    //     for (uint256 i = 0; i < _userCount.current(); i++) {
+    //         //check if the username is the same
+    //         if (
+    //             keccak256(abi.encodePacked(_username)) ==
+    //             keccak256(abi.encodePacked(_usersAddress[i].username))
+    //         ) {
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
 
     //Get the user by the wallet address
     function getUserByWalletAddress(address _walletAddress)
@@ -42,20 +95,4 @@ contract Account {
     {
         return getUser[_walletAddress];
     }
-
-    // function getUser(address memory _walletAddress)
-    //     public
-    //     view
-    //     returns (User[] memory)
-    // {
-    //     require(_userAddress != address(0));
-
-    //     UserData storage user = getUser[_userAddress];
-
-    //     return (user.profilePicHash, user.profileHash, user.userAddress);
-    // }
-
-    // function getUsersCount() public view returns (uint256) {
-    //     return allUsers.length;
-    // }
 }
