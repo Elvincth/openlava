@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
-import DetailCard from "~/components/DetailCard";
 import DetailsIcon from "~/components/svg/DetailsIcon";
 import Eth from "~/components/svg/Eth";
 import { MenuIcon } from "~/components/svg/MenuIcon";
@@ -9,7 +8,8 @@ import { OpenLava as contract } from "typechain-types";
 import { ethers } from "ethers";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
-import clsx from "clsx";
+import Web3Modal from "web3modal";
+import axios from "axios";
 
 type Nft = {
   price: string;
@@ -23,11 +23,9 @@ type Nft = {
 
 const Detail = () => {
   const router = useRouter();
-  const [itemId, setItemId] = useState(router.query.id);
-  const [nft, setNft] = useState<contract>();
-  const expand = false;
-  const expand2 = false;
-  useEffect(() => { fetch() }, []);
+  const { id } = router.query;
+  const [nft, setNft] = useState<Nft>();
+
   useEffect(() => {
     if (router.isReady) {
       console.log(Number(id));
@@ -80,19 +78,33 @@ const Detail = () => {
       OpenLava.abi,
       provider
     ) as contract;
-    const data = await contract.getNftById(1);
-    console.log(data);
-    console.log(data.itemId);
-  }
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  useEffect(() => {
-    setOpen(expand);
-  }, [expand]);
 
-  useEffect(() => {
-    setOpen2(expand2);
-  }, [expand2]);
+    const item = await contract.getNftById(Number(id));
+
+    const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
+
+    let metaData = await axios.get(
+      `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+    );
+
+    let { description, image, name } = metaData.data;
+
+    console.log(metaData);
+
+    let price = ethers.utils.formatUnits(item.price.toString(), "ether");
+
+    let nft: Nft = {
+      itemId: item.itemId.toNumber(),
+      seller: item.seller,
+      owner: item.owner,
+      image,
+      name,
+      description,
+      price,
+    };
+
+    setNft(nft);
+  };
 
   const items = [
     {
@@ -153,100 +165,17 @@ const Detail = () => {
         </div>
         <div className="pb-20 ">
           <div className="flex flex-col mt-8 border rounded-xl overflow-hidden !important">
-            <section className={"flex flex-col"}>
-              <div
-                role="button"
-                onClick={() => setOpen(!open)}
-                className={"flex flex-row p-5 items-center justify-between"}
-              >
-                <div className="flex">
-                  {/* <div className="pr-4">{svg}</div> */}
-                  <p className="text-lg font-semibold text-black ">title</p>
-                </div>
-                <div className="flex">
-                  <button
-                    className={clsx("text-black rotate duration-200", {
-                      "rotate-180 duration-200": open,
-                    })}
-                  >
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 200 200"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_219_7357)">
-                        <path
-                          d="M199.404 63.993L188 53.5L99.702 138.5L11.5 53.5L0 63.993L99.702 163.695L199.404 63.993Z"
-                          fill="#04111d80"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div
-                className={clsx(
-                  "flex flex-col border-t p-5 text-base font-medium bg-slate-50 h-full duration-200",
-                  { "h-0 !p-0 overflow-hidden duration-400": open }
-                )}
-              >
-                <div className={clsx({ "hidden duration-75": open })}>
-                  <p className="pb-2 text-gray-400">
-                    Created by <a className="text-blue-600">owner</a>
-                  </p>
-                  <p>description</p>
-                </div>
-              </div>
-            </section>
-            <section className={"flex flex-col"}>
-              <div
-                role="button"
-                onClick={() => setOpen2(!open2)}
-                className={"flex flex-row p-5 items-center justify-between"}
-              >
-                <div className="flex">
-                  {/* <div className="pr-4">{svg}</div> */}
-                  <p className="text-lg font-semibold text-black ">title</p>
-                </div>
-                <div className="flex">
-                  <button
-                    className={clsx("text-black rotate duration-200", {
-                      "rotate-180 duration-200": open2,
-                    })}
-                  >
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 200 200"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_219_7357)">
-                        <path
-                          d="M199.404 63.993L188 53.5L99.702 138.5L11.5 53.5L0 63.993L99.702 163.695L199.404 63.993Z"
-                          fill="#04111d80"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div
-                className={clsx(
-                  "flex flex-col border-t p-5 text-base font-medium bg-slate-50 h-full duration-200",
-                  { "h-0 !p-0 overflow-hidden duration-400": open2 }
-                )}
-              >
-                <div className={clsx({ "hidden duration-75": open2 })}>
-                  <p className="pb-2 text-gray-400">
-                    Created by <a className="text-blue-600">owner</a>
-                  </p>
-                  <p>description</p>
-                </div>
-              </div>
-            </section>
+            {items.map((item, i) => {
+              return (
+                <DetailCard
+                  title={item.title}
+                  owner={item.owner}
+                  description={item.description}
+                  expand={item.expand}
+                  key={i}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
