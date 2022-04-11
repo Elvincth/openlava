@@ -152,6 +152,24 @@ const Home = () => {
         <h1 className="px-20 py-10 text-xl text-center">Currently no items</h1>
       )}
 
+      {isLoaded || (
+        <div className="border shadow rounded-md w-80 mx-auto">
+          <div className="animate-pulse flex space-x-4">
+            <div className="flex-1 space-y-6">
+              <div className="h-[280px] w-80 bg-slate-200 rounded"></div>
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-4 px-[20px] pb-[20px]">
+                  <div className="h-[1rem] bg-slate-200 rounded col-span-2"></div>
+                  <div className="h-[1rem] bg-slate-200 rounded col-span-2"></div>
+                  <div className="h-[1rem] bg-slate-200 rounded col-span-2"></div>
+                  <div className="h-[1rem] bg-slate-200 rounded col-span-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
         {nfts.map((nft, i) => (
           <Link
