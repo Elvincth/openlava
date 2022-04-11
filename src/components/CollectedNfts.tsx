@@ -10,30 +10,37 @@ import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import ListedNfts from "~/components/ListedNfts";
 
-const NFTCard = ({
-  src,
-  name,
-  description,
-  owner,
-}: {
-  src: string;
+type Nft = {
+  // price: string;
+  tokenUri: string;
+  itemId: number;
+  seller: string;
+  owner: string;
+  image: string;
   name: string;
   description: string;
-  // price: string;
-  owner: string;
-}) => (
-  <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
+};
+
+interface NFTCardProps extends Nft {
+  onClick: MouseEventHandler<HTMLDivElement> | undefined;
+}
+
+const NFTCard = (item: NFTCardProps) => (
+  <div
+    onClick={item.onClick}
+    className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105"
+  >
     <img
-      src={src}
+      src={item.tokenUri.replace("ipfs://", "https://nftstorage.link/ipfs/")}
       className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
-      alt={name}
+      alt={item.name}
     />
     <div className="p-5 ">
-      <h2 className="text-2xl font-bold truncate">{name}</h2>
+      <h2 className="text-2xl font-bold truncate">{item.name}</h2>
       <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
-        by {owner}
+        by {item.owner}
       </p>
-      <p className="mt-1 text-gray-500 truncate">{description}</p>
+      <p className="mt-1 text-gray-500 truncate">{item.description}</p>
 
       {/* <div className="flex items-center mt-2">
         ETH
@@ -42,16 +49,6 @@ const NFTCard = ({
     </div>
   </div>
 );
-
-type Nft = {
-  // price: string;
-  itemId: number;
-  seller: string;
-  owner: string;
-  image: string;
-  name: string;
-  description: string;
-};
 
 const CollectedNfts = () => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
@@ -97,6 +94,7 @@ const CollectedNfts = () => {
         let price = ethers.utils.formatUnits(item.price.toString(), "ether");
 
         let nft: Nft = {
+          tokenUri,
           itemId: item.itemId.toNumber(),
           seller: item.seller,
           owner: item.owner,
@@ -116,6 +114,10 @@ const CollectedNfts = () => {
       );
       console.log(e);
     }
+  };
+
+  const resell = (nft: Nft) => {
+    console.log("Resell nft", nft);
   };
 
   const userInfo = async () => {
@@ -144,17 +146,7 @@ const CollectedNfts = () => {
         {isLoaded && nfts.length > 0 && (
           <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 px-[5rem] py-[50px]">
             {nfts.map((nft, i) => (
-              <NFTCard
-                key={i}
-                src={nft.image.replace(
-                  "ipfs://",
-                  "https://nftstorage.link/ipfs/"
-                )}
-                name={nft.name}
-                description={nft.description}
-                // price={nft.price}
-                owner={nft.owner}
-              />
+              <NFTCard key={i} onClick={() => resell(nft)} {...nft} />
             ))}
           </section>
         )}
