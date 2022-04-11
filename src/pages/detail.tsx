@@ -40,24 +40,34 @@ const Detail = () => {
 
   const buy = async () => {
     if (nft) {
-      /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-      const web3Modal = new Web3Modal();
-      const connection = await web3Modal.connect();
-      const provider = new ethers.providers.Web3Provider(connection);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(
-        openLavaAddress,
-        OpenLava.abi,
-        signer
-      ) as contract;
+      try {
+        /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+          openLavaAddress,
+          OpenLava.abi,
+          signer
+        ) as contract;
 
-      /* user will be prompted to pay the asking process to complete the transaction */
-      const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
-      const transaction = await contract.buyToken(nft.itemId, {
-        value: price,
-      });
+        /* user will be prompted to pay the asking process to complete the transaction */
+        const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+        const transaction = await contract.buyToken(nft.itemId, {
+          value: price,
+        });
 
-      await transaction.wait();
+        await transaction.wait();
+
+        alert("Transaction complete");
+
+        //Go to the profile page
+        router.push("/profile");
+      } catch (e) {
+        //@ts-ignore
+        alert("error", e.message);
+      }
     }
   };
 

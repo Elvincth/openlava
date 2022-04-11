@@ -5,7 +5,7 @@ const ResellPrice = (props: {
   content: React.ReactChild;
 }) => {
   return (
-    <div className="popup-box flex justify-center items-center">
+    <form className="flex items-center justify-center popup-box">
       <div className="box-animate bg-white max-w-[300px] rounded-lg">
         <div onClick={props.handleClose} className="flex justify-end m-1">
           <svg
@@ -43,7 +43,7 @@ const ResellPrice = (props: {
         </div>
         {props.content}
       </div>
-    </div>
+    </form>
   );
 };
 
