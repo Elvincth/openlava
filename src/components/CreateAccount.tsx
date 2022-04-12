@@ -1,34 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { ContractFactory, ethers } from "ethers";
 import { Account as contract } from "typechain-types";
 import Web3Modal from "web3modal";
 import { accountAddress } from "blockchain.config";
-import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
+import Account from "artifacts/contracts/Account.sol/Account.json";
+import { useRouter } from "next/router";
 
 const CreateAccount = () => {
   const [name, setName] = useState("");
+  //isCreating
+  const [isCreating, setIsCreating] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    init();
-  }, []);
-
-  const init = async () => {
+  const createUser = async (e: any) => {
+    setIsCreating(true);
+    e.preventDefault();
     try {
-      const provider = new ethers.providers.JsonRpcProvider();
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         accountAddress,
-        OpenLava.abi,
-        provider
+        Account.abi,
+        signer
       ) as contract;
+      const address = await signer.getAddress();
+      console.log(address);
+      console.log(name);
+      let createUser = await contract.createUser(name);
+      await createUser.wait();
 
-      
+      let userData = await contract.getUserByWalletAddress(address);
+
+      login(address, userData.username);
+
+      //console.log(data);
 
       //const data = await contract.getMarketItems();
     } catch (e) {
-      // alert("Error: " + e);
+      //@ts-ignore
+      alert("Error: " + e.message);
+      setIsCreating(false);
     }
   };
 
+  const login = (address: string, username: string) => {
+    localStorage.setItem("address", address);
+    localStorage.setItem("username", username);
+
+    window.dispatchEvent(new Event("storage"));
+
+    console.log("set item address + username", address, username);
+    router.push("/profile");
+  };
   return (
     <>
       <h1 className="text-[35px] lg:text-4xl text-black font-bold">
@@ -51,6 +76,17 @@ const CreateAccount = () => {
               }}
             />
           </div>
+        </div>
+
+        <div className="mt-5">
+          <button
+            disabled={name.length < 1}
+            type="submit"
+            onClick={createUser}
+            className="disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
+          >
+            Done
+          </button>
         </div>
       </form>
     </>

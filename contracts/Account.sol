@@ -28,12 +28,11 @@ contract Account {
 
         //Check if the username is already taken
         for (uint256 i = 0; i < _usersAddress.length; i++) {
-            if (
-                keccak256(abi.encodePacked(_usersAddress[i].username)) ==
-                keccak256(abi.encodePacked(_username))
-            ) {
-                revert("Username already taken");
-            }
+            require(
+                keccak256(abi.encodePacked(_usersAddress[i].username)) !=
+                    keccak256(abi.encodePacked(_username)),
+                "Username already taken"
+            );
         }
 
         //Store the new user

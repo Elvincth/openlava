@@ -51,7 +51,7 @@ contract OpenLava is ERC721URIStorage {
         _setTokenURI(itemId, tokenURI);
 
         //Now we create a new market item id
-        require(price > 0, "Price must be at least 1 wei");
+        require(price > 0, "Price must be at least 1 wei!");
 
         getNft[itemId] = Nft(
             itemId,

@@ -10,26 +10,19 @@ describe("NFTMarket", () => {
     const openLava = await OpenLava.deploy();
     await openLava.deployed();
 
-    // let listingPrice = await nftMarketplace.getListingPrice();
-    // //@ts-ignore
-    // listingPrice = listingPrice.toString();
+    const price = ethers.utils.parseUnits("1", "ether");
 
-    const auctionPrice = ethers.utils.parseUnits("1", "ether");
-
-    /* create two tokens */
-    await openLava.createToken("https://www.mytokenlocation.com", auctionPrice);
-    await openLava.createToken(
-      "https://www.mytokenlocation2.com",
-      auctionPrice
-    );
+    //Create tokens
+    await openLava.createToken("https://www.example.com", price);
+    await openLava.createToken("https://www.example2.com", price);
 
     const [_, buyerAddress] = await ethers.getSigners();
 
-    /* execute sale of token to another user */
-    await openLava.connect(buyerAddress).buyToken(1, { value: auctionPrice });
+    //Sell
+    await openLava.connect(buyerAddress).buyToken(1, { value: price });
 
-    /* resell a token */
-    await openLava.connect(buyerAddress).resellToken(1, auctionPrice);
+    //Resell
+    await openLava.connect(buyerAddress).resellToken(1, price);
 
     /* query for and return the unsold items */
     let items = await openLava.getMarketItems();

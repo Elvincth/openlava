@@ -157,6 +157,7 @@ const Header = () => {
         </div>
 
         {/* menu content */}
+
         {showOptions && (
           <div className="z-10 w-full">
             <div className="text-center flex flex-col justify-center items-center font-bold text-[#636363] text-[20px] pt-2 shadow-sm bg-white">

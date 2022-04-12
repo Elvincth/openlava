@@ -52,6 +52,8 @@ const Profile = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [address, setAddress] = useState("");
   const [activeTab, setActiveTab] = useState("collectedNfts");
+  //username state default unnamed
+  const [username, setUsername] = useState("unnamed");
 
   const collectedNftsHandle = () => {
     setActiveTab("collectedNfts");
@@ -61,6 +63,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (username) {
+      setUsername(username);
+    }
     fetchItems();
     userInfo();
   }, []);
@@ -151,7 +157,9 @@ const Profile = () => {
           <Jazzicon diameter={100} seed={jsNumberForAddress(address)} />
         </div>
 
-        <div className="flex items-center h-[45px] border rounded-[50px] my-5">
+        <h3 className="text-3xl font-bold text-center">{username}</h3>
+
+        <div className="flex items-center h-[40px] border rounded-[50px] mt-2.5 mb-5">
           <span className="px-[15px] text-gray-400">{address}</span>
         </div>
       </div>
