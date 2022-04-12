@@ -13,11 +13,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     //The user changed his/her account
     const handleAccountChangeEvt = (address: string) => {
-      localStorage.setItem("address", address); //Store the new address
+      console.log("handleAccountChangeEvt reload now");
 
-      window.dispatchEvent(new Event("storage"));
+      if (localStorage.getItem("address")) {
+        localStorage.setItem("address", ""); //Store the new address
 
-      router.reload();
+        window.dispatchEvent(new Event("storage"));
+      }
+
+      router.push("/connect");
     };
 
     if (window.ethereum) {

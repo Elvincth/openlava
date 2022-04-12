@@ -91,7 +91,7 @@ contract Account {
         view
         returns (User memory user)
     {
-        console.log(_walletAddress);
+        // console.log(_walletAddress);
         return getUser[_walletAddress];
     }
 }

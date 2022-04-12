@@ -14,13 +14,13 @@ const NFTCard = ({
   itemId,
   description,
   price,
-  seller,
+  owner,
 }: {
   src: string;
   name: string;
   description: string;
   price: string;
-  seller: string;
+  owner: string;
   itemId: number;
 }) => (
   <Link href={{ pathname: "/detail", query: { id: itemId } }} passHref>
@@ -33,7 +33,7 @@ const NFTCard = ({
       <div className="p-5 ">
         <h2 className="text-2xl font-bold truncate">{name}</h2>
         <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
-          Sold by {seller}
+          by {owner}
         </p>
         <p className="mt-1 text-gray-500 truncate">{description}</p>
 
@@ -99,6 +99,12 @@ const Home = () => {
         //the nft is held by the contract owner, that mean newly created
 
         seller = await addressToUsername(seller);
+
+        if (owner == openLavaAddress) {
+          owner = seller;
+        } else {
+          owner = await addressToUsername(owner);
+        }
 
         let nft: Nft = {
           itemId: itemId.toNumber(),
@@ -167,7 +173,7 @@ const Home = () => {
             name={nft.name}
             description={nft.description}
             price={nft.price}
-            seller={nft.seller}
+            owner={nft.owner}
             itemId={nft.itemId}
           />
         ))}

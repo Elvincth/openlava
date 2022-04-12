@@ -8,17 +8,19 @@ import Web3Modal from "web3modal";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
+import { addressToUsername } from "utils/addressToUsername";
 
 const NFTCard = ({
   src,
   name,
   description,
   owner,
+  price,
 }: {
   src: string;
   name: string;
   description: string;
-  // price: string;
+  price: string;
   owner: string;
 }) => (
   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
@@ -34,16 +36,16 @@ const NFTCard = ({
       </p>
       <p className="mt-1 text-gray-500 truncate">{description}</p>
 
-      {/* <div className="flex items-center mt-2">
+      <div className="flex items-center mt-2">
         ETH
         <span className="ml-1">{price}</span>
-      </div> */}
+      </div>
     </div>
   </div>
 );
 
 type Nft = {
-  // price: string;
+  price: string;
   itemId: number;
   seller: string;
   owner: string;
@@ -95,14 +97,25 @@ const ListedNfts = () => {
 
         let price = ethers.utils.formatUnits(item.price.toString(), "ether");
 
+        let { itemId, seller, owner } = item;
+
+        //the nft is held by the contract owner, that mean newly created
+
+        seller = await addressToUsername(seller);
+
+        if (owner == openLavaAddress) {
+          owner = seller;
+        } else {
+          owner = await addressToUsername(owner);
+        }
         let nft: Nft = {
-          itemId: item.itemId.toNumber(),
-          seller: item.seller,
-          owner: item.owner,
+          itemId: itemId.toNumber(),
+          seller,
+          owner,
           image,
           name,
           description,
-          // price,
+          price,
         };
 
         setNfts((prev) => [...prev, nft]);
@@ -151,8 +164,8 @@ const ListedNfts = () => {
                 )}
                 name={nft.name}
                 description={nft.description}
-                // price={nft.price}
-                owner={nft.seller}
+                price={nft.price}
+                owner={nft.owner}
               />
             ))}
           </section>

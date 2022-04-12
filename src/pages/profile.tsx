@@ -10,6 +10,7 @@ import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import ListedNfts from "~/components/ListedNfts";
 import CollectedNfts from "~/components/CollectedNfts";
 import { addressToUsername } from "utils/addressToUsername";
+import { useRouter } from "next/router";
 
 // const NFTCard = ({
 //   src,
@@ -49,6 +50,8 @@ type Nft = {
 };
 
 const Profile = () => {
+  const router = useRouter();
+  const { tab } = router.query;
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [address, setAddress] = useState("");
@@ -56,9 +59,19 @@ const Profile = () => {
   //username state default unnamed
   const [username, setUsername] = useState("unnamed");
 
+  useEffect(() => {
+    if (router.isReady && tab) {
+      console.log("tab", tab);
+      setActiveTab(tab as string);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
   const collectedNftsHandle = () => {
     setActiveTab("collectedNfts");
   };
+
   const listedNftsHandle = () => {
     setActiveTab("listedNfts");
   };
@@ -212,7 +225,7 @@ const Profile = () => {
       <div className="w-full">
         <hr className="mt-[10px]"></hr>
         <div className={activeTab === "collectedNfts" ? "" : "hidden"}>
-          <CollectedNfts handleClose={undefined} content={""} />
+          <CollectedNfts content={""} />
         </div>
         <div className={activeTab === "collectedNfts" ? "hidden" : ""}>
           <ListedNfts />

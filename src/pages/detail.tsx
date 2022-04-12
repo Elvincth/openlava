@@ -241,13 +241,13 @@ const Detail = () => {
                 )}
               >
                 <div className={clsx({ "hidden duration-75": open2 })}>
-                  <p className="pb-2 text-gray-400">
-                    Owned by{" "}
-                    <span className="text-blue-600">
-                      {nft?.owner == "OpenLava" ? nft?.seller : nft?.owner}
-                    </span>
-                  </p>
-                  <p className="pb-2 overflow-hidden text-gray-400 truncate">
+                  {nft?.owner != "OpenLava" && (
+                    <p className="pb-2 text-gray-400">
+                      Owned by{" "}
+                      <span className="text-blue-600">{nft?.owner}</span>
+                    </p>
+                  )}
+                  {/* <p className="pb-2 overflow-hidden text-gray-400 truncate">
                     Owner Address{" "}
                     <span className="text-blue-600 ">
                       {" "}
@@ -255,21 +255,18 @@ const Detail = () => {
                         ? nft.sellerAddr
                         : nft?.ownerAddr}
                     </span>
-                  </p>
+                  </p> */}
                   <p className="pb-2 text-gray-400">
                     Sold by <span className="text-blue-600">{nft?.seller}</span>
                   </p>
-
                   <p className="pb-2 overflow-hidden text-gray-400 truncate">
                     Sold Address{" "}
                     <span className="text-blue-600 "> {nft?.sellerAddr}</span>
                   </p>
-
                   <p className="pb-2 overflow-hidden text-gray-400 truncate">
                     Token Standard{" "}
                     <span className="text-blue-600 ">ERC-721 </span>
                   </p>
-
                   <p className="pb-2 overflow-hidden text-gray-400 truncate">
                     Contract Address{" "}
                     <span className="text-blue-600 "> {openLavaAddress}</span>
@@ -284,7 +281,7 @@ const Detail = () => {
       <div className="flex flex-col ml-10">
         <h1 className="pt-12 text-3xl font-semibold">{nft?.name}</h1>
 
-        <div className="flex flex-row py-10">
+        <div className="flex flex-row pt-2 pb-10">
           <span className="mr-1 text-gray-600">Sold by</span>{" "}
           <span className="text-orange-500">{nft?.seller}</span>
         </div>

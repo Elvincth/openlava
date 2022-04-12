@@ -31,7 +31,7 @@ const CreateAccount = () => {
       let createUser = await contract.createUser(name);
       await createUser.wait();
 
-      let userData = await contract.getUserByWalletAddress(address);
+      //let userData = await contract.getUserByWalletAddress(address);
 
       login(address);
 
