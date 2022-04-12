@@ -6,6 +6,7 @@ import axios from "axios";
 import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Link from "next/link";
+import { addressToUsername } from "utils/addressToUsername";
 
 const NFTCard = ({
   src,
@@ -22,7 +23,7 @@ const NFTCard = ({
   owner: string;
   itemId: number;
 }) => (
-  <Link href={"/detail?id=" + itemId} passHref>
+  <Link href={{ pathname: "/detail", query: { id: itemId } }} passHref>
     <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
       <img
         src={src}
@@ -93,10 +94,14 @@ const Home = () => {
 
         let price = ethers.utils.formatUnits(item.price.toString(), "ether");
 
+        let { itemId, seller, owner } = item;
+
+        seller = await addressToUsername(seller);
+
         let nft: Nft = {
-          itemId: item.itemId.toNumber(),
-          seller: item.seller,
-          owner: item.owner,
+          itemId: itemId.toNumber(),
+          seller,
+          owner,
           image,
           name,
           description,
@@ -154,23 +159,15 @@ const Home = () => {
 
       <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
         {nfts.map((nft, i) => (
-          <Link
-            href={{ pathname: "/details", query: { id: nft.itemId } }}
+          <NFTCard
             key={i}
-            passHref
-          >
-            <NFTCard
-              src={nft.image.replace(
-                "ipfs://",
-                "https://nftstorage.link/ipfs/"
-              )}
-              name={nft.name}
-              description={nft.description}
-              price={nft.price}
-              owner={nft.owner}
-              itemId={nft.itemId}
-            />
-          </Link>
+            src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+            name={nft.name}
+            description={nft.description}
+            price={nft.price}
+            owner={nft.seller}
+            itemId={nft.itemId}
+          />
         ))}
         {!isLoaded && (
           <div className="mx-auto border rounded-md shadow w-80">

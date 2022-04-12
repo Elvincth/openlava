@@ -4,9 +4,9 @@ import Hamburger from "hamburger-react";
 import Link from "next/link";
 
 const Header = () => {
-  const [isOpen, setOpen] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
-  const [burgerOpen, setBurgerOpen] = useState(true);
+  // const [isOpen, setOpen] = useState(false);
+  // const [showOptions, setShowOptions] = useState(false);
+  // const [burgerOpen, setBurgerOpen] = useState(true);
   const [accountAddress, setAccountAddress] = useState("");
   const items = [
     { name: "Home", href: "/" },
@@ -33,10 +33,10 @@ const Header = () => {
     };
   }, []);
 
-  const handleClick = () => {
-    setShowOptions(!showOptions);
-    setBurgerOpen(!burgerOpen);
-  };
+  // const handleClick = () => {
+  //   setShowOptions(!showOptions);
+  //   setBurgerOpen(!burgerOpen);
+  // };
 
   return (
     <header>

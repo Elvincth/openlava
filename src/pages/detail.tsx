@@ -151,7 +151,9 @@ const Detail = () => {
               >
                 <div className="flex">
                   {/* <div className="pr-4">{svg}</div> */}
-                  <p className="text-lg font-semibold text-black ">title</p>
+                  <p className="text-lg font-semibold text-black ">
+                    Description
+                  </p>
                 </div>
                 <div className="flex">
                   <button

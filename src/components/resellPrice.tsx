@@ -6,8 +6,12 @@ const ResellPrice = (props: {
 }) => {
   return (
     <form className="flex items-center justify-center popup-box">
-      <div className="box-animate bg-white max-w-[300px] rounded-lg">
-        <div onClick={props.handleClose} className="flex justify-end m-1">
+      <div className="box-animate bg-white max-w-[500px] rounded-lg">
+        <div
+          role="button"
+          onClick={props.handleClose}
+          className="flex justify-end mt-2 mb-1 mr-3"
+        >
           <svg
             data-v-441ca6f3
             xmlns="http://www.w3.org/2000/svg"

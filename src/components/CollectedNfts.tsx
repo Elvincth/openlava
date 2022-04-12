@@ -190,7 +190,7 @@ const CollectedNfts = (props: {
             {isOpen && (
               <ResellPrice
                 content={
-                  <div className="w-full p-[50px]">
+                  <div className="px-[50px] pb-5  max-w-[500px] w-full">
                     {/* renew price */}
 
                     <div className="flex flex-col items-center justfify-center">
@@ -221,9 +221,10 @@ const CollectedNfts = (props: {
 
                       <div className="mt-[2rem]">
                         <button
+                          disabled={price <= 0}
                           onClick={() => resell(currentNft)}
                           type="submit"
-                          className="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
+                          className="disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
                         >
                           Confirm Resell
                         </button>

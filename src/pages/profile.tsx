@@ -9,33 +9,34 @@ import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import ListedNfts from "~/components/ListedNfts";
 import CollectedNfts from "~/components/CollectedNfts";
+import { addressToUsername } from "utils/addressToUsername";
 
-const NFTCard = ({
-  src,
-  name,
-  description,
-  owner,
-}: {
-  src: string;
-  name: string;
-  description: string;
-  owner: string;
-}) => (
-  <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
-    <img
-      src={src}
-      className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
-      alt={name}
-    />
-    <div className="p-5 ">
-      <h2 className="text-2xl font-bold truncate">{name}</h2>
-      <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
-        by {owner}
-      </p>
-      <p className="mt-1 text-gray-500 truncate">{description}</p>
-    </div>
-  </div>
-);
+// const NFTCard = ({
+//   src,
+//   name,
+//   description,
+//   owner,
+// }: {
+//   src: string;
+//   name: string;
+//   description: string;
+//   owner: string;
+// }) => (
+//   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
+//     <img
+//       src={src}
+//       className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
+//       alt={name}
+//     />
+//     <div className="p-5 ">
+//       <h2 className="text-2xl font-bold truncate">{name}</h2>
+//       <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
+//         by {owner}
+//       </p>
+//       <p className="mt-1 text-gray-500 truncate">{description}</p>
+//     </div>
+//   </div>
+// );
 
 type Nft = {
   // price: string;
@@ -63,13 +64,21 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (username) {
-      setUsername(username);
-    }
+    init();
     fetchItems();
     userInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const init = async () => {
+    let address = localStorage.getItem("address");
+
+    if (address) {
+      let username = await addressToUsername(address);
+      console.log("username", username);
+      setUsername(username);
+    }
+  };
 
   const fetchItems = async () => {
     setNfts([]);

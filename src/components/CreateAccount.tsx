@@ -33,7 +33,7 @@ const CreateAccount = () => {
 
       let userData = await contract.getUserByWalletAddress(address);
 
-      login(address, userData.username);
+      login(address);
 
       //console.log(data);
 
@@ -45,13 +45,12 @@ const CreateAccount = () => {
     }
   };
 
-  const login = (address: string, username: string) => {
+  const login = (address: string) => {
     localStorage.setItem("address", address);
-    localStorage.setItem("username", username);
 
     window.dispatchEvent(new Event("storage"));
 
-    console.log("set item address + username", address, username);
+    console.log("set item address", address);
     router.push("/profile");
   };
   return (

@@ -152,7 +152,7 @@ const ListedNfts = () => {
                 name={nft.name}
                 description={nft.description}
                 // price={nft.price}
-                owner={nft.owner}
+                owner={nft.seller}
               />
             ))}
           </section>
