@@ -9,7 +9,6 @@ import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import router, { useRouter } from "next/router";
 import ResellPrice from "~/components/resellPrice";
 import { addressToUsername } from "utils/addressToUsername";
 import LoadingOverlay from "./LoadingOverlay";
