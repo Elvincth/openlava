@@ -5,7 +5,7 @@ import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import { openLavaAddress } from "blockchain.config";
 import { OpenLava as contract } from "typechain-types";
 import { FilePond, registerPlugin } from "react-filepond";
-import { client as nftStorage, File } from "nftStorage";
+import { client as nftStorage } from "nftStorage";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
@@ -14,6 +14,7 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import LoadingOverlay from "~/components/LoadingOverlay";
 import { useRouter } from "next/router";
+import delay from "delay";
 
 registerPlugin(
   FilePondPluginImagePreview,
@@ -34,6 +35,7 @@ const Create = () => {
   const [image, setImage] = useState<Array<Object>>([]);
   const [disabled, setDisabled] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreated, setIsCreated] = useState(false);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -119,7 +121,7 @@ const Create = () => {
       setTitle("Please confirm the transaction");
       setMessage("");
 
-      /* next, create the item */
+      //Convert the price to ether
       const askingPrice = ethers.utils.parseUnits(price.toString(), "ether");
 
       console.log(price.toString(), askingPrice);
@@ -135,12 +137,19 @@ const Create = () => {
 
       await transaction.wait();
 
-      setIsCreating(false);
+      // console.log("itemId", itemId);
 
-      alert("Created");
+      setIsCreated(true);
+
+      setTitle("Created!");
+
+      //  alert("Created");
+
+      await delay(3000);
 
       router.push("/");
     } catch (e) {
+      console.log("err", e);
       alert(
         //@ts-ignore
         "Error while creating the NFT" + e.message
@@ -152,7 +161,13 @@ const Create = () => {
 
   return (
     <div>
-      {isCreating && <LoadingOverlay title={title} message={message} />}
+      {isCreating && (
+        <LoadingOverlay
+          title={title}
+          message={message}
+          successful={isCreated}
+        />
+      )}
       <div className="container mt-8 lg:my-[4.5rem]">
         <h1 className="text-[35px] lg:text-4xl text-black font-bold">
           Create Item
@@ -165,7 +180,7 @@ const Create = () => {
 
           <div>
             <div className="mt-[30px] text-[18px] lg:text-xl text-black lg:mt-[16px] font-bold">
-              Image, Video or Audio Files
+              Image File
               <span className="text-[#F93A3A]"> *</span>
             </div>
 

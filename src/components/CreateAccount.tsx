@@ -21,6 +21,8 @@ const CreateAccount = () => {
         provider
       ) as contract;
 
+      
+
       //const data = await contract.getMarketItems();
     } catch (e) {
       // alert("Error: " + e);
@@ -30,7 +32,7 @@ const CreateAccount = () => {
   return (
     <>
       <h1 className="text-[35px] lg:text-4xl text-black font-bold">
-        Choose an username.
+        Create an username.
       </h1>
 
       <form>

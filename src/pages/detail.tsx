@@ -20,14 +20,15 @@ type Nft = {
   image: string;
   name: string;
   description: string;
+  reserved: boolean;
 };
 
 const Detail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [nft, setNft] = useState<Nft>();
-  const expand = false;
-  const expand2 = false;
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   useEffect(() => {
     if (router.isReady) {
@@ -73,17 +74,6 @@ const Detail = () => {
     }
   };
 
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  useEffect(() => {
-    setOpen(expand);
-  }, [expand]);
-
-  useEffect(() => {
-    setOpen2(expand2);
-  }, [expand2]);
-
-
   //create fetch function
   const init = async () => {
     const provider = new ethers.providers.JsonRpcProvider();
@@ -102,38 +92,48 @@ const Detail = () => {
     );
 
     let { description, image, name } = metaData.data;
+    let { itemId, seller, owner, reserved } = item;
 
     console.log(metaData);
 
     let price = ethers.utils.formatUnits(item.price.toString(), "ether");
 
     let nft: Nft = {
-      itemId: item.itemId.toNumber(),
-      seller: item.seller,
-      owner: item.owner,
+      itemId: itemId.toNumber(),
+      seller,
+      owner,
       image,
       name,
       description,
       price,
+      reserved,
     };
+
+    console.log(nft);
 
     setNft(nft);
   };
 
   return (
     <section className="container flex flex-row justify-center pt-10">
-      <div className="flex flex-col max-w-[370px]">
+      <div className="flex flex-col max-w-[420px]">
         <div className="border border-gray-100 rounded-2xl">
-          <div className="w-full p-3">
+          <div className="w-full p-3 border-b border-gray-100">
             <Eth />
           </div>
 
-          <img
-            className="object-cover w-full h-[420px]]"
-            // src={nft?.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Google_Translate_logo.svg/1200px-Google_Translate_logo.svg.png"
-            alt=""
-          />
+          {nft ? (
+            <img
+              className="object-cover w-[420px] max-w-full h-[420px] rounded-b-2xl"
+              src={nft?.image.replace(
+                "ipfs://",
+                "https://nftstorage.link/ipfs/"
+              )}
+              alt=""
+            />
+          ) : (
+            <div className="animate-pulse max-w-full w-[420px] h-[420px] bg-slate-200 rounded-b-2xl" />
+          )}
         </div>
         <div className="pb-20 ">
           <div className="flex flex-col mt-8 border rounded-xl overflow-hidden !important">
@@ -235,7 +235,7 @@ const Detail = () => {
         </div>
       </div>
 
-      <div className="flex flex-col ml-8">
+      <div className="flex flex-col ml-10">
         <h1 className="pt-12 text-3xl font-semibold">{nft?.name}</h1>
 
         <div className="flex flex-row py-10">
@@ -253,16 +253,18 @@ const Detail = () => {
             {/* <h1 className="text-lg font-normal">($1,646.45)</h1> */}
           </div>
 
-          <div className="mt-5">
-            <button
-              disabled={!nft}
-              onClick={buy}
-              type="submit"
-              className="w-full disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
-            >
-              Buy
-            </button>
-          </div>
+          {!nft?.reserved && (
+            <div className="mt-5">
+              <button
+                disabled={!nft}
+                onClick={buy}
+                type="submit"
+                className="w-full disabled:bg-gray-300 text-white bg-orange-500 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none"
+              >
+                Buy
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

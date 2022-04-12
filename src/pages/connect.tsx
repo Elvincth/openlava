@@ -91,7 +91,7 @@ function Connect() {
         <span className="ml-3 font-bold">MetaMask</span>
       </button>
 
-      <CreateAccount></CreateAccount>
+      <CreateAccount />
     </div>
   );
 }

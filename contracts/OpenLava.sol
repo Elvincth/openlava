@@ -6,7 +6,6 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-
 import "hardhat/console.sol";
 
 contract OpenLava is ERC721URIStorage {
@@ -21,7 +20,7 @@ contract OpenLava is ERC721URIStorage {
         address payable seller;
         address payable owner;
         uint256 price;
-        bool available; //is the token for sell?
+        bool reserved; //is the token reserved?
     }
 
     //pass in the id of the Nft and return the Nft
@@ -32,7 +31,7 @@ contract OpenLava is ERC721URIStorage {
         address seller,
         address owner,
         uint256 price,
-        bool available //is the token for sell?
+        bool reserved
     );
 
     constructor() ERC721("LAVA Tokens", "LAVA") {
@@ -71,7 +70,6 @@ contract OpenLava is ERC721URIStorage {
     }
 
     //Allow the user to resell their purchased token
-    //FF , resellToken
     function resellToken(uint256 itemId, uint256 price) public payable {
         address myAddress = address(this);
 
@@ -80,7 +78,7 @@ contract OpenLava is ERC721URIStorage {
             "You are not the owner of this NFT"
         );
 
-        getNft[itemId].available = false;
+        getNft[itemId].reserved = false;
         getNft[itemId].price = price;
         getNft[itemId].seller = payable(msg.sender);
         getNft[itemId].owner = payable(myAddress);
@@ -89,23 +87,19 @@ contract OpenLava is ERC721URIStorage {
         _transfer(msg.sender, address(this), itemId);
     }
 
-    /* Creates the sale of a marketplace item */
-    /* Transfers ownership of the item, as well as funds between parties */
+    //Buy the token
     function buyToken(uint256 itemId) public payable {
-        require(
-            msg.value == getNft[itemId].price,
-            "Please submit the asking price in order to complete the purchase"
-        );
+        require(msg.value == getNft[itemId].price, "Invalid asking price!");
         address seller = getNft[itemId].seller;
         getNft[itemId].owner = payable(msg.sender);
-        getNft[itemId].available = true;
+        getNft[itemId].reserved = true;
         getNft[itemId].seller = payable(address(0));
         _itemsSold.increment();
         _transfer(address(this), msg.sender, itemId);
         payable(seller).transfer(msg.value);
     }
 
-    //FF, fetchMarketItems, Returns all unsold market items
+    //Returns all unsold market items
     function getMarketItems() public view returns (Nft[] memory) {
         uint256 j = 0;
 
@@ -126,7 +120,7 @@ contract OpenLava is ERC721URIStorage {
 
     //Get the NFT by id
     function getNftById(uint256 itemId) public view returns (Nft memory) {
-        //require(getNft[itemId].available == false, "Item is not available");
+        //require(getNft[itemId].reserved == false, "Item is not reserved");
         return getNft[itemId];
     }
 
@@ -142,7 +136,6 @@ contract OpenLava is ERC721URIStorage {
     // }
 
     //Get the user owned nfts
-    //FF, fetchMyNFTs
     function getOwnedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;
         uint256 numOfNfts = 0;
@@ -165,8 +158,7 @@ contract OpenLava is ERC721URIStorage {
         return nfts;
     }
 
-    //Get all the nft the user listed
-    //FF, fetchItemsListed
+    //Get all the nft the user listed for sale
     function getListedNfts() public view returns (Nft[] memory) {
         uint256 j = 0;
         uint256 numOfNfts = 0; //Used to store how many items the user owned
