@@ -13,6 +13,7 @@ import ResellPrice from "~/components/resellPrice";
 import { addressToUsername } from "utils/addressToUsername";
 import LoadingOverlay from "./LoadingOverlay";
 import delay from "delay";
+import Link from "next/link";
 
 type Nft = {
   price: string;
@@ -32,11 +33,13 @@ interface NFTCardProps extends Nft {
 
 const NFTCard = (item: NFTCardProps) => (
   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
-    <img
-      src={item.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
-      className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
-      alt={item.name}
-    />
+    <Link href={{ pathname: "/detail", query: { id: item.itemId } }} passHref>
+      <img
+        src={item.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+        className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
+        alt={item.name}
+      />
+    </Link>
     <div className="p-5 ">
       <h2 className="text-2xl font-bold truncate">{item.name}</h2>
       <p className="mt-2 text-lg font-semibold text-gray-600 truncate">

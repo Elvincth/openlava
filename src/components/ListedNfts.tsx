@@ -9,6 +9,7 @@ import { openLavaAddress } from "blockchain.config";
 import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import { addressToUsername } from "utils/addressToUsername";
+import Link from "next/link";
 
 const NFTCard = ({
   src,
@@ -16,32 +17,36 @@ const NFTCard = ({
   description,
   owner,
   price,
+  itemId,
 }: {
   src: string;
   name: string;
   description: string;
   price: string;
   owner: string;
+  itemId: string;
 }) => (
-  <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
-    <img
-      src={src}
-      className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
-      alt={name}
-    />
-    <div className="p-5 ">
-      <h2 className="text-2xl font-bold truncate">{name}</h2>
-      <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
-        by {owner}
-      </p>
-      <p className="mt-1 text-gray-500 truncate">{description}</p>
+  <Link href={{ pathname: "/detail", query: { id: itemId } }} passHref>
+    <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
+      <img
+        src={src}
+        className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
+        alt={name}
+      />
+      <div className="p-5 ">
+        <h2 className="text-2xl font-bold truncate">{name}</h2>
+        <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
+          by {owner}
+        </p>
+        <p className="mt-1 text-gray-500 truncate">{description}</p>
 
-      <div className="flex items-center mt-2">
-        ETH
-        <span className="ml-1">{price}</span>
+        <div className="flex items-center mt-2">
+          ETH
+          <span className="ml-1">{price}</span>
+        </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 type Nft = {
@@ -162,6 +167,7 @@ const ListedNfts = () => {
                   "ipfs://",
                   "https://nftstorage.link/ipfs/"
                 )}
+                itemId={String(nft.itemId)}
                 name={nft.name}
                 description={nft.description}
                 price={nft.price}
