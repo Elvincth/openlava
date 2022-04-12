@@ -155,7 +155,7 @@ const Home = () => {
       <section className="grid flex-wrap self-center grid-cols-1 gap-20 pb-20 xl:grid-cols-3 md:grid-cols-2 ">
         {nfts.map((nft, i) => (
           <Link
-            href={{ pathname: "/search", query: { id: nft.itemId } }}
+            href={{ pathname: "/details", query: { id: nft.itemId } }}
             key={i}
             passHref
           >
