@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { Account as contract } from "typechain-types";
 import { accountAddress } from "blockchain.config";
+import { openLavaAddress } from "blockchain.config";
 import Account from "artifacts/contracts/Account.sol/Account.json";
 
 export const addressToUsername = async (addr: string) => {
@@ -16,6 +17,10 @@ export const addressToUsername = async (addr: string) => {
   let userData = await contract.getUserByWalletAddress(addr);
 
   console.log("userData", userData);
+
+  if (openLavaAddress == addr) {
+    return "OpenLava";
+  }
 
   return userData.username;
 };
