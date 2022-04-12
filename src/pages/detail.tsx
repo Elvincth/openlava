@@ -42,6 +42,12 @@ const Detail = () => {
   //get the nft by id
 
   const buy = async () => {
+    //Check if user login
+    if (localStorage.getItem("address") === null) {
+      alert("Please login to buy");
+      return;
+    }
+
     if (nft) {
       try {
         /* needs the user to sign the transaction, so will use Web3Provider and sign it */
