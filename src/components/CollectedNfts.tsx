@@ -174,12 +174,11 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
 
       await delay(3000);
 
-      router.push("/");
+      const url = new URL(location.href);
 
-      // router.push({
-      //   pathname: "/profile",
-      //   query: { tab: "listedNfts" },
-      // });
+      url.searchParams.set("tab", "listedNfts");
+
+      location.assign(url.search);
     } catch (e) {
       console.log(e);
       //@ts-ignore
