@@ -35,7 +35,7 @@ const NFTCard = (item: NFTCardProps) => (
   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
     <Link href={{ pathname: "/detail", query: { id: item.itemId } }} passHref>
       <img
-        src={item.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+        src={item.image.replace("ipfs://", "https://cloudflare-ipfs.com/ipfs/")}
         className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
         alt={item.name}
       />
@@ -104,7 +104,7 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
         const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
 
         let metaData = await axios.get(
-          `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+          `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
         );
 
         let { description, image, name } = metaData.data;

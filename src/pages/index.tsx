@@ -85,7 +85,7 @@ const Home = () => {
         const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
 
         let metaData = await axios.get(
-          `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+          `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
         );
 
         let { description, image, name } = metaData.data;
@@ -167,7 +167,10 @@ const Home = () => {
         {nfts.map((nft, i) => (
           <NFTCard
             key={i}
-            src={nft.image.replace("ipfs://", "https://nftstorage.link/ipfs/")}
+            src={nft.image.replace(
+              "ipfs://",
+              "https://cloudflare-ipfs.com/ipfs/"
+            )}
             name={nft.name}
             description={nft.description}
             price={nft.price}

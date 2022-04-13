@@ -93,7 +93,7 @@ const ListedNfts = () => {
         const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
 
         let metaData = await axios.get(
-          `https://nftstorage.link/ipfs/${tokenUri}/metadata.json`
+          `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
         );
 
         let { description, image, name } = metaData.data;
@@ -163,7 +163,7 @@ const ListedNfts = () => {
                 key={i}
                 src={nft.image.replace(
                   "ipfs://",
-                  "https://nftstorage.link/ipfs/"
+                  "https://cloudflare-ipfs.com/ipfs/"
                 )}
                 itemId={String(nft.itemId)}
                 name={nft.name}
