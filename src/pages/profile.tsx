@@ -12,35 +12,7 @@ import CollectedNfts from "~/components/CollectedNfts";
 import { addressToUsername } from "utils/addressToUsername";
 import { useRouter } from "next/router";
 
-// const NFTCard = ({
-//   src,
-//   name,
-//   description,
-//   owner,
-// }: {
-//   src: string;
-//   name: string;
-//   description: string;
-//   owner: string;
-// }) => (
-//   <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
-//     <img
-//       src={src}
-//       className="object-cover h-[250px] w-80  mx-auto rounded-t-xl"
-//       alt={name}
-//     />
-//     <div className="p-5 ">
-//       <h2 className="text-2xl font-bold truncate">{name}</h2>
-//       <p className="mt-2 text-lg font-semibold text-gray-600 truncate">
-//         by {owner}
-//       </p>
-//       <p className="mt-1 text-gray-500 truncate">{description}</p>
-//     </div>
-//   </div>
-// );
-
-type Nft = {
-  // price: string;
+type Nft = { // nft structure
   itemId: number;
   seller: string;
   owner: string;
@@ -52,10 +24,10 @@ type Nft = {
 const Profile = () => {
   const router = useRouter();
   const { tab } = router.query;
-  const [nfts, setNfts] = useState<Array<Nft>>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [address, setAddress] = useState("");
-  const [activeTab, setActiveTab] = useState("collectedNfts");
+  const [nfts, setNfts] = useState<Array<Nft>>([]); // create state for storing nfts
+  const [isLoaded, setIsLoaded] = useState(false); // create state for handling loading 
+  const [address, setAddress] = useState(""); // create state for setting address
+  const [activeTab, setActiveTab] = useState("collectedNfts"); // active tab state default collectNfts
   //username state default unnamed
   const [username, setUsername] = useState("unnamed");
 
@@ -68,79 +40,27 @@ const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
-  const collectedNftsHandle = () => {
+  const collectedNftsHandle = () => { // for handling the collected nft list 
     setActiveTab("collectedNfts");
   };
 
-  const listedNftsHandle = () => {
+  const listedNftsHandle = () => { // for handling the listed nft list 
     setActiveTab("listedNfts");
   };
 
   useEffect(() => {
     init();
-    fetchItems();
     userInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const init = async () => {
-    let address = localStorage.getItem("address");
+    let address = localStorage.getItem("address"); // get the user wallet address
 
     if (address) {
-      let username = await addressToUsername(address);
+      let username = await addressToUsername(address); // get username by address
       console.log("username", username);
-      setUsername(username);
-    }
-  };
-
-  const fetchItems = async () => {
-    setNfts([]);
-
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      openLavaAddress,
-      OpenLava.abi,
-      signer
-    ) as contract;
-
-    const data = await contract.getOwnedNfts();
-
-    console.log(data);
-
-    try {
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
-
-        let metaData = await axios.get(
-          `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
-        );
-
-        let { description, image, name } = metaData.data;
-
-        console.log(metaData);
-
-        let price = ethers.utils.formatUnits(item.price.toString(), "ether");
-
-        let nft: Nft = {
-          itemId: item.itemId.toNumber(),
-          seller: item.seller,
-          owner: item.owner,
-          image,
-          name,
-          description,
-        };
-
-        setNfts((prev) => [...prev, nft]);
-      }
-
-      setIsLoaded(true);
-    } catch (e) {
-      alert("Error" + e);
-      console.log(e);
+      setUsername(username); // set username
     }
   };
 
