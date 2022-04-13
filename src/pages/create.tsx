@@ -16,7 +16,7 @@ import LoadingOverlay from "~/components/LoadingOverlay";
 import { useRouter } from "next/router";
 import delay from "delay";
 
-registerPlugin(
+registerPlugin( // for handling NFT creation
   FilePondPluginImagePreview,
   FilePondPluginFileEncode,
   FilePondPluginFileValidateSize,
@@ -26,53 +26,49 @@ registerPlugin(
 const Create = () => {
   const router = useRouter();
   const filePondEl = createRef<any>();
-  const [metaData, setMetaData] = useState({
+  const [metaData, setMetaData] = useState({ // create state for setting the NFT 
     name: "",
     description: "",
     dataUrl: "",
   });
-  const [price, setPrice] = useState(0);
-  const [image, setImage] = useState<Array<Object>>([]);
-  const [disabled, setDisabled] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
-  const [isCreated, setIsCreated] = useState(false);
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [price, setPrice] = useState(0); // create state for setting price
+  const [image, setImage] = useState<Array<Object>>([]); // create state for storing the image of the NFT - array type
+  const [disabled, setDisabled] = useState(true); // create state for vaildating the form
+  const [isCreating, setIsCreating] = useState(false); // create state for handling is the NFT creating 
+  const [isCreated, setIsCreated] = useState(false); // create state for handling is the NFT created 
+  const [title, setTitle] = useState(""); // create state for storing the title to user
+  const [message, setMessage] = useState(""); // create state for storing the message to user 
+  const [isProcessing, setIsProcessing] = useState(false); // create state handling is the create processing
 
-  //Form validation
+  // Form validation
   useEffect(() => {
-    if (
+    if ( // if the name is already filled, the description is already filled and the image is already uploaded
       metaData.name.length > 0 &&
       metaData.description.length > 0 &&
       image.length > 0 &&
       price > 0
     ) {
-      setDisabled(false);
+      setDisabled(false); // set disable become false means the NFT can be created
     } else {
-      setDisabled(true);
+      setDisabled(true); // else set disable become true means the NFT cannot create
     }
   }, [image, metaData, price]);
 
-  const base64ToBlob = async (dataUrl: string) => {
+  // for changing base64 to blob
+  const base64ToBlob = async (dataUrl: string) => { 
     let res = await fetch(dataUrl);
     let blob = await res.blob();
     return blob;
   };
 
+  // upload the image into IPFS
   const uploadToIPFS = async () => {
-    //Get the image
-
-    // if (!image[0]) {
-    //   await new Promise((resolve) => setTimeout(resolve, 1000));
-    // }
-
     console.log("image[0]", image[0]);
 
     //@ts-ignore
-    let dataUrl = await image[0].getFileEncodeDataURL();
+    let dataUrl = await image[0].getFileEncodeDataURL(); // set the data url by using the image url
 
-    //If dataUrl haven't generated yet, wait for it
+    // if dataUrl haven't generated yet, wait for it
     if (!dataUrl) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await uploadToIPFS();
@@ -99,13 +95,14 @@ const Create = () => {
     return token;
   };
 
+  // for handling if the user is clicked the submit button
   const onSubmit = async (e: any) => {
-    setMessage("This may take a few seconds");
-    setTitle("Creating NFT...");
+    setMessage("This may take a few seconds"); // set the message to user
+    setTitle("Creating NFT..."); // set the title to user
 
-    setIsCreating(true);
+    setIsCreating(true); // set status to true for making the
 
-    e.preventDefault();
+    e.preventDefault(); 
 
     //First upload the image to IPFS
     let data = await uploadToIPFS();
@@ -113,41 +110,38 @@ const Create = () => {
     console.log("uploaded to ipfs", data);
 
     try {
+      // make connection
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
 
-      setTitle("Please confirm the transaction");
-      setMessage("");
+      setTitle("Please confirm the transaction"); // set the title to user
+      setMessage(""); // set the message to null
 
       //Convert the price to ether
       const askingPrice = ethers.utils.parseUnits(price.toString(), "ether");
 
       console.log(price.toString(), askingPrice);
 
-      let contract = new ethers.Contract(
+      let contract = new ethers.Contract( // linking with the contract
         openLavaAddress,
         OpenLava.abi,
         signer
       ) as contract;
 
       //@ts-ignore
-      let transaction = await contract.createToken(data.ipnft, askingPrice);
+      let transaction = await contract.createToken(data.ipnft, askingPrice); // call the function of createToken for creating the token
 
       await transaction.wait();
 
-      // console.log("itemId", itemId);
+      setIsCreated(true); // set status to true to makesure the nft is created
 
-      setIsCreated(true);
-
-      setTitle("Created!");
-
-      //  alert("Created");
+      setTitle("Created!"); // set message to user
 
       await delay(3000);
 
-      router.push("/");
+      router.push("/"); // direct back to home page
     } catch (e) {
       console.log("err", e);
       alert(
