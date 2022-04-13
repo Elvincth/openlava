@@ -5,20 +5,22 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
 contract Account {
-    using Counters for Counters.Counter;
-    Counters.Counter private _userCount;
+    using Counters for Counters.Counter; // setting counter variable
+    Counters.Counter private _userCount; // counter for counting the user
 
+    // for defining the structure of each user
     struct User {
-        address walletAddress;
-        string username;
+        address walletAddress; // the wallet address of the user
+        string username; // the username of the user 
     }
 
-    mapping(address => User) public getUser;
+    mapping(address => User) public getUser; // getting the user by mapping with the address
 
-    User[] private _usersAddress;
+    User[] private _usersAddress; // the address for storing the user addresses
 
-    event userCreated(address indexed walletAddress, string username);
+    event userCreated(address indexed walletAddress, string username); // event for creating the user by passing the wallet address and the user name
 
+    // Creating the user 
     function createUser(string memory _username) public {
         //Check Username should not be empty
         require(!isEmpty(_username), "Username cannot be empty");
@@ -50,7 +52,7 @@ contract Account {
         emit userCreated(msg.sender, _username);
     }
 
-    //check if the user exists
+    // check if the user exists
     function isExists() public view returns (bool) {
         //   console.log(getUser[msg.sender].walletAddress);
         if (getUser[msg.sender].walletAddress == address(0)) {
@@ -65,25 +67,6 @@ contract Account {
             keccak256(abi.encodePacked(_str)) ==
             keccak256(abi.encodePacked(""));
     }
-
-    // //Check if the user exists
-    // function usernameExists(string memory _username)
-    //     public
-    //     view
-    //     returns (bool)
-    // {
-    //     for (uint256 i = 0; i < _userCount.current(); i++) {
-    //         //check if the username is the same
-    //         if (
-    //             keccak256(abi.encodePacked(_username)) ==
-    //             keccak256(abi.encodePacked(_usersAddress[i].username))
-    //         ) {
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
 
     //Get the user by the wallet address
     function getUserByWalletAddress(address _walletAddress)
