@@ -99,6 +99,32 @@ contract OpenLava is ERC721URIStorage {
         payable(seller).transfer(msg.value);
     }
 
+    //Get all the nft the user listed for sale
+    function getListedNfts() public view returns (Nft[] memory) {
+        uint256 j = 0;
+        uint256 numOfNfts = 0; //Used to store how many items the user owned
+
+        //loop through the owned items, also count the ones that are owned by the user
+        //Used to find the array length
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
+            if (getNft[i + 1].seller == msg.sender) {
+                numOfNfts++;
+            }
+        }
+
+        Nft[] memory nfts = new Nft[](numOfNfts); //Store all the nfts the user owned
+
+        //Store the nft to the array
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
+            if (getNft[i + 1].seller == msg.sender) {
+                Nft storage nft = getNft[i + 1];
+                nfts[j] = nft;
+                j++;
+            }
+        }
+        return nfts;
+    }
+
     //Returns all unsold market items
     function getMarketItems() public view returns (Nft[] memory) {
         uint256 j = 0;
@@ -150,32 +176,6 @@ contract OpenLava is ERC721URIStorage {
 
         for (uint256 i = 0; i < _tokenIds.current(); i++) {
             if (getNft[i + 1].owner == msg.sender) {
-                Nft storage nft = getNft[i + 1];
-                nfts[j] = nft;
-                j++;
-            }
-        }
-        return nfts;
-    }
-
-    //Get all the nft the user listed for sale
-    function getListedNfts() public view returns (Nft[] memory) {
-        uint256 j = 0;
-        uint256 numOfNfts = 0; //Used to store how many items the user owned
-
-        //loop through the owned items, also count the ones that are owned by the user
-        //Used to find the array length
-        for (uint256 i = 0; i < _tokenIds.current(); i++) {
-            if (getNft[i + 1].seller == msg.sender) {
-                numOfNfts++;
-            }
-        }
-
-        Nft[] memory nfts = new Nft[](numOfNfts); //Store all the nfts the user owned
-
-        //Store the nft to the array
-        for (uint256 i = 0; i < _tokenIds.current(); i++) {
-            if (getNft[i + 1].seller == msg.sender) {
                 Nft storage nft = getNft[i + 1];
                 nfts[j] = nft;
                 j++;

@@ -35,7 +35,7 @@ contract Account {
             );
         }
 
-        //Store the new user
+        //Store the new user to the blockchain
         User memory newUser = User({
             walletAddress: msg.sender,
             username: _username
@@ -43,9 +43,9 @@ contract Account {
 
         getUser[msg.sender] = newUser;
 
-        _usersAddress.push(newUser);
+        _usersAddress.push(newUser); //Store push blockchain
 
-        _userCount.increment();
+        _userCount.increment(); //User count increment by 1
 
         emit userCreated(msg.sender, _username);
     }
