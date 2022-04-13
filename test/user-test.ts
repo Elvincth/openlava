@@ -5,7 +5,7 @@ import { ethers } from "hardhat";
 
 describe("Account", () => {
   it("Should create user and list it username by it wallet address", async () => {
-    /* deploy the account contract */
+    //Deploy the contract
     const Account = await ethers.getContractFactory("Account");
     const account = await Account.deploy();
     await account.deployed();
