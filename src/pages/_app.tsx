@@ -11,12 +11,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    //The user changed his/her account
+    // The user changed his/her account
     const handleAccountChangeEvt = (address: string) => {
       console.log("handleAccountChangeEvt reload now");
 
-      if (localStorage.getItem("address")) {
-        localStorage.setItem("address", ""); //Store the new address
+      if (localStorage.getItem("address")) { 
+        localStorage.setItem("address", ""); // store the new address
 
         window.dispatchEvent(new Event("storage"));
       }

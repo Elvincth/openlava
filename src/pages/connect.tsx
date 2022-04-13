@@ -10,32 +10,35 @@ import { accountAddress } from "blockchain.config";
 import Account from "artifacts/contracts/Account.sol/Account.json";
 
 function Connect() {
-  // const { activateBrowserWallet, account } = useEthers();
-  // const etherBalance = useEtherBalance(account);
-  const [haveMetaMask, setHaveMetaMask] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [haveAcc, setHaveAcc] = useState(true);
+  const [haveMetaMask, setHaveMetaMask] = useState(false); // create state for handling is there a MetaMask address 
+  const [isLoading, setIsLoading] = useState(false); // create state for handling the loading progress
+  const [haveAcc, setHaveAcc] = useState(true); // create state for handling is there an account
+
   //connected state
   const [connected, setConnected] = useState(false);
 
   const router = useRouter();
 
   useEffect(() => {
-    setHaveMetaMask(metaMaskInstalled());
+    setHaveMetaMask(metaMaskInstalled()); // set the MetaMask status state
   }, []);
 
-  //Detect if the user have metamask
-  const metaMaskInstalled = () => {
+  // Detect if the user have metamask
+  const metaMaskInstalled = () => { 
+    // check if the ethereum not undefined, means there is MetaMask installed
     if (typeof window.ethereum !== "undefined") {
       return true;
     }
 
-    return false;
+    return false; // else return false means there is no MetaMask installed
   };
 
+  // handling connection
   const connect = async () => {
     try {
-      setIsLoading(true);
+      setIsLoading(true); // set loading state to true for handling the loading
+
+      // connect to contract setup
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
@@ -46,36 +49,36 @@ function Connect() {
         signer
       ) as contract;
 
-      const address = await signer.getAddress();
+      const address = await signer.getAddress(); // set the address by using the address of that specific signer
 
-      setConnected(true);
+      setConnected(true); // set connect state to true means is connected
 
       //Check if user created account before
       const haveAccount = await contract.isExists();
 
       console.log("haveAccount", haveAccount);
 
-      setHaveAcc(haveAccount);
+      setHaveAcc(haveAccount); // set have account status
 
-      if (haveAccount) {
-        login(address);
+      if (haveAccount) { // if there is a account
+        login(address); // put the address to the login function for makin the login
       } else {
-        setIsLoading(false);
+        setIsLoading(false); // else the loading state would be stop
       }
-    } catch (e) {
+    } catch (e) { // error handling, set all the status to false
       alert("Error: " + e);
       setConnected(false);
       setIsLoading(false);
     }
   };
 
-  const login = (address: string) => {
-    localStorage.setItem("address", address);
+  const login = (address: string) => { // login function
+    localStorage.setItem("address", address); // pass the address and set the account for login 
 
     window.dispatchEvent(new Event("storage"));
 
     console.log("set item address", address);
-    router.push("/profile");
+    router.push("/profile"); // link to the profile page for displaying the user information
   };
 
   return (
