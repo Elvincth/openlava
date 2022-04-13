@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 //typescript https://yuichiroaoki.medium.com/testing-erc20-smart-contracts-in-typescript-hardhat-9ad20eb40502
 
 describe("NFTMarket", () => {
-  it("Should create and execute market sales", async () => {
+  it("able to sell and buy nft", async () => {
     //Deploy the contract
     const OpenLava = await ethers.getContractFactory("OpenLava");
     const openLava = await OpenLava.deploy();
