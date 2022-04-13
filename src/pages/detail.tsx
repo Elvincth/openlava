@@ -13,6 +13,7 @@ import axios from "axios";
 import clsx from "clsx";
 import { addressToUsername } from "utils/addressToUsername";
 
+// nft card structure
 type Nft = {
   price: string;
   itemId: number;
@@ -28,10 +29,10 @@ type Nft = {
 
 const Detail = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const [nft, setNft] = useState<Nft>();
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
+  const { id } = router.query; 
+  const [nft, setNft] = useState<Nft>(); // create state for storing all nfts
+  const [open, setOpen] = useState(false); // create state for handling is the card open 
+  const [open2, setOpen2] = useState(false); // 
 
   useEffect(() => {
     if (router.isReady) {
@@ -42,8 +43,7 @@ const Detail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
-  //get the nft by id
-
+  // handling buy
   const buy = async () => {
     //Check if user login
     if (localStorage.getItem("address") === null) {
@@ -53,7 +53,7 @@ const Detail = () => {
 
     if (nft) {
       try {
-        /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+        // user sign the transaction using Web3Provider
         const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
@@ -64,7 +64,7 @@ const Detail = () => {
           signer
         ) as contract;
 
-        /* user will be prompted to pay the asking process to complete the transaction */
+        // to finalize the purchase, the user will be asked to pay the asking process
         const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
         const transaction = await contract.buyToken(nft.itemId, {
           value: price,
@@ -92,29 +92,29 @@ const Detail = () => {
       provider
     ) as contract;
 
-    const item = await contract.getNftById(Number(id));
+    const item = await contract.getNftById(Number(id)); // set item by using the id of nft
 
-    const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
+    const tokenUri = await contract.tokenURI(item.itemId); // where the cid is stored
 
-    let metaData = await axios.get(
+    let metaData = await axios.get( // linking the meta data by using ipfs
       `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
     );
 
-    let { description, image, name } = metaData.data;
-    let { itemId, seller, owner, reserved } = item;
+    let { description, image, name } = metaData.data; // set description, image and name by calling metaData
+    let { itemId, seller, owner, reserved } = item; // set the information variable from item
 
     console.log(metaData);
 
-    let price = ethers.utils.formatUnits(item.price.toString(), "ether");
+    let price = ethers.utils.formatUnits(item.price.toString(), "ether"); // price to ether
 
-    let ownerAddr = owner;
-    let sellerAddr = seller;
+    let ownerAddr = owner; // set owner address by passing owner
+    let sellerAddr = seller; // set ownerseller address by passing owner
 
-    owner = await addressToUsername(owner);
+    owner = await addressToUsername(owner); // get owner username by address
 
-    seller = await addressToUsername(seller);
+    seller = await addressToUsername(seller); // get seller username by address
 
-    let nft: Nft = {
+    let nft: Nft = { 
       itemId: itemId.toNumber(),
       seller,
       sellerAddr,
