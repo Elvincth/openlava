@@ -8,7 +8,7 @@ import OpenLava from "artifacts/contracts/OpenLava.sol/OpenLava.json";
 import Link from "next/link";
 import { addressToUsername } from "utils/addressToUsername";
 
-const NFTCard = ({
+const NFTCard = ({ // nft card structure
   src,
   name,
   itemId,
@@ -22,7 +22,7 @@ const NFTCard = ({
   price: string;
   owner: string;
   itemId: number;
-}) => (
+}) => ( // styling each card
   <Link href={{ pathname: "/detail", query: { id: itemId } }} passHref>
     <div className="overflow-hidden transition duration-500 transform bg-white shadow-lg cursor-pointer w-80 rounded-xl hover:shadow-xl hover:scale-105">
       <img
@@ -46,7 +46,7 @@ const NFTCard = ({
   </Link>
 );
 
-type Nft = {
+type Nft = { // nft content
   price: string;
   itemId: number;
   seller: string;
@@ -57,17 +57,18 @@ type Nft = {
 };
 
 const Home = () => {
-  const [nfts, setNfts] = useState<Array<Nft>>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [nfts, setNfts] = useState<Array<Nft>>([]); // create state for storing each nft
+  const [isLoaded, setIsLoaded] = useState(false); // create state for handling is the status loading
 
   useEffect(() => {
     fetchItems();
   }, []);
 
+  //List all unsold items
   const fetchItems = async () => {
     setNfts([]);
 
-    //List all unsold items
+    // connect to contract
     const provider = new ethers.providers.JsonRpcProvider();
     const contract = new ethers.Contract(
       openLavaAddress,
@@ -75,30 +76,31 @@ const Home = () => {
       provider
     ) as contract;
 
-    const data = await contract.getMarketItems();
+    const data = await contract.getMarketItems(); // call getMarketItems for storing all unsold data to data
 
     console.log(data);
 
     try {
+      // listing the data
       for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
+        const item = data[i]; // put the specific data into item 
+        const tokenUri = await contract.tokenURI(item.itemId); // where the cid is stored
 
-        let metaData = await axios.get(
+        let metaData = await axios.get( // connect with ipfs and get that item
           `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
         );
 
-        let { description, image, name } = metaData.data;
+        let { description, image, name } = metaData.data; // set description, image and name variable by metaData
 
         console.log(metaData);
 
-        let price = ethers.utils.formatUnits(item.price.toString(), "ether");
+        let price = ethers.utils.formatUnits(item.price.toString(), "ether"); // price to ether
 
-        let { itemId, seller, owner } = item;
+        let { itemId, seller, owner } = item; // set itemId, seller and owner variable by item
 
         //the nft is held by the contract owner, that mean newly created
 
-        seller = await addressToUsername(seller);
+        seller = await addressToUsername(seller); // find seller by seller address
 
         if (owner == openLavaAddress) {
           owner = seller;
@@ -116,10 +118,10 @@ const Home = () => {
           price,
         };
 
-        setNfts((prev) => [...prev, nft]);
+        setNfts((prev) => [...prev, nft]); 
       }
 
-      setIsLoaded(true);
+      setIsLoaded(true); // set load status to true for confirming nfts loaded
     } catch (e) {
       alert("Error" + e);
       console.log(e);
