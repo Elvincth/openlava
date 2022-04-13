@@ -83,7 +83,7 @@ const ListedNfts = () => {
       signer
     ) as contract;
 
-    const data = await contract.getListedNfts();
+    const data = await contract.getListedNfts(); // mainly changing the getListedNfts for listing all listed nft
 
     console.log(data);
 

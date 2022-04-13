@@ -13,9 +13,10 @@ const CreateAccount = () => {
   const router = useRouter();
 
   const createUser = async (e: any) => {
-    setIsCreating(true);
+    setIsCreating(true); // is creating status
     e.preventDefault();
     try {
+      // connect to contract
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
@@ -31,13 +32,7 @@ const CreateAccount = () => {
       let createUser = await contract.createUser(name);
       await createUser.wait();
 
-      //let userData = await contract.getUserByWalletAddress(address);
-
       login(address);
-
-      //console.log(data);
-
-      //const data = await contract.getMarketItems();
     } catch (e) {
       //@ts-ignore
       alert("Error: " + e.message);
@@ -46,7 +41,7 @@ const CreateAccount = () => {
   };
 
   const login = (address: string) => {
-    localStorage.setItem("address", address);
+    localStorage.setItem("address", address); // get address to localStorage
 
     window.dispatchEvent(new Event("storage"));
 

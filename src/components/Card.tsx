@@ -2,7 +2,7 @@
 import Like from "./svg/Like";
 import React, { useState } from "react";
 
-const Card = ({
+const Card = ({ // card structure
   imageSrc,
   title,
   iconSrc,

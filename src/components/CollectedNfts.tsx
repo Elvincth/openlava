@@ -83,7 +83,7 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
   const fetchItems = async () => {
     setNfts([]);
 
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    // user to sign the transaction by using Web3Provider
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
@@ -94,11 +94,12 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
       signer
     ) as contract;
 
-    const data = await contract.getOwnedNfts();
+    const data = await contract.getOwnedNfts(); // call function getOwnedNfts for getting all owned item
 
     console.log(data);
 
     try {
+      // same as the flow in the index.tsx
       for (let i = 0; i < data.length; i++) {
         const item = data[i];
         const tokenUri = await contract.tokenURI(item.itemId); //Where the cid is stored
@@ -146,15 +147,18 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
     }
   };
 
+  // resell nft
   const resell = async (nft: Nft | null) => {
     try {
       console.log("Resell nft", nft);
       if (!price || !nft) return;
 
+      // displaying message
       setTitle("Listing your nft");
       setMessage("Please wait while we list your nft");
       setIsCreating(true);
 
+      // connect to contract
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
@@ -165,10 +169,10 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
       setTitle("Please confirm your transaction");
       setMessage("");
 
-      let transaction = await contract.resellToken(nft.itemId, askingPrice);
+      let transaction = await contract.resellToken(nft.itemId, askingPrice); // make transaction
       await transaction.wait();
 
-      setIsCreated(true);
+      setIsCreated(true); // status created
 
       setTitle("Listed!");
 
@@ -201,6 +205,7 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
     }
   };
 
+  // handling setting resell price 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
