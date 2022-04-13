@@ -11,7 +11,7 @@ contract Account {
     // for defining the structure of each user
     struct User {
         address walletAddress; // the wallet address of the user
-        string username; // the username of the user 
+        string username; // the username of the user
     }
 
     mapping(address => User) public getUser; // getting the user by mapping with the address
@@ -20,7 +20,7 @@ contract Account {
 
     event userCreated(address indexed walletAddress, string username); // event for creating the user by passing the wallet address and the user name
 
-    // Creating the user 
+    // Creating the user
     function createUser(string memory _username) public {
         //Check Username should not be empty
         require(!isEmpty(_username), "Username cannot be empty");
@@ -43,9 +43,9 @@ contract Account {
             username: _username
         });
 
-        getUser[msg.sender] = newUser;
+        getUser[msg.sender] = newUser; //Store the user into blockchain
 
-        _usersAddress.push(newUser); //Store push blockchain
+        _usersAddress.push(newUser); //Store push address array
 
         _userCount.increment(); //User count increment by 1
 

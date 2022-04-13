@@ -16,16 +16,16 @@ contract OpenLava is ERC721URIStorage {
     address payable owner; // nft owner
 
     // for defining the structure of each nft card
-    struct Nft { 
+    struct Nft {
         uint256 itemId; //the nft id
         address payable seller; // the seller of the specific nft
         address payable owner; // the person who bought the nft
-        uint256 price; // nft price 
+        uint256 price; // nft price
         bool reserved; //is the token reserved?
     }
 
     // pass in the id of the Nft and return the Nft
-    mapping(uint256 => Nft) private getNft; 
+    mapping(uint256 => Nft) private getNft;
 
     // for defining the event strcture for meeting the NFT items to the blockchain
     event NftCreated(
@@ -36,8 +36,8 @@ contract OpenLava is ERC721URIStorage {
         bool reserved
     );
 
-    // the constructor for linking with the ERC721 
-    constructor() ERC721("LAVA Tokens", "LAVA") { 
+    // the constructor for linking with the ERC721
+    constructor() ERC721("LAVA Tokens", "LAVA") {
         owner = payable(msg.sender); // for getting the wallet address and the username of the owner user
     }
 
@@ -56,7 +56,7 @@ contract OpenLava is ERC721URIStorage {
         //Now we create a new market item id
         require(price > 0, "Price must be at least 1 wei");
 
-        // getting the exact NFT by passing the item id
+        //Store the NFT to the blockchain
         getNft[itemId] = Nft(
             itemId,
             payable(msg.sender), // the address that connect with the user
@@ -83,10 +83,10 @@ contract OpenLava is ERC721URIStorage {
             "You are not the owner of this NFT" // else display the error message
         );
 
-        getNft[itemId].reserved = false; 
+        getNft[itemId].reserved = false;
         getNft[itemId].price = price; // get the input price into the resell nft
         getNft[itemId].seller = payable(msg.sender); // set the user address as the nft seller
-        getNft[itemId].owner = payable(myAddress); 
+        getNft[itemId].owner = payable(myAddress);
         _itemsSold.decrement(); // minus the sold item in the marketplace, in other word, add back a nft back to marketplace
 
         _transfer(msg.sender, address(this), itemId);
@@ -99,10 +99,10 @@ contract OpenLava is ERC721URIStorage {
 
         address seller = getNft[itemId].seller; // set the seller by using that nft item user address
         getNft[itemId].owner = payable(msg.sender); // set the address of who buy the nft to the nft owner field
-        getNft[itemId].reserved = true; // nft is already sold 
+        getNft[itemId].reserved = true; // nft is already sold
         getNft[itemId].seller = payable(address(0)); // set the nft seller by using that user address
         _itemsSold.increment(); // increase the sold item
-        _transfer(address(this), msg.sender, itemId); 
+        _transfer(address(this), msg.sender, itemId);
         payable(seller).transfer(msg.value); // pass the value price to transfer buyer ETH to seller
     }
 
@@ -128,7 +128,7 @@ contract OpenLava is ERC721URIStorage {
 
     // Get the NFT by id
     function getNftById(uint256 itemId) public view returns (Nft memory) {
-        return getNft[itemId]; // return the exact nft by passing the item id 
+        return getNft[itemId]; // return the exact nft by passing the item id
     }
 
     //  Listing the owned nft of the specific user
@@ -138,7 +138,8 @@ contract OpenLava is ERC721URIStorage {
 
         // counting how many nfts is owned by that specific user
         for (uint256 i = 0; i < _tokenIds.current(); i++) {
-            if (getNft[i + 1].owner == msg.sender) { // if the nft owner is equal to user address
+            if (getNft[i + 1].owner == msg.sender) {
+                // if the nft owner is equal to user address
                 numOfNfts++; // add the number of owned nft
             }
         }
