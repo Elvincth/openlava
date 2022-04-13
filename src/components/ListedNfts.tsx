@@ -128,9 +128,7 @@ const ListedNfts = () => {
 
       setIsLoaded(true);
     } catch (e) {
-      alert(
-        "Error loading nft. Please check if you have started the blockchain server, or did you deploy the contract? "
-      );
+      alert("Error" + e);
       console.log(e);
     }
   };
