@@ -9,18 +9,17 @@ describe("NFTMarket", () => {
     const openLava = await OpenLava.deploy();
     await openLava.deployed();
     const price = ethers.utils.parseUnits("100", "ether");
-    await openLava.createToken("https://www.example.com", price); //Create tokens
-    await openLava.createToken("https://www.example2.com", price);
-    const [_, addr] = await ethers.getSigners();
-    await openLava.connect(addr).buyToken(1, { value: price }); //Sell
-    await openLava.connect(addr).resellToken(1, price); //Resell
+    await openLava.createToken("http://www.example.com", price); //Create tokens
+    await openLava.createToken("http://www.example2.com", price);
+    const [_, myAccount] = await ethers.getSigners();
+    await openLava.connect(myAccount).buyToken(1, { value: price }); //Sell
+    await openLava.connect(myAccount).resellToken(1, price); //Resell
     let items = await openLava.getMarketItems();
     //@ts-ignore
 
     let itemArr = [];
     for (let i = 0; i < items.length; i++) {
       const tokenUri = await openLava.tokenURI(items[i].itemId);
-
       itemArr.push({
         price: items[i].price.toString(),
         itemId: items[i].itemId.toString(),
