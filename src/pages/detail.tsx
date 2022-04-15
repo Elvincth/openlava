@@ -29,10 +29,10 @@ type Nft = {
 
 const Detail = () => {
   const router = useRouter();
-  const { id } = router.query; 
+  const { id } = router.query;
   const [nft, setNft] = useState<Nft>(); // create state for storing all nfts
-  const [open, setOpen] = useState(false); // create state for handling is the card open 
-  const [open2, setOpen2] = useState(false); // 
+  const [open, setOpen] = useState(false); // create state for handling is the card open
+  const [open2, setOpen2] = useState(false); //
 
   useEffect(() => {
     if (router.isReady) {
@@ -96,7 +96,8 @@ const Detail = () => {
 
     const tokenUri = await contract.tokenURI(item.itemId); // where the cid is stored
 
-    let metaData = await axios.get( // linking the meta data by using ipfs
+    let metaData = await axios.get(
+      // linking the meta data by using ipfs
       `https://cloudflare-ipfs.com/ipfs/${tokenUri}/metadata.json`
     );
 
@@ -114,7 +115,7 @@ const Detail = () => {
 
     seller = await addressToUsername(seller); // get seller username by address
 
-    let nft: Nft = { 
+    let nft: Nft = {
       itemId: itemId.toNumber(),
       seller,
       sellerAddr,
@@ -247,7 +248,7 @@ const Detail = () => {
                       <span className="text-blue-600">{nft?.owner}</span>
                     </p>
                   )}
-                  {/* <p className="pb-2 overflow-hidden text-gray-400 truncate">
+                  <p className="pb-2 overflow-hidden text-gray-400 truncate">
                     Owner Address{" "}
                     <span className="text-blue-600 ">
                       {" "}
@@ -255,14 +256,19 @@ const Detail = () => {
                         ? nft.sellerAddr
                         : nft?.ownerAddr}
                     </span>
-                  </p> */}
-                  <p className="pb-2 text-gray-400">
-                    Sold by <span className="text-blue-600">{nft?.seller}</span>
                   </p>
-                  <p className="pb-2 overflow-hidden text-gray-400 truncate">
-                    Sold Address{" "}
-                    <span className="text-blue-600 "> {nft?.sellerAddr}</span>
-                  </p>
+                  {!nft?.reserved && (
+                    <p className="pb-2 text-gray-400">
+                      Sold by{" "}
+                      <span className="text-blue-600">{nft?.seller}</span>
+                    </p>
+                  )}
+                  {!nft?.reserved && (
+                    <p className="pb-2 overflow-hidden text-gray-400 truncate">
+                      Sold Address{" "}
+                      <span className="text-blue-600 "> {nft?.sellerAddr}</span>
+                    </p>
+                  )}
                   <p className="pb-2 overflow-hidden text-gray-400 truncate">
                     Token Standard{" "}
                     <span className="text-blue-600 ">ERC-721 </span>
@@ -281,10 +287,14 @@ const Detail = () => {
       <div className="flex flex-col ml-10">
         <h1 className="pt-12 text-3xl font-semibold">{nft?.name}</h1>
 
-        <div className="flex flex-row pt-2 pb-10">
-          <span className="mr-1 text-gray-600">Sold by</span>{" "}
-          <span className="text-orange-500">{nft?.seller}</span>
-        </div>
+        {nft?.seller && (
+          <div className="flex flex-row pt-2 pb-10">
+            <span className="mr-1 text-gray-600">Sold by</span>{" "}
+            <span className="text-orange-500">{nft?.seller}</span>
+          </div>
+        )}
+
+        {!nft?.seller && <div className="mt-3" />}
 
         <div className="max-w-full px-6 py-5 w-[500px] border bg-gray-50 rounded-2xl">
           <h1 className="pb-2 text-xl font-normal ">Price</h1>
