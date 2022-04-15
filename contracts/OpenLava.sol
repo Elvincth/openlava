@@ -27,7 +27,7 @@ contract OpenLava is ERC721URIStorage {
     // pass in the id of the Nft and return the Nft
     mapping(uint256 => Nft) private getNft;
 
-    // for defining the event strcture for meeting the NFT items to the blockchain
+    // for defining the event structure for meeting the NFT items to the blockchain
     event NftCreated(
         uint256 indexed itemId,
         address seller,

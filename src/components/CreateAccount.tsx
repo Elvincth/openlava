@@ -5,6 +5,7 @@ import Web3Modal from "web3modal";
 import { accountAddress } from "blockchain.config";
 import Account from "artifacts/contracts/Account.sol/Account.json";
 import { useRouter } from "next/router";
+import LoadingOverlay from "./LoadingOverlay";
 
 const CreateAccount = () => {
   const [name, setName] = useState("");
@@ -50,6 +51,9 @@ const CreateAccount = () => {
   };
   return (
     <>
+      {isCreating && (
+        <LoadingOverlay title="Creating..." message="Please wait" />
+      )}
       <h1 className="text-[35px] lg:text-4xl text-black font-bold">
         Create an username.
       </h1>
