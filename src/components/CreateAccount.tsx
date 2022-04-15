@@ -52,7 +52,10 @@ const CreateAccount = () => {
   return (
     <>
       {isCreating && (
-        <LoadingOverlay title="Creating..." message="Please wait" />
+        <LoadingOverlay
+          title="Please accept the transaction"
+          message="It is a one time fee for creating an account"
+        />
       )}
       <h1 className="text-[35px] lg:text-4xl text-black font-bold">
         Create an username.

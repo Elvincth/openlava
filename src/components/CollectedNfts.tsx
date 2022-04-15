@@ -205,7 +205,7 @@ const CollectedNfts = (props: { content: React.ReactChild }) => {
     }
   };
 
-  // handling setting resell price 
+  // handling setting resell price
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
